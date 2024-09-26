@@ -1,0 +1,601 @@
+﻿@using PoolComVnWebClient.DTO
+@using PoolComVnWebClient.Common
+@{
+    Layout = "~/Views/Shared/_TournamentLayout.cshtml";
+    TournamentDetailDTO tourDetail = ViewBag.TournamentDetail;
+    List<PlayerDTO> lstPlayer = ViewBag.PlayerLst;
+}
+
+<div class="container-full">
+    <div class="row mx-0">
+        <div class="col-lg-6 d-flex justify-content-center">
+            <div class="tour-info">
+                <div id="tour-id" class="d-none">@tourDetail.TournamentId</div>
+                <div class="overview-text d-flex justify-content-between" style="border-top: none;">
+                    <span>Tổng quan</span>
+                    @if ((tourDetail.Status == Constant.CreateTourStepFive
+                    || tourDetail.Status == Constant.CreateTourStepSix
+                    || tourDetail.Status == Constant.CreateTourStepFour)
+                    && ViewBag.Role == Constant.UserRole)
+                    {
+                        if (ViewBag.Player == null)
+                        {
+                            <div id="withdraw-btn" class="join-btn isRequest d-none">Đang chờ duyệt</div>
+                            <div id="join-btn" class="join-btn">Tham gia</div>
+                        }
+                        else
+                        {
+                            if (ViewBag.Player.Status == null)
+                            {
+                                <div id="withdraw-btn" class="join-btn isRequest">Đang chờ duyệt</div>
+                                <div id="join-btn" class="join-btn d-none">Tham gia</div>
+                            }
+                            else if (ViewBag.Player.Status == 0)
+                            {
+                                <div id="withdraw-btn" class="join-btn isJoin">Đã duyệt</div>
+                            }
+                            else if (ViewBag.Player.Status == 4)
+                            {
+                                <div id="withdraw-btn" class="join-btn isReject">Không chấp nhận</div>
+                            }
+                        }
+                    }
+                </div>
+                <div class="tour-image d-flex justify-content-center">
+                    @*<img src="~/images/news.jpg" alt="">*@
+                    <img src="@tourDetail.Flyer" alt="">
+                </div>
+                <div class="overview-text">
+                    <span>Chi tiết</span>
+                </div>
+                <div class="tour-details px-5 py-4 row">
+                    <div class="col-6">
+                        <div class="info-line">
+                            <div class="info-title">
+                                Tên giải đấu
+                            </div>
+                            <div class="info-description">
+                                @tourDetail.TournamentName
+                            </div>
+                        </div>
+                        <div class="info-line">
+                            <div class="info-title">
+                                Loại trò chơi
+                            </div>
+                            <div class="info-description">
+                                @tourDetail.GameType
+                                @*<span>
+                                ( Xếp cao
+                                <span>/ Break box </span>
+                                )
+                                </span>*@
+                            </div>
+                        </div>
+                        <div class="info-line">
+                            <div class="info-title">
+                                Số người chơi
+                            </div>
+                            <div class="info-description">
+                                @lstPlayer.Count/@tourDetail.MaxPlayer
+                            </div>
+                        </div>
+                        <div class="info-line">
+                            <div class="info-title">
+                                Lệ phí tham gia
+                            </div>
+                            <div class="info-description">
+                                @tourDetail.EntryFee VNĐ
+                            </div>
+                        </div>
+                        <div class="info-line">
+                            <div class="info-title">
+                                Tổng giải thưởng
+                            </div>
+                            <div class="info-description">
+                                @tourDetail.TotalPrize VNĐ
+                            </div>
+                        </div>
+                        <div class="info-line">
+                            <div class="info-title">
+                                Loại giải đấu
+                            </div>
+                            @if (tourDetail.TourTypeId == Constant.DoubleEliminate)
+                            {
+                                <div class="info-description">
+                                    Đấu loại kép
+                                </div>
+                            }
+                            else
+                            {
+                                <div class="info-description">
+                                    Đấu loại đơn
+                                </div>
+                            }
+                        </div>
+                        <div class="info-line">
+                            <div class="info-title">
+                                Phạm vi
+                            </div>
+                            @if (tourDetail.Access)
+                            {
+                                <div class="info-description">
+                                    Công khai
+                                </div>
+                            }
+                            else
+                            {
+                                <div class="info-description">
+                                    Riêng tư
+                                </div>
+                            }
+                        </div>
+                    </div>
+                    <div class="col-6">
+                        <div class="info-line">
+                            <div class="info-title">
+                                Race to
+                            </div>
+                            <div class="info-description row d-flex justify-content-between">
+                                <div class="col-5">
+                                    @if (tourDetail.TourTypeId != Constant.SingleEliminate)
+                                    {
+                                        <div class="text-center">
+                                            <b>Nhánh thắng</b>
+                                        </div>
+                                    }
+                                    @foreach (var item in tourDetail.RaceWin)
+                                    {
+                                        <div class="d-flex justify-content-between">
+                                            <span>@item.Round</span>
+                                            <span>@item.GameToWin</span>
+                                        </div>
+                                    }
+                                </div>
+                                @if (tourDetail.TourTypeId != Constant.SingleEliminate)
+                                {
+                                    <div class="col-5">
+                                        <div class="text-center">
+                                            <b>Nhánh thua</b>
+                                        </div>
+                                        @foreach (var item in tourDetail.RaceLose)
+                                        {
+                                            <div class="d-flex justify-content-between">
+                                                <span>@item.Round</span>
+                                                <span>@item.GameToWin</span>
+                                            </div>
+                                        }
+                                    </div>
+                                }
+                            </div>
+                        </div>
+                        <div class="info-line">
+                            <div class="info-title">
+                                Ngày bắt đầu
+                            </div>
+                            <div class="info-description">
+                                @tourDetail.StartTime.ToString("dd/MM/yyyy")
+                            </div>
+                        </div>
+                        <div class="info-line">
+                            <div class="info-title">
+                                Ngày kết thúc
+                            </div>
+                            <div class="info-description">
+                                @tourDetail.EndTime.ToString("dd/MM/yyyy")
+                            </div>
+                        </div>
+                        <div class="info-line">
+                            <div class="info-title">
+                                Hạn đăng kí
+                            </div>
+                            <div class="info-description">
+                                @tourDetail.RegisterDate.ToString("dd/MM/yyyy")
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="overview-text">
+                    <span>Mở rộng</span>
+                </div>
+                <div class="tour-details px-5 py-4 row">
+                    <div class="info-line">
+                        <div class="info-description" style="font-size: 14px;">
+                            @tourDetail.Description
+                        </div>
+                    </div>
+                </div>
+                <div class="overview-text">
+                    <span>Địa điểm</span>
+                </div>
+                <div class="address-info px-5 py-4 d-flex align-items-center">
+                    <a href="" class="address-icon">
+                        <i class="fa-solid fa-map-location-dot"></i>
+                    </a>
+                    <div>
+                        <div class="info-title">
+                            @tourDetail.ClubName
+                        </div>
+                        <div class="info-description">
+                            @tourDetail.Address
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="tour-podium col-lg-6">
+            <div class="row mx-3 podium-content">
+                <div class="col-4 px-0 d-flex align-items-end">
+                    <div>
+                        <div class="silver-medal d-flex align-items-end justify-content-center">
+                            <img class="medal-img" src="~/images/silver_medal.png" alt="">
+                        </div>
+                        <div class="silver-podium mt-2 p-3 d-flex align-items-center justify-content-center ">
+                            @if (ViewBag.Top2Player != null)
+                            {
+                                <img class="tour-flag" src="@ViewBag.Top2Player.CountryName" style="margin-right:5px;">
+                                <div class="text-center">@ViewBag.Top2Player.PlayerName</div>
+                            }
+                            else
+                            {
+                                <i class="fa-solid fa-question" style="font-size: 20px;"></i>
+                            }
+                        </div>
+                    </div>
+                </div>
+                <div class=" col-4 px-0 d-flex align-items-end">
+                    <div>
+                        <div class="gold-medal d-flex align-items-end justify-content-center">
+                            <img class="medal-img" src="~/images/gold_medal.png" alt="">
+                        </div>
+                        <div class="gold-podium mt-2 p-3 d-flex align-items-center justify-content-center ">
+                            @if (ViewBag.Top1Player != null)
+                            {
+                                <img class="tour-flag" src="@ViewBag.Top1Player.CountryName" style="margin-right:5px;">
+                                <div class="text-center">@ViewBag.Top1Player.PlayerName</div>
+                            }
+                            else
+                            {
+                                <i class="fa-solid fa-question" style="font-size: 20px;"></i>
+                            }
+                        </div>
+                    </div>
+                </div>
+                <div class=" col-4 px-0 d-flex align-items-end">
+                    <div>
+                        <div class="bronze-medal d-flex align-items-end justify-content-center">
+                            <img class="medal-img" src="~/images/bronze_medal.png" alt="">
+                        </div>
+                        <div class="bronze-podium mt-2 p-3 @(ViewBag.Top3_4Player.Count == 1 ? "d-flex align-items-center justify-content-center" : "")" >
+                            @if (ViewBag.Top3_4Player != null)
+                            {
+                                if (ViewBag.Top3_4Player.Count == 2)
+                                {
+                                    @foreach (var player in ViewBag.Top3_4Player)
+                                    {
+                                        <div class="d-flex align-items-center justify-content-center">
+                                            <img class="tour-flag" src="@player.CountryName" style="margin-right:5px;">
+                                            <div class="text-center">@player.PlayerName</div>
+                                        </div>
+                                    }
+                                }
+                                else if (ViewBag.Top3_4Player.Count == 1)
+                                {
+                                    @foreach (var player in ViewBag.Top3_4Player)
+                                    {
+                                        <div class="d-flex align-items-center ">
+                                            <img class="tour-flag" src="@player.CountryName" style="margin-right:5px;">
+                                            <div class="text-center">@player.PlayerName</div>
+                                        </div>
+                                    }
+                                }
+                                else
+                                {
+                                    <div class="d-flex align-items-center justify-content-center">
+                                        <i class="fa-solid fa-question" style="font-size: 20px;"></i>
+                                    </div>
+                                }
+                            }
+                        </div>
+                       
+                    </div>
+                </div>
+                <div class="podium-bg"></div>
+            </div>
+            <!-- class isPlaying: hidden history-->
+            <div class="overview-player  mx-3 p-4  @(ViewBag.TournamentDetail.Status == 0 || ViewBag.TournamentDetail.Status == 1 ? "isPlaying" : "")">
+                @*<div class="player-position">Thứ hạng của tôi: #2</div>*@
+                <table class="player-table ">
+                    <tbody>
+                        <tr>
+                            <th colspan="2">Top</th>
+                            <th>Cơ thủ</th>
+                            <th>Lịch sử đấu</th>
+                        </tr>
+                        @*<tr>
+                        <td class="player-cup">
+                        <i class="fa-solid fa-trophy" style="color: #ffe600;"></i>
+                        </td>
+                        <td class="player-top">
+                        1
+                        </td>
+                        <td class="player-name">Nam Vũ</td>
+                        <td class="player-history">
+                        <span class="history-match lose-match">
+                        <i class="fa-solid fa-xmark"></i>
+                        </span>
+                        <span class="history-match win-match">
+                        <i class="fa-solid fa-check"></i>
+                        </span>
+                        <span class="history-match win-match">
+                        <i class="fa-solid fa-check"></i>
+                        </span>
+                        <span class="history-match win-match">
+                        <i class="fa-solid fa-check"></i>
+                        </span>
+                        <span class="history-match win-match">
+                        <i class="fa-solid fa-check"></i>
+                        </span>
+                        <span class="history-match win-match">
+                        <i class="fa-solid fa-check"></i>
+                        </span>
+                        <span class="history-match win-match">
+                        <i class="fa-solid fa-check"></i>
+                        </span>
+                        </td>
+                        </tr>
+                        <tr class="">
+                        <!-- <tr class="my-position"> -->
+                        <td class="player-cup">
+                        <i class="fa-solid fa-trophy" style="color: #bbb;"></i>
+                        </td>
+                        <td>2</td>
+                        <td>Quảng Vũ</td>
+                        <td>
+                        <span class="history-match lose-match">
+                        <i class="fa-solid fa-xmark"></i>
+                        </span>
+                        <span class="history-match lose-match">
+                        <i class="fa-solid fa-xmark"></i>
+                        </span>
+                        </td>
+                        </tr>
+                        <tr>
+                        <td class="player-cup">
+                        <i class="fa-solid fa-trophy" style="color: #f1a73f;"></i>
+                        </td>
+                        <td>3</td>
+                        <td>Phạm Quốc Hưng</td>
+                        <td></td>
+                        </tr>*@
+                        @foreach (var player in lstPlayer)
+                        {
+                            <tr>
+                                @if (player.Ranking != null)
+                                {
+                                    <td class="player-cup">
+
+                                        @if (player.Ranking == "1")
+                                        {
+                                            <i class="fa-solid fa-trophy" style="color: #ffe600;"></i>
+                                        }
+                                        else if (player.Ranking == "2")
+                                        {
+                                            <i class="fa-solid fa-trophy" style="color: #ebe6e6;"></i>
+                                        }
+                                        else if (player.Ranking == "3-4")
+                                        {
+                                            <i class="fa-solid fa-trophy" style="color: #ea8902;"></i>
+                                        }
+                                    </td>
+                                    <td>@player.Ranking</td>
+                                }else{
+                                    <td class="player-cup"></td>
+                                    <td></td>
+                                }
+
+                                <td>@player.PlayerName</td>
+                                @if (player.StreakMatch != null)
+                                {
+                                    <td class="player-history">
+                                        @foreach (char result in player.StreakMatch)
+                                        {
+                                            if (result == 'L')
+                                            {
+                                                <span class="history-match lose-match">
+                                                    <i class="fa-solid fa-xmark"></i>
+                                                </span>
+                                            }
+                                            else if (result == 'W')
+                                            {
+                                                <span class="history-match win-match">
+                                                    <i class="fa-solid fa-check"></i>
+                                                </span>
+                                            }
+                                        }
+                                    </td>
+                                }
+                                else
+                                {
+                                    <td></td>
+                                }
+                            </tr>
+                        }
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="confirm-popup d-none" id="join-popup">
+    <div class="confirm-content">
+        <div class="confirm-title mt-3 mb-0">
+            Bạn muốn tham gia giải đấu với biệt danh:
+        </div>
+        <input type="text" class="popup-input mb-2">
+        <div id="message-error" class="message-text danger text-center mb-4"></div>
+        <div class="d-flex justify-content-around">
+            <div class="exit-btn">
+                Hủy
+            </div>
+            <div class="save-random">
+                Đăng kí
+            </div>
+        </div>
+    </div>
+</div>
+<div class="confirm-popup d-none" id="withdraw-popup">
+    <div class="confirm-content">
+        <div class="confirm-title">
+            Tiếp tục đợi phản từ ban tổ chức.
+        </div>
+        <div class="d-flex justify-content-around">
+            <div class="exit-btn">
+                Hủy yêu cầu
+            </div>
+            <div class="save-random">
+                Đồng ý
+            </div>
+        </div>
+    </div>
+</div>
+@*loading screen*@
+<div class="loader-box-bg d-flex justify-content-center align-items-center d-none">
+    <div>
+        <div class="loader-box">
+            <div class="white-ball"></div>
+            <div class="nine-ball"></div>
+        </div>
+        <div class="load-text mt-3">Đang tải ...</div>
+    </div>
+</div>
+<script src="~/lib/jquery/dist/jquery.min.js"></script>
+<script>
+    //loading screen
+    const loader = document.querySelector('.loader-box-bg');
+    //Handle join button
+    const joinBtn = document.getElementById('join-btn');
+    const withdrawBtn = document.getElementById('withdraw-btn');
+    const joinPopup = document.getElementById('join-popup');
+    const withdrawPopup = document.getElementById('withdraw-popup');
+
+    var tourID = parseInt(document.getElementById('tour-id').textContent);
+    var userEmail = "@ViewBag.UserEmail";
+
+    joinPopup.querySelector('.popup-input').addEventListener('input', () => {
+        joinPopup.querySelector('#message-error').textContent = '';
+    })
+
+    joinPopup.querySelector('.exit-btn').addEventListener('click', () => {
+        joinPopup.classList.add('d-none');
+        joinPopup.querySelector('#message-error').textContent = '';
+    })
+
+    joinPopup.querySelector('.save-random').addEventListener('click', joinTour)
+
+    joinBtn.addEventListener('click', () => {
+        joinPopup.classList.remove('d-none');
+    })
+
+    function joinTour() {
+        loader.classList.remove('d-none');
+        var inputContent = joinPopup.querySelector('.popup-input').value.trim();
+        if (inputContent === '') {
+            joinPopup.querySelector('#message-error').textContent = 'Bạn chưa nhập biệt danh';
+        } else {
+            const trList = document.querySelectorAll('tr:not(:first-child)');
+            var isValidName = true;
+            trList.forEach(tr => {
+                if (inputContent === tr.querySelector('td:nth-child(3)').textContent) {
+                    isValidName = false;
+                }
+            })
+
+            if (isValidName === false) {
+                joinPopup.querySelector('#message-error').textContent = 'Biệt danh đã có người chơi sử dụng trong giải';
+            } else {
+                $.ajax({
+                    url: 'https://localhost:5000/api/Player/PlayerJoinTournament',
+                    method: 'GET',
+                    contentType: 'application/json',
+                    data: {
+                        userEmail: userEmail,
+                        playerName: inputContent,
+                        tourId: tourID
+                    },
+                    success: function (data) {
+                        joinPopup.classList.add('d-none');
+                        joinBtn.classList.add('d-none');
+                        withdrawBtn.classList.remove('d-none');
+                        //addNameToPlayerTable(inputContent);
+                        loader.classList.add('d-none');
+                    },
+                    error: function (xhr, textStatus, errorThrown) {
+                        console.error('Error during AJAX request:', textStatus, errorThrown);
+                    }
+                });
+            }
+        }
+    }
+
+
+    withdrawPopup.querySelector('.exit-btn').addEventListener('click', outTour);
+
+    withdrawPopup.querySelector('.save-random').addEventListener('click', () => {
+        withdrawPopup.classList.add('d-none');
+    })
+
+    withdrawBtn.addEventListener('click', () => {
+        withdrawPopup.classList.remove('d-none');
+    })
+
+    function outTour() {
+        loader.classList.remove('d-none');
+        $.ajax({
+            url: 'https://localhost:5000/api/Player/PlayerOutTournament',
+            method: 'GET',
+            contentType: 'application/json',
+            data: {
+                userEmail: userEmail,
+                tourId: tourID
+            },
+            success: function (data) {
+                withdrawPopup.classList.add('d-none');
+                joinBtn.classList.remove('d-none');
+                withdrawBtn.classList.add('d-none');
+                //removeNameToPlayerTable(data);
+                loader.classList.add('d-none');
+            },
+            error: function (xhr, textStatus, errorThrown) {
+                console.error('Error during AJAX request:', textStatus, errorThrown);
+            }
+        });
+    }
+
+    function addNameToPlayerTable(name) {
+        const playerTable = document.querySelector('.player-table tbody');
+        const tr = document.createElement('tr');
+
+        const td1 = document.createElement('td');
+        const td2 = document.createElement('td');
+        const td3 = document.createElement('td');
+        td3.textContent = name;
+        const td4 = document.createElement('td');
+
+        tr.appendChild(td1);
+        tr.appendChild(td2);
+        tr.appendChild(td3);
+        tr.appendChild(td4);
+        playerTable.appendChild(tr);
+    }
+
+    function removeNameToPlayerTable(name) {
+        const playerTable = document.querySelector('.player-table tbody');
+        const trList = document.querySelectorAll('tr:not(:first-child)');
+        for (var i = 0; i < trList.length; i++) {
+            if (name === trList[i].querySelector('td:nth-child(3)').textContent) {
+                playerTable.removeChild(trList[i])
+                break;
+            }
+        }
+    }
+</script>

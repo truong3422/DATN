@@ -1,0 +1,269 @@
+﻿@{
+    Layout = "~/Views/Shared/_ClubLayout.cshtml";
+}
+@inject Microsoft.AspNetCore.Http.IHttpContextAccessor HttpContextAccessor
+@using PoolComVnWebClient.Common
+@{
+    string email = HttpContextAccessor.HttpContext.Request.Cookies["Email"];
+}
+<div class="dashboard-container">
+    <div class="tournament mt-0">
+        <div class="normal-body">
+            <div class="d-flex justify-content-between mt-4 row">
+                <div class="tour-circle d-flex justify-content-lg-start justify-content-end
+                pt-lg-0 pt-3 align-items-center col-lg-6 col-12 order-2 order-lg-1">
+                    <div class="schedule-circle"></div>
+                    <span>Lên lịch</span>
+                    <div class="start-circle"></div>
+                    <span>Đang chơi</span>
+                    <div class="finish-circle"></div>
+                    <span>Kết thúc</span>
+                </div>
+                <div class="d-flex justify-content-end col-lg-6 col-12 order-1 order-lg-2">
+                    <div class="tour-search d-flex justify-content-end align-items-center">
+                        <i class="search-btn fa-solid fa-magnifying-glass"></i>
+                        <input class="search-input px-2" type="text" placeholder="Giải đấu, địa chỉ,..." />
+                    </div>
+
+                    <div class="tour-filter d-flex align-items-center">
+                        <div class="filter-btn">
+                            <span>Bộ lọc</span>
+                            <i class="fa-solid fa-filter px-2"></i>
+                        </div>
+                        <form class="filter-body d-none">
+                            <div class="row">
+                                <div class="d-flex justify-content-center col-4">
+                                    <select class="tour-type">
+                                        <option selected hidden>Thể loại</option>
+                                        <option>8 bi</option>
+                                        <option>9 bi</option>
+                                        <option>10 bi</option>
+                                    </select>
+                                </div>
+                            </div>
+
+                            <div class="pt-5">
+                                <div class="start-date d-flex align-items-center">
+                                    <div class="d-flex justify-content-center col-4">
+                                        <span>Ngày bắt đầu</span>
+                                    </div>
+                                    <div class="d-flex justify-content-center col-4">
+                                        <input type="date" />
+                                    </div>
+                                </div>
+                                <div class="end-date pt-3 d-flex align-items-center">
+                                    <div class="d-flex justify-content-center col-4">
+                                        <span>Ngày kết thúc</span>
+                                    </div>
+                                    <div class="d-flex justify-content-center col-4">
+                                        <input type="date" />
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="pt-5 row">
+                                <div class="d-flex justify-content-center col-6">
+                                    <input type="button" class="reset-btn" value="Đặt lại" />
+                                </div>
+                                <div class="d-flex justify-content-center col-6">
+                                    <input type="submit" class="submit-btn" value="Tìm kiếm" />
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+            <div class="mt-5 d-flex flex-wrap">
+                @if (ViewBag.Tournament == null)
+                {
+                    <div class="message-text normal">Chưa có giải đấu nào.</div>
+                }
+                else
+                {
+                    @foreach (var tournament in ViewBag.Tournament)
+                    {
+                        <div class="tour-item col-md-6 col-lg-4">
+                            @if (tournament.Status == Constant.TournamentIncoming ||
+                           tournament.Status == Constant.CreateTourStepOne ||
+                           tournament.Status == Constant.CreateTourStepTwo ||
+                           tournament.Status == Constant.CreateTourStepThree ||
+                           tournament.Status == Constant.CreateTourStepFour ||
+                           tournament.Status == Constant.CreateTourStepFive ||
+                           tournament.Status == Constant.CreateTourStepSix)
+                            {
+                                <a asp-action="CheckCreateTour" asp-controller="CreateTournament" class="item-body">
+                                    <div class="tour-box">
+                                        @if (tournament.Status == Constant.TournamentIncoming ||
+                                       tournament.Status == Constant.CreateTourStepOne ||
+                                       tournament.Status == Constant.CreateTourStepTwo ||
+                                       tournament.Status == Constant.CreateTourStepThree ||
+                                       tournament.Status == Constant.CreateTourStepFour ||
+                                       tournament.Status == Constant.CreateTourStepFive ||
+                                       tournament.Status == Constant.CreateTourStepSix)
+                                        {
+                                            <div class="tour-status schedule-status"></div>
+                                        }
+                                        @if (tournament.Status == Constant.TournamentInProgress)
+                                        {
+                                            <div class="tour-status start-status"></div>
+                                        }
+                                        @if (tournament.Status == Constant.TournamentComplete)
+                                        {
+                                            <div class="tour-status finish-status"></div>
+                                        }
+                                        <div class="tour-image" style="background-image: url(@(!string.IsNullOrEmpty(tournament.Flyer) ? tournament.Flyer : "https://firebasestorage.googleapis.com/v0/b/poolcomvn-82664.appspot.com/o/Club%2Fdefault.jpg?alt=media&token=0d297640-cb3a-4ee7-97de-47c1a5af67ae"));"></div>
+                                        <div>
+                                            <div class="tour-type d-flex justify-content-center align-items-center">
+                                                @tournament.GameType
+                                            </div>
+                                        </div>
+                                        <div class="tour-title">
+                                            @tournament.TournamentName
+                                        </div>
+                                        <div class="tour-club d-flex align-items-center">
+                                            <img class="tour-club-image" src="@ViewBag.Club.Avatar" alt="">
+                                            <span class="px-2">@tournament.ClubName</span>
+                                        </div>
+                                        <div class="tour-description">
+                                            @tournament.Description
+                                        </div>
+                                        <div class="tour-time">
+                                            <i class="fa-solid fa-calendar-days"></i>
+                                            <span>@tournament.StartTime.ToString("dd/MM/yyyy")</span>
+                                            -
+                                            <span>@tournament.EndTime.ToString("dd/MM/yyyy")</span>
+                                        </div>
+
+                                        <div class="tour-position">
+                                            <i class="fa-solid fa-location-dot"></i>
+                                            <span>@tournament.Address</span>
+                                        </div>
+                                    </div>
+                                    <div class="hidden-btn hidden-tour">
+                                        <i class="fa-solid fa-eye-slash"></i>
+                                    </div>
+                                </a>
+                            }
+                            else
+                            {
+                                <a asp-action="TournamentDetailForManager" asp-controller="Tournament" asp-route-tourId="@tournament.TournamentId" class="item-body">
+                                    <div class="tour-box">
+                                        @if (tournament.Status == Constant.TournamentIncoming ||
+                                       tournament.Status == Constant.CreateTourStepOne ||
+                                       tournament.Status == Constant.CreateTourStepTwo ||
+                                       tournament.Status == Constant.CreateTourStepThree ||
+                                       tournament.Status == Constant.CreateTourStepFour ||
+                                       tournament.Status == Constant.CreateTourStepFive ||
+                                       tournament.Status == Constant.CreateTourStepSix)
+                                        {
+                                            <div class="tour-status schedule-status"></div>
+                                        }
+                                        @if (tournament.Status == Constant.TournamentInProgress)
+                                        {
+                                            <div class="tour-status start-status"></div>
+                                        }
+                                        @if (tournament.Status == Constant.TournamentComplete)
+                                        {
+                                            <div class="tour-status finish-status"></div>
+                                        }
+                                        <div class="tour-image" style="background-image: url(@(!string.IsNullOrEmpty(tournament.Flyer) ? tournament.Flyer : "https://firebasestorage.googleapis.com/v0/b/poolcomvn-82664.appspot.com/o/Club%2Fdefault.jpg?alt=media&token=0d297640-cb3a-4ee7-97de-47c1a5af67ae"));"></div>
+                                        <div>
+                                            <div class="tour-type d-flex justify-content-center align-items-center">
+                                                @tournament.GameType
+                                            </div>
+                                        </div>
+                                        <div class="tour-title">
+                                            @tournament.TournamentName
+                                        </div>
+                                        <div class="tour-club d-flex align-items-center">
+                                            <img class="tour-club-image" src="@ViewBag.Club.Avatar" alt="">
+                                            <span class="px-2">@tournament.ClubName</span>
+                                        </div>
+                                        <div class="tour-description">
+                                            @tournament.Description
+                                        </div>
+                                        <div class="tour-time">
+                                            <i class="fa-solid fa-calendar-days"></i>
+                                            <span>@tournament.StartTime.ToString("dd/MM/yyyy")</span>
+                                            -
+                                            <span>@tournament.EndTime.ToString("dd/MM/yyyy")</span>
+                                        </div>
+
+                                        <div class="tour-position">
+                                            <i class="fa-solid fa-location-dot"></i>
+                                            <span>@tournament.Address</span>
+                                        </div>
+                                    </div>
+                                    <div class="hidden-btn hidden-tour">
+                                        <i class="fa-solid fa-eye-slash"></i>
+                                    </div>
+                                </a>
+                            }
+                        </div>
+                    }
+                }
+            </div>
+        </div>
+    </div>
+    @if (ViewBag.AccountEmail == email && ViewBag.CanCreateTour)
+    {
+        <div class="creat-tour d-flex justify-content-center align-items-center">
+            <div class="create-title">Tạo giải đấu</div>
+            <a asp-action="CheckCreateTour" asp-controller="CreateTournament" class="create-tour-btn d-flex justify-content-center align-items-center">
+                <i class="fa-solid fa-plus fa-beat"></i>
+            </a>
+        </div>
+    }
+</div>
+
+<script>
+    const backBtn = document.querySelector('.back-btn');
+    if (backBtn !== null) {
+        backBtn.addEventListener('click', () => {
+            window.location.href = '/home/index';
+        });
+    }
+
+    //tour-filter button
+    const filterBtn = document.querySelector('.filter-btn');
+    const filterBody = document.querySelector('.filter-body');
+    filterBtn.addEventListener('click', () => {
+        if (filterBody.classList.contains('d-none')) {
+            filterBody.classList.remove('d-none');
+            filterBody.classList.add('d-block');
+        } else {
+            filterBody.classList.add('d-none');
+            filterBody.classList.remove('d-block');
+        }
+    })
+
+    const filterForm = document.querySelector('.filter-body');
+    const resetBtn = document.querySelector('.reset-btn');
+    resetBtn.addEventListener('click', () => {
+        filterForm.reset();
+        tourCity.classList.add('d-none');
+    })
+
+    //Handle hidden-btn
+    const hiddenBtns = document.querySelectorAll('.hidden-btn');
+    hiddenBtns.forEach(hiddenBtn => {
+        hiddenBtn.addEventListener('click', (e) => {
+            e.stopPropagation();
+            if (hiddenBtn.querySelector('i').classList.contains('fa-eye-slash')) {
+                hiddenBtn.innerHTML = '<i class="fa-solid fa-eye"></i>';
+                var parent = hiddenBtn.parentNode;
+                var tourBox = parent.querySelector('.tour-box');
+                tourBox.classList.add('hidden');
+            } else {
+                hiddenBtn.innerHTML = '<i class="fa-solid fa-eye-slash"></i>';
+                var parent = hiddenBtn.parentNode;
+                var tourBox = parent.querySelector('.tour-box');
+                tourBox.classList.remove('hidden');
+            }
+        })
+    })
+
+    //Handel active nav
+    const clubNavBtn = document.querySelector('.club-tour');
+    clubNavBtn.classList.add('active');
+</script>

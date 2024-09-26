@@ -1,0 +1,189 @@
+﻿@{
+    Layout = "~/Views/Shared/_BackBtnLayout.cshtml";
+}
+
+@using PoolComVnWebClient.DTO
+@model PaginatedList<NewsDTO>
+
+<div class="container-full">
+    <div class="news-manage pt-3">
+        <div class="manage-header">Quản lí bài viết</div>
+        <div class="d-md-flex justify-content-md-between">
+            <div class="mt-2 d-flex justify-content-end justify-content-lg-start">
+                <a asp-controller="NewsManage" asp-action="AddNews" class="addBtn
+                        d-flex justify-content-center align-items-center mx-0">
+                    Tạo mới
+                    <i class="fa-solid fa-circle-plus px-3"></i>
+                </a>
+            </div>
+            <div class="mt-2 d-flex justify-content-end">
+                <div class="manageSearch d-flex">
+                    <input class="news-input" placeholder="Title,..." value="@ViewBag.SearchQuery" />
+                    <div class="searchBtn px-3 align-items-center" onclick="Search()">
+                        <i class="fa-solid fa-magnifying-glass"></i>
+                    </div>
+                </div>
+                <script type="text/javascript">
+                    const inputElement = document.querySelector('.news-input');
+                    const buttonElement = document.querySelector('.searchBtn');
+
+                    inputElement.addEventListener('keyup', function (event) {
+                        if (event.key === 'Enter') {
+                            buttonElement.click();
+                        }
+                    });
+                </script>
+            </div>
+        </div>
+        <div class="manage-body mt-3">
+            <table>
+                <tr>
+                    <th class="news-id">#</th>
+                    <th class="image">Ảnh</th>
+                    <th class="title">Tiêu đề</th>
+                    <th class="w150">Ngày tạo</th>
+                    <th class="w150">Thay đổi</th>
+                    <th class="text-center account-status w150">
+                        Trạng thái
+                        <i class="fa-solid fa-caret-down fa-flip"></i>
+                        <ul class="type-list">
+                            <li>Hiển thị</li>
+                            <li>Ẩn</li>
+                        </ul>
+                    </th>
+                    <th class="w150 text-center">Hành động</th>
+                </tr>
+                @if (Model.Items == null || Model.Items.Count == 0)
+                {
+                    <tr>
+                        <td colspan="6">Không tìm thấy kết quả phù hợp.</td>
+                    </tr>
+                }
+                else
+                {
+                    @for (int i = 0; i < Model.Items.Count; i++)
+                    {
+                        var news = Model.Items[i];
+                        <tr>
+                            <td>@(i + 1)</td>
+                            <td>
+                                <div class="img-frame" style="background-image:url('@news.Flyer')"></div>
+                            </td>
+                            <td>@news.Title</td>
+                            <td>@news.CreatedDate.ToString("yyyy-MM-dd")</td>
+                            <td>@news.UpdatedDate.ToString("yyyy-MM-dd")</td>
+                            <td class="text-center">
+                                <form method="post" action="@Url.Action("ChangeStatus", "NewsManage")">
+                                    <input type="hidden" name="id" value="@news.NewsId" />
+                                    <button type="submit" class="change-status-btn">
+                                        @if (news.Status.HasValue && news.Status.Value)
+                                        {
+                                            <div class="user-status isActive">Hiển thị</div>
+                                        }
+                                        else if (news.Status.HasValue && !news.Status.Value)
+                                        {
+                                            <div class="user-status isActive">Ẩn</div>
+                                        }
+                                        else
+                                        {
+                                            <div class="user-status">Không biết</div>
+                                        }
+                                    </button>
+                                </form>
+                            </td>
+                            <td class="text-center">
+                                <a asp-action="NewsDetails" asp-controller="NewsManage" asp-route-id="@news.NewsId"><i class="fa-solid fa-pencil p-2"></i></a>
+                                <a asp-action="ChangeStatusNews" asp-controller="NewsManage" asp-route-id="@news.NewsId">
+                                    <i class=" fa-solid fa-eye-slash p-2"></i>
+                                </a>
+                            </td>
+                        </tr>
+                    }
+                }
+            </table>
+        </div>
+    </div>
+    @*Phân trang start*@
+    <div class="pagination d-flex justify-content-center align-items-center m-0">
+        <div class="pagination-content d-flex justify-content-center align-items-center m-0">
+            <div class="pagination-btn-big" onclick="prevPage()">Trước</div>
+            @foreach (var pageNum in Enumerable.Range(1, Model.TotalPages))
+            {
+                <div class="pagination-btn @(pageNum == Model.PageIndex ? "active" : "")" onclick="goToPage(@pageNum, '@ViewBag.SearchQuery')">@pageNum</div>
+            }
+            <div class="pagination-btn-big" onclick="nextPage()">Sau</div>
+        </div>
+    </div>
+
+    @*Phân trang end*@
+</div>
+
+<script>
+    const backBtn = document.querySelector('.back-btn');
+    if (backBtn !== null) {
+        backBtn.addEventListener('click', () => {
+            window.location.href = '/home/index';
+        });
+    }
+    //Handle view btn
+    const viewBtnList = document.querySelectorAll('.view-btn');
+
+    function prevPage() {
+        var currentPage = @Model.PageIndex;
+        if (currentPage > 1) {
+            var searchQuery = '@ViewBag.SearchQuery';
+            goToPage(currentPage - 1, searchQuery);
+        }
+    }
+
+    function nextPage() {
+        var currentPage = @Model.PageIndex;
+        var totalPages = @Model.TotalPages;
+        if (currentPage < totalPages) {
+            var searchQuery = '@ViewBag.SearchQuery';
+            goToPage(currentPage + 1, searchQuery);
+        }
+    }
+
+    function goToPage(pageNum, searchQuery) {
+        window.location.href = "@Url.Action("Index", "NewsManage")?page=" + pageNum + "&searchQuery=" + searchQuery;
+    }
+
+
+
+    function Search() {
+        const inputElement = document.querySelector('.news-input');
+        if (inputElement) {
+            const searchQuery = inputElement.value.trim();
+            window.location.href = "@Url.Action("Index", "NewsManage")?searchQuery=" + searchQuery;
+        } else {
+            console.error('Input element not found.');
+        }
+    }
+
+
+    viewBtnList.forEach(btn => {
+        btn.addEventListener('click', (e) => {
+            e.preventDefault();
+            if (btn.classList.contains('fa-eye')) {
+                btn.classList.remove('fa-eye');
+                btn.classList.add('fa-eye-slash');
+                const trParent = btn.parentNode.parentNode.parentNode;
+                const userStatus = trParent.querySelector('.user-status');
+                userStatus.classList.add('isActive');
+                userStatus.classList.remove('isUnActive');
+                userStatus.textContent = 'Hiển thị';
+            } else {
+                btn.classList.add('fa-eye');
+                btn.classList.remove('fa-eye-slash');
+                const trParent = btn.parentNode.parentNode.parentNode;
+                const userStatus = trParent.querySelector('.user-status');
+                userStatus.classList.remove('isActive');
+                userStatus.classList.add('isUnActive');
+                userStatus.textContent = 'Ẩn';
+            }
+        })
+    })
+
+
+</script>

@@ -1,0 +1,57 @@
+﻿@using PoolComVnWebClient.DTO;
+@model CreateManageAccountDTO
+@{
+    Layout = "~/Views/Shared/_TournamentLayout.cshtml";
+}
+
+<div class="create-manage-bg d-flex justify-content-center align-items-center">
+    <form class="create-manage-form" method="post" action="@Url.Action("CreateManageAccount", "Manager")">
+        <div class="create-header">
+            Tạo tài khoản quản lí
+            <a href="@Url.Action("Index", "Manager")" class="back-btn">
+                <i class="fa-solid fa-angle-left"></i>
+                Trở lại
+            </a>
+        </div>
+        <div class="create-content">
+            <div class="create-field">
+                <div class="field-title">
+                    Email
+                </div>
+                @Html.TextBoxFor(m => m.Email)
+                @Html.ValidationMessageFor(m => m.Email)
+            </div>
+            <div class="create-field">
+                <div class="field-title">
+                    Mật khẩu
+                </div>
+                @Html.PasswordFor(m => m.NewPassword)
+                @Html.ValidationMessageFor(m => m.NewPassword)
+            </div>
+            <div class="create-field">
+                <div class="field-title">
+                    Nhập lại mật khẩu
+                </div>
+                @Html.PasswordFor(m => m.ConfirmNewPassword)
+                @Html.ValidationMessageFor(m => m.ConfirmNewPassword)
+            </div>
+            <div class="create-submit">
+                <input type="submit" value="Tạo tài khoản">
+            </div>
+            @if (!string.IsNullOrEmpty(TempData["ErrorMessage"] as string))
+            {
+                <div class="alert alert-danger" role="alert">
+                    @TempData["ErrorMessage"]
+                </div>
+            }
+        </div>
+    </form>
+</div>
+
+<script>
+    if (backBtn !== null) {
+        backBtn.addEventListener('click', () => {
+            window.location.href = document.referrer;
+        });
+    }
+</script>

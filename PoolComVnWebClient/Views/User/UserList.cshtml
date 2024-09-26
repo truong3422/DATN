@@ -1,0 +1,86 @@
+﻿<div class="container">
+    <div class="tournament">
+        <div class="user-list-header d-flex justify-content-between align-items-center">
+            <div class="list-title">Danh sách cơ thủ</div>
+            <div class="tour-search d-flex justify-content-end align-items-center mx-0">
+                <i class="search-btn fa-solid fa-magnifying-glass"></i>
+                <input class="search-input px-2" type="text" placeholder="Giải đấu, địa chỉ,..." />
+            </div>
+        </div>
+        <div class="user-list-bg">
+            <div class="user-list">
+                <div class="tour-players m-0">
+                    <div class="table-overflow">
+                        <table class="players-table m-0">
+                            <tr>
+                                <th class="text-center w50">#</th>
+                                <th class="w100">Tên</th>
+                                <th class="w100">Quốc gia</th>
+                                <th class="w100">Tỉnh</th>
+                                <th class="w200">Email</th>
+                                <th class="text-center w150">Giải tham gia</th>
+                                <th class="text-center w100">Tỉ lệ thắng %</th>
+                                <th class="text-center w100">Trận thắng</th>
+                                <th class="text-center w100">Trận thua</th>
+                            </tr>
+                            @if (ViewBag.UserList == null)
+                            {
+                                <tr>
+                                    <td colspan="9">Chưa có người chơi nào trong hệ thống</td>
+                                </tr>
+                            }
+                            else
+                            {
+                                int count = 0;
+                                @foreach (var user in ViewBag.UserList)
+                                {
+                                    count++;
+                                    <tr data-row-email="@user.Email">
+                                        <td class="tb-stt">@count</td>
+                                        <td class="tb-name">
+                                            <img src="@user.CountryImage" alt="">
+                                            @user.FullName
+                                        </td>
+                                        <td class="tb-country">@user.Country</td>
+                                        <td class="tb-country">@user.Province</td>
+                                        <td class="tb-rank">@user.Email</td>
+                                        <td class="text-center">@user.TournamentJoined</td>
+                                        <td class="tb-game-pct">
+                                            @{
+                                                double percent = 0;
+                                                if (user.MatchWin != 0 && user.MatchLose != 0)
+                                                {
+                                                    percent = (double)user.MatchWin / (user.MatchWin + user.MatchLose) * 100;
+                                                }
+                                            }
+
+                                            <div class="percent-number text-center">@percent.ToString("0.##")%</div>
+                                            <div class="total">
+                                                <div class="percent" style="width: @(percent)px;"></div>
+                                            </div>
+                                        </td>
+                                        <td class="tb-match">@user.MatchWin</td>
+                                        <td class="tb-match">@user.MatchLose</td>
+                                    </tr>
+                                }
+                            }
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="table-footer"></div>
+    </div>
+</div>
+
+<script>
+    //Handle click row
+    const rowList = document.querySelectorAll('tr:not(:first-child)');
+    rowList.forEach(row => {
+        row.addEventListener('click', (e) => {
+            e.preventDefault();
+            var userId = row.getAttribute('data-row-email');
+            window.location.href = '/user/Index?email='+userId;
+        })
+    })
+</script>

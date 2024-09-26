@@ -1,0 +1,129 @@
+﻿@{
+    Layout = "~/Views/Shared/_CreateTournamentLayout.cshtml";
+    int? tourId = ViewBag.TourId as int?;
+    string? imageSource = ViewBag.Image;
+}
+<div class="opened-step d-none">@ViewBag.StepOpen</div>
+<div class="current-step d-none">@ViewBag.CurrentStep</div>
+<div class="tour-id d-none">@tourId</div>
+<div class="container-full">
+    <div class="create-tour d-flex justify-content-end">
+        <form class="create-tour-display col-lg-10" method="post" enctype="multipart/form-data" asp-controller="CreateTournament" asp-action="StepTwoAddBanner">
+            <div class="create-step-one">
+                <div class="display-title">Thêm ảnh bìa</div>
+                <div class="display-content">
+                    <div class="tour-input">
+                        <div class="input-title">
+                            <span>Hãy tải ảnh có kích thước 3x2 để được hiển thị tốt nhất.</span>
+                        </div>
+                    </div>
+                    <div class="upload-img auto" style="padding: 10px;">
+                        @if (string.IsNullOrEmpty(imageSource))
+                        {
+                            <div class="upload-title d-flex justify-content-center align-items-center">
+                                <div>
+                                    <div>
+                                        <i class="fa-regular fa-image"></i>
+                                    </div>
+                                    <div>
+                                        <p>Bấm vào đây để tải ảnh bìa.</p>
+                                    </div>
+                                </div>
+                            </div>
+                            @*<div class="m-0 preview-image"></div>*@
+                            <img class="show-image" />
+                            <!-- lấy tên ảnh -->
+                            <input id="file-name" class="d-none" />
+                        }
+                        else
+                        {
+                            <div class="upload-title d-flex justify-content-center align-items-center">
+                                <div>
+                                    <div>
+                                        <i class="fa-regular fa-image"></i>
+                                    </div>
+                                    <div>
+                                        <p>Bấm vào đây để đổi ảnh bìa.</p>
+                                    </div>
+                                </div>
+                            </div>
+                            @*<div class="m-0 preview-image" style="background-image: url('@imageSource.Trim('"')'); display: block;"></div>*@
+                            <img class="show-image" />
+                            <!-- lấy tên ảnh -->
+                            <input id="file-name" class="d-none" />
+                        }
+                        <input type="file" name="banner" class="imageInput mt-1" accept="image/*" />
+                        <input id="file-name" class="d-none" />
+                        <input type="hidden" id="TourId" name="tourId" value="@tourId" />
+                    </div>
+                    <div class="tour-input">
+                        <button class="submit-btn" type="submit">Lưu và chuyển sang bước 3</button>
+                    </div>
+                </div>
+            </div>
+        </form>
+
+    </div>
+</div>
+
+<div class="confirm-popup d-none">
+    <div class="confirm-content">
+        <div class="confirm-title">
+            Bạn phải thêm poster cho giải đấu
+        </div>
+        <div class="d-flex justify-content-around">
+            <div class="save-random" onclick="hiddenPopup()">
+                Đồng ý
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+
+    // Lắng nghe sự kiện click trên nút nhấn
+    document.querySelector('.submit-btn').addEventListener('click', function (event) {
+        // Ngăn chặn sự kiện submit mặc định của nút nhấn
+        event.preventDefault();
+
+        // Kiểm tra điều kiện (ví dụ: xem người dùng đã chọn ảnh hay chưa)
+        var fileInput = document.querySelector('.imageInput');
+        var file = fileInput.files[0];
+        if (file) {
+            // Nếu người dùng đã chọn ảnh, thực hiện submit form
+            document.querySelector('form').submit();
+        } else {
+            document.querySelector('.confirm-popup').classList.remove('d-none');
+        }
+    });
+
+    function hiddenPopup(){
+        var confirmPopup = document.querySelector('.confirm-popup');
+        if (!confirmPopup.classList.contains('d-none')) {
+            confirmPopup.classList.add('d-none');
+        }
+    }
+
+    //Image validation
+    const imgInput = document.querySelector('#file-name');
+
+    document.querySelector('.imageInput').addEventListener('change', function (event) {
+        const imageInput = event.target;
+        const previewImage = document.querySelector('.show-image');
+        const selectedFileName = document.querySelector('#file-name');
+        const uploadTile = document.querySelector('.upload-title');
+
+        if (imageInput.files && imageInput.files[0]) {
+            const reader = new FileReader();
+
+            reader.onload = function (e) {
+                previewImage.src = e.target.result;
+                previewImage.style.display = 'block';
+                uploadTile.classList.add('d-none');
+            };
+
+            reader.readAsDataURL(imageInput.files[0]);
+            selectedFileName.value = imageInput.files[0].name;
+        }
+    });
+</script>

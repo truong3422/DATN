@@ -1,0 +1,56 @@
+﻿@model string
+
+<div class="modal" tabindex="-1" id="confirmationModal">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">Confirm</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <p>@Model</p>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-success" id="btnConfirmYes">Yes</button>
+                <button type="button" class="btn btn-danger" id="btnConfirmNo">No</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+    function showModalAndExecuteAction() {
+        // Hiển thị modal
+        $('#confirmationModal').modal('show');
+
+        // Trả về một promise để xử lý kết quả Yes hoặc No của modal
+        return new Promise(function (resolve, reject) {
+            // Xử lý sự kiện click của nút Yes trong modal
+            $('#btnConfirmYes').click(function () {
+                // Ẩn modal
+                $('#confirmationModal').modal('hide');
+
+                // Thực hiện hành động khi người dùng nhấn Yes
+                resolve(true); // Trả về true
+            });
+
+            // Xử lý sự kiện click của nút No trong modal
+            $('#btnConfirmNo').click(function () {
+                // Ẩn modal
+                $('#confirmationModal').modal('hide');
+
+                // Trả về false khi người dùng nhấn No
+                resolve(false);
+            });
+        });
+    }
+
+    // cách sử dụng
+    //showModalAndExecuteAction().then(function (result) {
+    //    if (result) {
+    //        // Thực hiện hành động khi người dùng nhấn Yes
+    //    } else {
+    //        // Thực hiện hành động khi người dùng nhấn No
+    //    }
+    //});
+</script>

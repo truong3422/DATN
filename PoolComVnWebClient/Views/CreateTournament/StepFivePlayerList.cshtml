@@ -1,0 +1,335 @@
+﻿@using PoolComVnWebClient.DTO
+@{
+    Layout = "~/Views/Shared/_CreateTournamentLayout.cshtml";
+    int? tourId = ViewBag.TourId as int?;
+}
+@model List<PlayerDTO>
+<div class="opened-step d-none">@ViewBag.StepOpen</div>
+<div class="current-step d-none">@ViewBag.CurrentStep</div>
+<div class="tour-id d-none">@tourId</div>
+<div class="container-full">
+    <div class="create-tour d-flex justify-content-end">
+        <div class="create-tour-display col-lg-10">
+            <div class="create-step-two">
+                <div class="display-title d-flex justify-content-between">
+                    <div>Người chơi</div>
+                    <div class="d-flex align-items-center">
+                        <a class="step-two-nav" id="list-all-player" href="@Url.Action("StepFiveAllPlayer", "CreateTournament", new { tourId = tourId })">Danh sách</a>
+                        <a class="step-two-nav active" id="all-list">Thêm người chơi</a>
+                        <a class="step-two-nav" id="request-list" href="@Url.Action("StepFiveJoinList", "CreateTournament", new { tourId = tourId })">Yêu cầu tham gia</a>
+                    </div>
+                </div>
+                <div class="d-none" id="TourId">
+                    @tourId
+                </div>
+                <div class="display-content">
+                    <div class="d-flex justify-content-between">
+                        <div>
+                            <select class="create-tour-fee" disabled>
+                                <option value="0" hidden checked>Lệ phí</option>
+                                <option value="Đã xong">Đã xong</option>
+                                <option value="Chưa nộp">Chưa nộp</option>
+                            </select>
+                            <button class="club-player" disabled>Thêm vào thành viên</button>
+                            <button class="import-excel" onclick="downloadTemplate()">Tải mẫu</button>
+
+                            <form id="importForm" method="post" enctype="multipart/form-data" class="import-form d-flex"
+                                  action="@Url.Action("ImportPlayers", "CreateTournament", new { id = tourId })">
+                                <div class="import-input">
+                                    <span id="file-name">Chọn tệp để tải lên</span>
+                                    <input class="file-import" type="file" name="ImportPlayers" accept=".xls, .xlsx" />
+                                </div>
+                                <button type="submit">Nhập danh sách</button>
+                            </form>
+                        </div>
+                        @*<div class="player-search d-flex align-items-end">
+                        <i class="fa-solid fa-magnifying-glass"></i>
+                        <input class="" />
+                        </div>*@
+                    </div>
+
+                    <div class="pt-3">
+                        <div class="table-overflow">
+                            <table class="players-table">
+                                <tr>
+                                    <th>
+                                        <input class="all-checkbox" type="checkbox">
+                                    </th>
+                                    <th>STT</th>
+                                    <th>Tên</th>
+                                    <th>Quốc gia</th>
+                                    <th>Số điện thoại</th>
+                                    <th>Email</th>
+                                    <th class="text-center">Hạng</th>
+                                    <th class="player-fee">Lệ phí</th>
+                                    <th>Hành động</th>
+                                </tr>
+                                @if (ViewBag.ImportedPlayers != null)
+                                {
+                                    int stt = 1;
+                                    foreach (var player in ViewBag.ImportedPlayers)
+                                    {
+                                        <tr>
+
+                                            <td>
+                                                <input type="checkbox" class="individual-checkbox one-checkbox" value="@player.PlayerId"
+                                               data-player-name="@player.PlayerName"
+                                               data-country-name="@player.CountryName"
+                                               data-phonenumber="@player.PhoneNumber"
+                                               data-email="@player.Email"
+                                               data-level="@player.Level"
+                                               data-is-payed="@player.IsPayed"
+                                               data-tourId="@tourId">
+                                            </td>
+                                            <td>@stt</td>
+                                            <td>@player.PlayerName</td>
+                                            <td>@player.CountryName</td>
+                                            <td>@player.PhoneNumber</td>
+                                            <td>@player.Email</td>
+                                            <td class="text-center">@player.Level</td>
+                                            <td class="player-fee">
+                                                @if (player.IsPayed)
+                                                {
+                                                    <span>Đã nộp</span>
+                                                }
+                                                else
+                                                {
+                                                    <span>Chưa nộp</span>
+                                                }
+                                            </td>
+                                            <td>
+                                            </td>
+                                        </tr>
+                                        stt++;
+                                    }
+                                }
+                                else
+                                {
+                                    <tr>
+                                        <td colspan="9">No players available</td>
+                                    </tr>
+                                }
+                            </table>
+                        </div>
+
+                        <div class="tour-input pt-5">
+                            <button class="submit-btn" onclick="submitForm()">Lưu vào danh sách đấu</button>
+                        </div>
+                    </div>
+
+                </div>
+
+
+            </div>
+        </div>
+    </div>
+
+    <div id="checkbox-popup" class="confirm-popup d-none">
+        <div class="confirm-content">
+            <div class="confirm-title">
+                Chọn ít nhất 2 người chơi để xếp lịch.
+            </div>
+            <div class="d-flex justify-content-around">
+                <div class="save-random" style="width: 200px;">
+                    OK
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+@Html.Partial("_LoadingPartial")
+<script src="~/lib/jquery/dist/jquery.min.js"></script>
+<script>
+    const checkBoxPopup = document.getElementById('checkbox-popup');
+    checkBoxPopup.querySelector('.save-random').addEventListener('click',()=>{
+        checkBoxPopup.classList.add('d-none');
+    });
+
+    closeLoad();
+    function downloadTemplate() {
+
+        var hiddenAnchor = document.createElement('a');
+        hiddenAnchor.href = 'https://firebasestorage.googleapis.com/v0/b/poolcomvn-82664.appspot.com/o/Tournaments%2FPlayerTemplate%2FPlayerTemplate.xlsx?alt=media&token=b6b38b05-5643-4bce-a114-6e0f6e348957';
+        hiddenAnchor.target = '_blank';
+        hiddenAnchor.download = 'DanhSachNguoiChoi.xlsx';
+        document.body.appendChild(hiddenAnchor);
+        hiddenAnchor.click();
+        document.body.removeChild(hiddenAnchor);
+    }
+    function submitForm() {
+        var selectedPlayers = [];
+        var tourIdValue = document.getElementById('TourId').textContent.trim();
+        var checkboxes = document.querySelectorAll('.individual-checkbox.one-checkbox');
+
+        checkboxes.forEach(function (checkbox) {
+            if (checkbox.checked) {
+                var playerName = checkbox.getAttribute('data-player-name');
+                var countryName = checkbox.getAttribute('data-country-name');
+                var phoneNumber = checkbox.getAttribute('data-phonenumber');
+                var email = checkbox.getAttribute('data-email');
+                var level = checkbox.getAttribute('data-level');
+                var isPayed = checkbox.getAttribute('data-is-payed');
+                var tourId = checkbox.getAttribute('data-tourId');
+
+                selectedPlayers.push({
+                    PlayerId: parseInt(checkbox.value),
+                    PlayerName: playerName,
+                    CountryName: countryName,
+                    PhoneNumber: phoneNumber,
+                    Email: email,
+                    Level: parseInt(level),
+                    IsPayed: isPayed === "true",
+                    TourId: parseInt(tourId)
+                });
+            }
+        });
+
+        if (selectedPlayers.length > 0) {
+            openLoad();
+            $.ajax({
+                url: 'https://localhost:5000/api/Player/AddPlayerToTournament',
+                method: 'POST',
+                contentType: 'application/json',
+                data: JSON.stringify(selectedPlayers),
+                success: function (data) {
+                    closeLoad();
+                    window.location.href = '/CreateTournament/StepFiveAllPlayer?tourId=' + parseInt(tourIdValue);
+                },
+                error: function (xhr, textStatus, errorThrown) {
+                    console.error('Error during AJAX request:', textStatus, errorThrown);
+                }
+            });
+        }else{
+            checkBoxPopup.classList.remove('d-none');
+        }
+    }
+
+    const allCheckboxBtn = document.querySelector('.all-checkbox');
+    const checkboxList = document.querySelectorAll('.one-checkbox');
+    const tourFee = document.querySelector('.create-tour-fee');
+    const addClubPlayer = document.querySelector('.club-player');
+    const successBox = document.querySelector('.success-box');
+    const rowList = document.querySelectorAll('.players-table tr');
+    const containerFull = document.querySelector('.container-full');
+
+
+    allCheckboxBtn.addEventListener('change', () => {
+        if (allCheckboxBtn.checked) {
+            checkboxList.forEach(cb => {
+                cb.checked = true;
+                cb.classList.add('group');
+            })
+        } else {
+            checkboxList.forEach(cb => {
+                cb.checked = false;
+                cb.classList.remove('group');
+            })
+        }
+        setDisable();
+    });
+
+    checkboxList.forEach(cb => {
+        cb.addEventListener('click', (e) => {
+            e.stopPropagation();
+            if (cb.checked === true) {
+                cb.classList.add('group');
+                tourFee.disabled = false;
+                addClubPlayer.disabled = false;
+                const groupList = document.querySelectorAll('.one-checkbox.group');
+                if (groupList.length === checkboxList.length) {
+                    allCheckboxBtn.checked = true;
+                }
+            } else {
+                cb.classList.remove('group');
+                setDisable();
+                const groupList = document.querySelectorAll('.one-checkbox.group');
+                allCheckboxBtn.checked = false;
+            }
+        })
+    });
+
+    rowList.forEach(row => {
+        row.addEventListener('click', () => {
+            const cb = row.querySelector('.one-checkbox');
+            if (cb !== null) {
+                cb.checked = !cb.checked;
+                if (cb.checked === true) {
+                    cb.classList.add('group');
+                    tourFee.disabled = false;
+                    addClubPlayer.disabled = false;
+                    const groupList = document.querySelectorAll('.one-checkbox.group');
+                    if (groupList.length === checkboxList.length) {
+                        allCheckboxBtn.checked = true;
+                    }
+                } else {
+                    cb.classList.remove('group');
+                    setDisable();
+                    const groupList = document.querySelectorAll('.one-checkbox.group');
+                    allCheckboxBtn.checked = false;
+                }
+            }
+        })
+    })
+
+    tourFee.addEventListener('change', () => {
+        var tourFeeValue = tourFee.value;
+        const groupList = document.querySelectorAll('.one-checkbox.group');
+        groupList.forEach(player => {
+            const trParent = player.parentNode.parentNode;
+            const tdFee = trParent.querySelector('td:nth-child(8)');
+            tdFee.textContent = tourFeeValue;
+        });
+    })
+
+    function setDisable() {
+        const groupList = document.querySelectorAll('.one-checkbox.group');
+        if (groupList.length > 0) {
+            tourFee.disabled = false;
+            addClubPlayer.disabled = false;
+        } else {
+            tourFee.disabled = true;
+            addClubPlayer.disabled = true;
+        }
+    }
+
+    addClubPlayer.addEventListener('click', displaySuccessBox);
+
+    function displaySuccessBox() {
+        this.disabled = true;
+        if (addClubPlayer.disabled === true) {
+            const groupList = document.querySelectorAll('.one-checkbox.group');
+            groupList.forEach(cb => {
+                cb.checked = false;
+                cb.classList.remove('group');
+            });
+            allCheckboxBtn.checked = false;
+        }
+
+        const successBox = document.createElement('div');
+        successBox.className = 'success-box d-none';
+        successBox.textContent = 'Thành công';
+        containerFull.appendChild(successBox);
+
+        successBox.classList.remove('d-none');
+        setTimeout(() => {
+            successBox.style.right = '50px';
+            setTimeout(() => {
+                successBox.remove();
+            }, 1500);
+        }, 100);
+    }
+
+
+    //Handle show file name
+    document.querySelector('.file-import').addEventListener('change', function (event) {
+        const imageInput = event.target;
+        const selectedFileName = document.querySelector('#file-name');
+        console.log(imageInput.files && imageInput.files[0]);
+
+        if (imageInput.files && imageInput.files[0]) {
+            selectedFileName.textContent = imageInput.files[0].name;
+        }
+    });
+
+</script>

@@ -1,0 +1,257 @@
+﻿@{
+    Layout = "~/Views/Shared/_TournamentLayout.cshtml";
+    var count = 1;
+}
+
+<div class="container-full">
+    <div class="tour-players">
+        <div class="players-header">
+            Người chơi
+        </div>
+        <div class="table-overflow">
+            <table class="players-table">
+
+                <tr>
+                    <th class="text-center">#</th>
+                    <th>Tên</th>
+                    <th>Quốc gia</th>
+                    <th>Xếp hạng</th>
+                    <th>Lịch sử đấu</th>
+                    <th class="text-center">Trận (thắng-thua)</th>
+                    <th class="text-center">Trận thắng %</th>
+                    <th class="text-center">Ván (thắng-thua)</th>
+                    <th class="text-center">Ván thắng %</th>
+                    <th class="text-center">Trạng thái</th>
+                </tr>
+                @foreach (var player in ViewBag.Players)
+                {
+
+                    <tr>
+                    <td class="tb-stt">@count</td>
+                        <td class="tb-name players-table">
+                            <img src="@player.CountryName" alt="">
+                        @player.PlayerName
+                    </td>
+                        <td class="tb-country">@player.CountryName2</td>
+                        <td class="tb-rank">
+                            @if (player.Ranking != null)
+                            {
+                                @if (player.Ranking == "1")
+                                {
+                                    <i class="fa-solid fa-trophy" style="color: #ffe600;"></i>
+                                }
+                                else if (player.Ranking == "2")
+                                {
+                                    <i class="fa-solid fa-trophy" style="color: #ebe6e6;"></i>
+                                }
+                                else if (player.Ranking == "3-4")
+                                {
+                                    <i class="fa-solid fa-trophy" style="color: #ea8902;"></i>
+                                }
+                                @player.Ranking
+                            }
+                        </td>
+
+                            <td class="tb-history">
+                            @if (player.StreakMatch != null)
+                            {
+                                @foreach (char result in player.StreakMatch)
+                                {
+                                    if (result == 'L')
+                                    {
+                                        <span class="history-match lose-match">
+                                            <i class="fa-solid fa-xmark"></i>
+                                        </span>
+                                    }
+                                    else if (result == 'W')
+                                    {
+                                        <span class="history-match win-match">
+                                            <i class="fa-solid fa-check"></i>
+                                        </span>
+                                    }
+                                }
+                            }
+                        </td>
+                        @if (player.Match != null)
+                        {
+                            <td class="tb-match">@player.Match</td>
+                            <td class="tb-match-pct">
+                                @{
+                                    string[] matchParts = player.Match.Split('-');
+                                    int winsMatch = int.Parse(matchParts[0]);
+                                    int losesMatch = int.Parse(matchParts[1]);
+                                    double winPercentage = (double)winsMatch / (winsMatch + losesMatch) * 100;
+                                    if ((winsMatch + losesMatch) == 0)
+                                    {
+                                        winPercentage = 0;
+                                    }
+                                }
+                                @if (winPercentage != null)
+                                {
+                                    <div class="percent-number text-center">@winPercentage.ToString("0")%</div>
+                                    <div class="total">
+                                        <div class="percent" style="width: @(winPercentage.ToString("0"))px;"></div>
+                                    </div>
+                                }
+                                else
+                                {
+                                    <div class="percent-number text-center">0%</div>
+                                    <div class="total">
+                                        <div class="percent" style="width: 0px;"></div>
+                                    </div>
+                                }
+                            </td>
+                        }
+                        @if (player.Game != null)
+                        {
+                            <td class="tb-game">@player.Game</td>
+                            <td class="tb-game-pct">
+                                @{
+                                    string[] gameParts = player.Game.Split('-');
+                                    int winsGame = int.Parse(gameParts[0]);
+                                    int loseGame = int.Parse(gameParts[1]);
+                                    double winPercentageGame = (double)winsGame / (winsGame + loseGame) * 100;
+                                    if ((winsGame + loseGame) == 0)
+                                    {
+                                        winPercentageGame = 0;
+                                    }
+                                }
+                                @if (winPercentageGame != null)
+                                {
+                                    <div class="percent-number text-center">@winPercentageGame.ToString("0")%</div>
+                                    <div class="total">
+                                        <div class="percent" style="width: @(winPercentageGame.ToString("0"))px;"></div>
+                                    </div>
+                                }
+                                else
+                                {
+                                    <div class="percent-number text-center">0%</div>
+                                    <div class="total">
+                                        <div class="percent" style="width: 0px;"></div>
+                                    </div>
+                                }
+                            </td>
+                        }
+                        <td class="tb-max-game"></td>
+                        
+                    </tr>
+                    count++;
+                }
+               
+               
+            </table>
+        </div>
+    </div>
+</div>
+<div class="player-histories d-none justify-content-center align-items-center">
+    <div class="history-body">
+        <div class="history-header d-flex justify-content-between">
+            <div class="history-title">
+                <span>Nam Vu</span>
+            </div>
+            <div class="history-close">
+                <i class="fa-solid fa-xmark"></i>
+            </div>
+        </div>
+        <div class="history-content">
+            <div class="history-line">
+                <div class="match-number">Trận 32</div>
+                <div class="history-score">
+                    <div class="player win">
+                        <div>
+                            <img src="~/images/VietNamFlag.png">
+                            <span>Nam Vũ</span>
+                        </div>
+                        <span>7</span>
+                    </div>
+                    <div class="player">
+                        <div>
+                            <img src="~/images/VietNamFlag.png">
+                            <span>Vũ Đoàn Nam Thư</span>
+                        </div>
+                        <span>6</span>
+                    </div>
+                </div>
+            </div>
+            <div class="history-line">
+                <div class="match-number">Trận 32</div>
+                <div class="history-score">
+                    <div class="player lose">
+                        <div>
+                            <img src="~/images/VietNamFlag.png">
+                            <span>Nam Vũ</span>
+                        </div>
+                        <span>6</span>
+                    </div>
+                    <div class="player">
+                        <div>
+                            <img src="~/images/VietNamFlag.png">
+                            <span>Vũ Đoàn Nam Thư</span>
+                        </div>
+                        <span>7</span>
+                    </div>
+                </div>
+            </div>
+            <div class="history-line">
+                <div class="match-number">Trận 32</div>
+                <div class="history-score">
+                    <div class="player lose">
+                        <div>
+                            <img src="~/images/VietNamFlag.png">
+                            <span>Nam Vũ</span>
+                        </div>
+                        <span>6</span>
+                    </div>
+                    <div class="player">
+                        <div>
+                            <img src="~/images/VietNamFlag.png">
+                            <span>Vũ Đoàn Nam Thư</span>
+                        </div>
+                        <span>7</span>
+                    </div>
+                </div>
+            </div>
+            <div class="history-line">
+                <div class="match-number">Trận 32</div>
+                <div class="history-score">
+                    <div class="player win">
+                        <div>
+                            <img src="~/images/VietNamFlag.png">
+                            <span>Nam Vũ</span>
+                        </div>
+                        <span>7</span>
+                    </div>
+                    <div class="player">
+                        <div>
+                            <img src="~/images/VietNamFlag.png">
+                            <span>Vũ Đoàn Nam Thư</span>
+                        </div>
+                        <span>6</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+    //Handle close button
+    const playerHistoryDisplay = document.querySelector('.player-histories');
+    const closeBtn = document.querySelector('.history-close');
+
+    closeBtn.addEventListener('click', () => {
+        playerHistoryDisplay.classList.remove('d-flex');
+        playerHistoryDisplay.classList.add('d-none');
+    })
+
+    //Handle click row
+    //const rowList = document.querySelector('.players-table')
+    //    .querySelectorAll('tr');
+
+    //rowList.forEach((row) => {
+    //    row.addEventListener('click', () => {
+    //        playerHistoryDisplay.classList.add('d-flex');
+    //        playerHistoryDisplay.classList.remove('d-none');
+    //    })
+    //})
+</script>

@@ -1,0 +1,381 @@
+﻿@{
+    Layout = "~/Views/Shared/_BackBtnLayout.cshtml";
+    int tourId = ViewBag.TourID;
+    int maxNumberOfTournament = ViewBag.MaxNumberOfTournament;
+}
+<div class="numberOfPlayer d-none">@maxNumberOfTournament</div>
+<div class="container-full">
+    <div class="random-round">
+        <div class="">
+            <div class="players-header">
+                Hệ thống ngẫu nhiên
+            </div>
+            <div class="system-random">
+                <div class="container-bracket mt-0">
+                    <div class="bracket-tab">
+                        <div class="bracket-content d-flex justify-content-center" style="top:50px">
+                            <div id="winer-match-body"></div>
+                        </div>
+                    </div>
+                    <div class="zoom-btns">
+                        <div class="screen-size">
+                            <button class="zoom-in" onclick="fullScreen()">
+                                <i class="fa-solid fa-expand"></i>
+                            </button>
+                        </div>
+                        <div>
+                            <button id="zoom-in" class="zoom-in" onclick="zoomIn()">
+                                <i class="fa-solid fa-plus"></i>
+                            </button>
+                        </div>
+                        <div>
+                            <button id="zoom-out" class="zoom-out" onclick="zoomOut()">
+                                <i class="fa-solid fa-minus"></i>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="random-btn-group row mx-0">
+                <div class="random-btn col-4" onclick="randomMatch(@tourId)">
+                    <i class="fa-solid fa-shuffle"></i>
+                </div>
+                <div class="players-note save col-8" onclick="saveBracket(@tourId)" id="saveBracketButton">
+                    <i class="fa-solid fa-floppy-disk px-2"></i>
+                    <span style="font-size: 20px;">Lưu và xem sơ đồ đấu</span>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="confirm-popup d-none">
+    <div class="confirm-content">
+        <div class="confirm-title">
+            Kết quả của bạn vẫn chưa được lưu!
+        </div>
+        <div class="d-flex justify-content-around">
+            <div class="exit-btn">
+                <i class="fa-solid fa-circle-xmark"></i>
+                Vẫn thoát
+            </div>
+            <div class="save-random">
+                <i class="fa-solid fa-floppy-disk"></i>
+                Ở lại trang
+            </div>
+        </div>
+    </div>
+</div>
+<script src="~/lib/jquery/dist/jquery.min.js"></script>
+<script>
+    const backBtn = document.querySelector('.back-btn');
+    if (backBtn !== null) {
+        backBtn.addEventListener('click', () => {
+            window.location.href = document.referrer;
+        });
+    }
+
+    const winMatchBody = document.getElementById('winer-match-body');
+    //Số lượng người chơi tham gia giải
+    var playerNumber = $(".numberOfPlayer").text().trim();
+    //Số vòng đấu nhánh thắng trước vòng chung kết
+    //(tính theo đấu loại đơn)
+    let roundNumber = Math.log2(playerNumber / 2);
+    //Số người chơi vào vòng loại trực tiếp
+    const finalSinglePlayer = 2;
+    //số vòng đấu nhánh thắng tính từ R2 -> R(cuối) vòng loại
+    let finalSingleRound = roundNumber - Math.log2(finalSinglePlayer) + 1;
+    //chiều rộng,cao của match
+    var width = 250;
+    var height = 60;
+    // khoảng cách chiều ngang giữa 2 match
+    var matchDistance = 30;
+    var leftRightSpace = 100;
+    let numberMatchEachRound = 0;
+    let count = 0;
+    var winBody = '';
+    var imgList;
+
+    for (i = 0; i <= finalSingleRound; i++) {
+        numberMatchEachRound = 2 ** (roundNumber - i);
+        for (j = 0; j < numberMatchEachRound; j++) {
+            if (i == 0) {
+                ++count;
+                winBody += '<div class="match-box have-data" id="' + count + '" style=" top:' + (j * 2 * height) + 'px;width: ' + width + 'px; height: ' + height + 'px;">'
+                    + '<div class="match-content row">'
+                    + '<div class="match-number col-2 p-0 text-center">'
+                    + count
+                    + '</div>'
+                    + '<div class="player-match col-10">'
+                    + '<div class="d-flex justify-content-start align-items-center player-1">'
+                    + '<img src=""/>'
+                    + '<!-- 15 char -->'
+                    + '<div class="player-name"></div>'
+                    + '<div class="player-id d-none"></div>'
+                    + '</div>'
+                    + '<div class="d-flex justify-content-start align-items-center player-2">'
+                    + '<img src=""/>'
+                    + '<!-- 15 char -->'
+                    + '<div class="player-name"></div>'
+                    + '<div class="player-id d-none"></div>'
+                    + '</div>'
+                    + '</div>'
+                    + '</div>'
+                    + '</div>'
+            } else {
+                ++count;
+                winBody +=
+                    '<div class="line" style="top: ' + (height * (((2 ** i - 1) / 2) + (2 ** (i + 1) * j))) + 'px; left:' + (width * i + matchDistance * (i - 1)) + 'px">'
+                    + '<div class="left-line-win" style="width: ' + matchDistance / 2 + 'px; height: ' + ((2 ** i) * height) + 'px;"></div>'
+                    + '<div class="right-line-win" style="width: ' + matchDistance / 2 + 'px; height: ' + ((2 ** i) * height / 2) + 'px;"></div>'
+                    + '</div>'
+                    + '<div class="match-box" id="match' + count + '" style="top:' + (height * ((2 ** i - 1) + 2 ** (i + 1) * j)) + 'px; left: ' + ((matchDistance + width) * i) + 'px;width: ' + width + 'px; height: ' + height + 'px;">'
+                    + '<div class="match-content row">'
+                    + '<div class="match-number col-2 p-0 text-center">'
+                    + count
+                    + '</div>'
+                    + '<div class="player-match col-10">'
+                    + '<div class="d-flex justify-content-start align-items-center">'
+                    + '</div>'
+                    + '<div class="d-flex justify-content-start align-items-center">'
+                    + '</div>'
+                    + '</div>'
+                    + '</div>'
+                    + '</div>'
+            }
+        }
+    }
+
+    winMatchBody.innerHTML = winBody;
+    imgList = document.querySelector('.bracket-tab').querySelectorAll('img');
+    imgList.forEach(img => {
+        img.classList.add('d-none');
+    });
+
+    const lastMatchHeight = document.getElementById('match' + playerNumber / 2);
+
+    let winerWidth;
+    let loserWidth;
+
+
+
+    let currentZoom = 0.5;
+
+
+
+    const bracketContent = document.querySelector('.bracket-content');
+    const bracketTab = document.querySelector('.bracket-tab');
+    const zoomInBtn = document.getElementById('zoom-in');
+    const zoomOutBtn = document.getElementById('zoom-out');
+
+    zoomInBtn.removeEventListener
+    applyZoom();
+    function zoomIn() {
+        if (currentZoom <= 1.5) {
+            currentZoom += 0.1;
+            applyZoom();
+            zoomOutBtn.style.opacity = '1';
+            zoomOutBtn.classList.remove('no-hover');
+        } else {
+            zoomInBtn.style.opacity = '0.3';
+            zoomInBtn.classList.add('no-hover');
+        }
+    }
+
+    function zoomOut() {
+        if (currentZoom >= 0.4) {
+            currentZoom -= 0.1;
+            applyZoom();
+            zoomInBtn.style.opacity = '1';
+            zoomInBtn.classList.remove('no-hover');
+        } else {
+            zoomOutBtn.style.opacity = '0.3';
+            zoomOutBtn.classList.add('no-hover');
+        }
+    }
+
+    function applyZoom() {
+        winerWidth = ((roundNumber + 2) * width + (roundNumber + 0.5) * matchDistance) * currentZoom + leftRightSpace;
+        loserWidth = (finalSingleRound * (2 * width + 1.5 * matchDistance)) * currentZoom + leftRightSpace;
+        winMatchBody.style.width = winerWidth + 'px';
+        bracketContent.style.width = 0.5 * winerWidth + loserWidth + 'px';
+        bracketContent.style.transform = `scale(${currentZoom})`;
+    }
+
+
+    const matchDisplay = document.querySelector('.match-display');
+    function scrollToElement(elementId) {
+        matchDisplay.classList.add('d-none');
+
+        // Get the element to scroll to by its ID
+        const elementToScrollTo = document.getElementById('match' + elementId);
+        const elementRect = elementToScrollTo.getBoundingClientRect();
+        const parentRect = bracketContent.getBoundingClientRect();
+
+        let distanceToLeft = elementRect.x - parentRect.x - window.innerWidth / 2 + 125;
+        let distanceToTop = elementRect.top - parentRect.top - window.innerHeight / 4;
+
+        bracketTab.scrollTo({
+            left: distanceToLeft,
+            top: distanceToTop,
+            behavior: 'smooth'
+        });
+
+        flashingBox(elementToScrollTo);
+    }
+
+    function flashingBox(element) {
+        let count = 0;
+        element.classList.add('flashing');
+        const interval = setInterval(() => {
+            if (count < 3) {
+                if (element.classList.contains('flashing')) {
+                    element.classList.remove('flashing');
+                } else {
+                    element.classList.add('flashing');
+                    count++;
+                }
+            } else {
+                clearInterval(interval);
+            }
+        }, 300);
+        setTimeout(() => {
+            element.classList.remove('flashing');
+        }, 3500);
+    }
+
+    //Handle full screen
+    const containerBracket = document.querySelector('.container-bracket');
+    const header = document.querySelector('header');
+    const screenSize = document.querySelector('.screen-size');
+    const body = document.querySelector('body');
+
+    function fullScreen() {
+        containerBracket.classList.add('full-screen');
+        screenSize.innerHTML = '<button class="zoom-in" onclick="minimized()">'
+            + '<i class="fa-solid fa-compress"></i>'
+            + '</button>';
+        header.classList.add('d-none');
+
+        if (body.requestFullscreen) {
+            body.requestFullscreen();
+        } else if (body.webkitRequestFullscreen) { /* Safari */
+            body.webkitRequestFullscreen();
+        } else if (body.msRequestFullscreen) { /* IE11 */
+            body.msRequestFullscreen();
+        }
+    }
+
+    function minimized() {
+        containerBracket.classList.remove('full-screen');
+        screenSize.innerHTML = '<button class="zoom-in" onclick="fullScreen()">'
+            + '<i class="fa-solid fa-expand"></i>'
+            + '</button>';
+        header.classList.remove('d-none');
+
+        if (document.exitFullscreen) {
+            document.exitFullscreen();
+        } else if (document.webkitExitFullscreen) { /* Safari */
+            document.webkitExitFullscreen();
+        } else if (document.msExitFullscreen) { /* IE11 */
+            document.msExitFullscreen();
+        }
+    }
+
+    // Random và binding dữ liệu
+    function randomMatch(tourId) {
+        $.ajax({
+            url: 'https://localhost:5000/api/MatchOfTour/RandomMatch',
+            method: 'GET',
+            data: { tourId: tourId },
+            success: function (data) {
+                imgList.forEach(img => {
+                    img.classList.remove('d-none');
+                });
+                var matches = data;
+                matches.forEach(function (match) {
+                    var matchNumber = match.matchNumber;
+                    var matchBox = $('#' + matchNumber); // Tìm thẻ match-box có ID tương ứng với matchNumber
+
+
+                    var player1Element = matchBox.find('.player-1').first();
+
+                    // Kiểm tra nếu phần tử tồn tại
+                    if (player1Element.length > 0) {
+                        var playerNameElement = player1Element.find('.player-name');
+                        var playerName = match.p1Name;
+                        playerNameElement.text(playerName);
+
+                        var countryImageElement = player1Element.find('img');
+                        var countryImage = match.p1Country;
+                        countryImageElement.attr('src', countryImage);
+
+                        var playerIdElement = player1Element.find('.player-id');
+                        var playerId = match.p1Id;
+                        playerIdElement.text(playerId);
+                    } else {
+                        console.log('Không tìm thấy phần tử player-1 trong .matchbox');
+                    }
+
+                    var player2Element = matchBox.find('.player-2').first();
+
+                    // Kiểm tra nếu phần tử tồn tại
+                    if (player2Element.length > 0) {
+                        var playerNameElement = player2Element.find('.player-name');
+                        var playerName = match.p2Name;
+                        playerNameElement.text(playerName);
+
+                        var countryImageElement = player2Element.find('img');
+                        var countryImage = match.p2Country;
+                        countryImageElement.attr('src', countryImage);
+
+                        var playerIdElement = player2Element.find('.player-id');
+                        var playerId = match.p2Id;
+                        playerIdElement.text(playerId);
+                    } else {
+                        console.log('Không tìm thấy phần tử player-2 trong .matchbox');
+                    }
+                });
+                var saveBracketButton = document.getElementById('saveBracketButton');
+                if (saveBracketButton.classList.contains('disabled-div')) {
+                    saveBracketButton.classList.remove('disabled-div');
+                }
+            },
+            error: function (xhr, textStatus, errorThrown) {
+                console.log('Error:', errorThrown);
+            }
+        });
+    }
+
+    function saveBracket(tourId) {
+        var matchData = [];
+        $('.have-data').each(function () {
+            var matchNumber = $(this).attr('id');
+            var p1Id = $(this).find('.player-1 .player-id').text();
+            var p2Id = $(this).find('.player-2 .player-id').text();
+            var match = {
+                MatchNumber: matchNumber,
+                P1Id: parseInt(p1Id),
+                P2Id: parseInt(p2Id),
+            };
+            matchData.push(match);
+        });
+        var jsonData = JSON.stringify(matchData);
+        console.log(jsonData);
+        $.ajax({
+            url: 'https://localhost:5000/api/MatchOfTour/SaveMatchesRandom/' + tourId,
+            method: 'POST',
+            contentType: 'application/json',
+            data: jsonData
+            //,success: function (response) {
+            //    window.location.href = '/Tournament/TournamentDetailForManager?tourId=' + tourId;
+            //},
+            //error: function (xhr, textStatus, errorThrown) {
+            //    console.log('Error:', errorThrown);
+            //}
+        });
+        setTimeout(function () {
+            window.location.href = '/Tournament/TournamentDetailForManager?tourId=' + tourId;
+        }, 100);
+    }
+</script>

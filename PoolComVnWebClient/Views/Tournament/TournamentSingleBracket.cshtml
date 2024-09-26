@@ -1,0 +1,394 @@
+﻿@{
+    Layout = "~/Views/Shared/_TournamentLayout.cshtml";
+    int tourId = ViewBag.TourId;
+    int maxNumberOfTournament = ViewBag.MaxNumberOfTournament;
+}
+<div class="numberOfPlayer d-none">@maxNumberOfTournament</div>
+<div class="tourId d-none">@tourId</div>
+<div class="container-bracket">
+    <div class="bracket-tab">
+        <div class="bracket-content d-flex justify-content-center">
+            <div id="winer-match-body"></div>
+        </div>
+    </div>
+    <div class="zoom-btns">
+        <div class="screen-size">
+            <button class="zoom-in" onclick="fullScreen()">
+                <i class="fa-solid fa-expand"></i>
+            </button>
+        </div>
+        <div>
+            <button id="zoom-in" class="zoom-in" onclick="zoomIn()">
+                <i class="fa-solid fa-plus"></i>
+            </button>
+        </div>
+        <div>
+            <button id="zoom-out" class="zoom-out" onclick="zoomOut()">
+                <i class="fa-solid fa-minus"></i>
+            </button>
+        </div>
+    </div>
+</div>
+<script src="~/lib/jquery/dist/jquery.min.js"></script>
+
+<script>
+    const winMatchBody = document.getElementById('winer-match-body');
+    //Số lượng người chơi tham gia giải
+    const playerNumber = $(".numberOfPlayer").text().trim();;
+    //Số vòng đấu nhánh thắng trước vòng chung kết
+    //(tính theo đấu loại đơn)
+    let roundNumber = Math.log2(playerNumber / 2);
+    //Số người chơi vào vòng loại trực tiếp
+    const finalSinglePlayer = 2;
+    //số vòng đấu nhánh thắng tính từ R2 -> R(cuối) vòng loại
+    let finalSingleRound = roundNumber;
+    //chiều rộng,cao của match
+    var width = 250;
+    var height = 60;
+    // khoảng cách chiều ngang giữa 2 match
+    var matchDistance = 30;
+    var leftRightSpace = 100;
+    let numberMatchEachRound = 0;
+    let count = 0;
+    var winBody = '';
+
+    for (i = 0; i <= finalSingleRound; i++) {
+        numberMatchEachRound = 2 ** (roundNumber - i);
+        for (j = 0; j < numberMatchEachRound; j++) {
+            if (i == 0) {
+                ++count;
+                winBody += '<div class="match-box" id="match' + count + '" style=" top:' + (j * 2 * height) + 'px;width: ' + width + 'px; height: ' + height + 'px;">'
+                    + '<div class="match-content row">'
+                    + '<div class="match-number col-2 p-0 text-center">'
+                    + count
+                    + '</div>'
+                    + '<div class="d-none match-id"></div>'
+                    + '<div class="player-match col-8">'
+                    + '<div class="d-flex justify-content-start align-items-center">'
+                    + '<img class="p1country" src="/Images/loading_icon.jpg"/>'
+                    + '<!-- 15 char -->'
+                    + '<div class="player1-name player-name">Loading</div>'
+                    + '<div class="player1-id d-none"></div>'
+                    + '</div>'
+                    + '<div class="d-flex justify-content-start align-items-center">'
+                    + '<img class="p2country" src="/Images/loading_icon.jpg"/>'
+                    + '<!-- 15 char -->'
+                    + '<div class="player2-name player-name">Loading</div>'
+                    + '<div class="player2-id d-none"></div>'
+                    + '</div>'
+                    + '</div>'
+                    + '<div class="col-2">'
+                    + '<div class="match-score player1-score"></div>'
+                    + '<div class="match-score player2-score"></div>'
+                    + '</div>'
+                    + '<div class="match-table d-none">Table <span class="table-number"></span></div>'
+                    + '<div class="match-raceTo">Race to <span class="raceTo-number"></span></div>'
+                    + '<div class="next-match d-flex">'
+                    + '<div class="next-win"><span class="win-match-number"></span></div>'
+                    + '<div class="next-lose"><span class="lose-match-number"></span></div>'
+                    + '</div>'
+                    + '</div>'
+                    + '</div>'
+            } else {
+                ++count;
+                winBody +=
+                    '<div class="line" style="top: ' + (height * (((2 ** i - 1) / 2) + (2 ** (i + 1) * j))) + 'px; left:' + (width * i + matchDistance * (i - 1)) + 'px">'
+                    + '<div class="left-line-win" style="width: ' + matchDistance / 2 + 'px; height: ' + ((2 ** i) * height) + 'px;"></div>'
+                    + '<div class="right-line-win" style="width: ' + matchDistance / 2 + 'px; height: ' + ((2 ** i) * height / 2) + 'px;"></div>'
+                    + '</div>'
+                    + '<div class="match-box" id="match' + count + '" style="top:' + (height * ((2 ** i - 1) + 2 ** (i + 1) * j)) + 'px; left: ' + ((matchDistance + width) * i) + 'px;width: ' + width + 'px; height: ' + height + 'px;">'
+                    + '<div class="match-content row">'
+                    + '<div class="match-number col-2 p-0 text-center">'
+                    + count
+                    + '</div>'
+                    + '<div class="d-none match-id"></div>'
+                    + '<div class="player-match col-8">'
+                    + '<div class="d-flex justify-content-start align-items-center">'
+                    + '<img class="p1country" src="/Images/loading_icon.jpg"/>'
+                    + '<!-- 15 char -->'
+                    + '<div class="player1-name player-name">Loading</div>'
+                    + '<div class="player1-id d-none"></div>'
+                    + '</div>'
+                    + '<div class="d-flex justify-content-start align-items-center">'
+                    + '<img class="p2country" src="/Images/loading_icon.jpg"/>'
+                    + '<!-- 15 char -->'
+                    + '<div class="player2-name player-name">Loading</div>'
+                    + '<div class="player2-id d-none"></div>'
+                    + '</div>'
+                    + '</div>'
+                    + '<div class="col-2">'
+                    + '<div class="match-score player1-score"></div>'
+                    + '<div class="match-score player2-score"></div>'
+                    + '</div>'
+                    + '<div class="match-table d-none">Table <span class="table-number"></span></div>'
+                    + '<div class="match-raceTo">Race to <span class="raceTo-number"></span></div>'
+                    + '<div class="next-match d-flex">'
+                    + '<div class="next-win"><span class="win-match-number"></span></div>'
+                    + '<div class="next-lose"><span class="lose-match-number"></span></div>'
+                    + '</div>'
+                    + '</div>'
+                    + '</div>'
+            }
+        }
+    }
+
+    winMatchBody.innerHTML = winBody;
+
+    const lastMatchHeight = document.getElementById('match' + playerNumber / 2);
+    const lastMatchRect = lastMatchHeight.getBoundingClientRect();
+    const matchTableElement = lastMatchHeight.querySelector('.match-raceTo');
+    matchTableElement.style.paddingBottom = '200px';
+
+    let winerWidth;
+    let loserWidth;
+
+    window.addEventListener('load', centerPosition);
+
+    function centerPosition() {
+        bracketTab.scrollLeft = lastMatchRect.left + width;
+    }
+
+    let currentZoom = 0.5;
+
+
+
+    const bracketContent = document.querySelector('.bracket-content');
+    const bracketTab = document.querySelector('.bracket-tab');
+    const zoomInBtn = document.getElementById('zoom-in');
+    const zoomOutBtn = document.getElementById('zoom-out');
+
+    zoomInBtn.removeEventListener
+    applyZoom();
+    bindingData();
+
+    function zoomIn() {
+        if (currentZoom <= 1.5) {
+            currentZoom += 0.1;
+            applyZoom();
+            zoomOutBtn.style.opacity = '1';
+            zoomOutBtn.classList.remove('no-hover');
+        } else {
+            zoomInBtn.style.opacity = '0.3';
+            zoomInBtn.classList.add('no-hover');
+        }
+    }
+
+    function zoomOut() {
+        if (currentZoom >= 0.4) {
+            currentZoom -= 0.1;
+            applyZoom();
+            zoomInBtn.style.opacity = '1';
+            zoomInBtn.classList.remove('no-hover');
+        } else {
+            zoomOutBtn.style.opacity = '0.3';
+            zoomOutBtn.classList.add('no-hover');
+        }
+    }
+
+    function applyZoom() {
+        winerWidth = ((roundNumber + 2) * width + (roundNumber + 0.5) * matchDistance) * currentZoom + leftRightSpace;
+        loserWidth = (finalSingleRound * (2 * width + 1.5 * matchDistance)) * currentZoom + leftRightSpace;
+        winMatchBody.style.width = winerWidth + 'px';
+        bracketContent.style.width = 0.5 * winerWidth + loserWidth + 'px';
+        bracketContent.style.transform = `scale(${currentZoom})`;
+        centerPosition();
+    }
+
+
+    const matchDisplay = document.querySelector('.match-display');
+    function scrollToElement(elementId) {
+        if (currentZoom !== 1) {
+            currentZoom = 1;
+            applyZoom();
+        }
+
+        matchDisplay.classList.add('d-none');
+        setTimeout(() => {
+
+            // Get the element to scroll to by its ID
+            const elementToScrollTo = document.getElementById('match' + elementId);
+            const elementRect = elementToScrollTo.getBoundingClientRect();
+            const parentRect = bracketContent.getBoundingClientRect();
+
+            let distanceToLeft = (elementRect.x - parentRect.x + width / 2) - window.innerWidth / 2;
+            let distanceToTop = elementRect.top - parentRect.top - window.innerHeight / 4;
+
+            bracketTab.scrollTo({
+                left: distanceToLeft,
+                top: distanceToTop,
+                behavior: 'smooth'
+            });
+
+            flashingBox(elementToScrollTo);
+        }, 250);
+    }
+
+    function flashingBox(element) {
+        let count = 0;
+        element.classList.add('flashing');
+        const interval = setInterval(() => {
+            if (count < 3) {
+                if (element.classList.contains('flashing')) {
+                    element.classList.remove('flashing');
+                } else {
+                    element.classList.add('flashing');
+                    count++;
+                }
+            } else {
+                clearInterval(interval);
+            }
+        }, 300);
+        setTimeout(() => {
+            element.classList.remove('flashing');
+        }, 3500);
+    }
+
+    //Handle full screen
+    const containerBracket = document.querySelector('.container-bracket');
+    const header = document.querySelector('header');
+    const screenSize = document.querySelector('.screen-size');
+    const body = document.querySelector('body');
+
+    function fullScreen() {
+        containerBracket.classList.add('full-screen');
+        screenSize.innerHTML = '<button class="zoom-in" onclick="minimized()">'
+            + '<i class="fa-solid fa-compress"></i>'
+            + '</button>';
+        header.classList.add('d-none');
+
+        if (body.requestFullscreen) {
+            body.requestFullscreen();
+        } else if (body.webkitRequestFullscreen) { /* Safari */
+            body.webkitRequestFullscreen();
+        } else if (body.msRequestFullscreen) { /* IE11 */
+            body.msRequestFullscreen();
+        }
+    }
+
+    function minimized() {
+        containerBracket.classList.remove('full-screen');
+        screenSize.innerHTML = '<button class="zoom-in" onclick="fullScreen()">'
+            + '<i class="fa-solid fa-expand"></i>'
+            + '</button>';
+        header.classList.remove('d-none');
+
+        if (document.exitFullscreen) {
+            document.exitFullscreen();
+        } else if (document.webkitExitFullscreen) { /* Safari */
+            document.webkitExitFullscreen();
+        } else if (document.msExitFullscreen) { /* IE11 */
+            document.msExitFullscreen();
+        }
+    }
+
+
+    // binding dữ liệu
+    function bindingData() {
+        var tourId = $(".tourId").text().trim();
+        $.ajax({
+            url: 'https://localhost:5000/api/MatchOfTour/GetMatchForBracket',
+            method: 'GET',
+            data: { tourId: tourId },
+            success: function (data) {
+                var matches = data;
+                console.log(matches);
+                matches.forEach(function (match) {
+                    var count = match.matchNumber;
+                    var player1Name = match.p1Name;
+                    var player2Name = match.p2Name;
+                    var player1Country = match.p1Country;
+                    var player2Country = match.p2Country;
+                    var player1Score = match.p1Score;
+                    var player2Score = match.p2Score;
+                    var tableNumber = match.tableNumber;
+                    var raceToNumber = match.raceToNumber;
+                    var winMatchNumber = match.winNextMatch;
+
+                    // Find the corresponding match box element by ID
+                    var matchId = 'match' + count;
+                    console.log(matchId);
+                    var matchBox = document.getElementById(matchId);
+
+                    if (matchBox) {
+                        // Update the inner HTML of the elements with new data
+                        if (player1Name !== null && player1Name !== undefined) {
+                            matchBox.querySelector('.player1-name').innerText = player1Name;
+                        } else {
+                            matchBox.querySelector('.player1-name').innerText = "";
+                        }
+
+                        if (player2Name !== null && player2Name !== undefined) {
+                            matchBox.querySelector('.player2-name').innerText = player2Name;
+                        } else {
+                            matchBox.querySelector('.player2-name').innerText = "";
+                        }
+
+                        var player1CountryImg = matchBox.querySelector('.p1country');
+                        var player2CountryImg = matchBox.querySelector('.p2country');
+
+
+                        if (player1CountryImg) {
+                            if (player1Country !== null) {
+                                player1CountryImg.src = player1Country;
+                                player1CountryImg.style.display = "inline";
+                            } else {
+                                player1CountryImg.style.display = "none";
+                            }
+                        }
+
+                        if (player2CountryImg) {
+                            if (player2Country !== null) {
+                                player2CountryImg.src = player2Country;
+                                player2CountryImg.style.display = "inline";
+                            } else {
+                                player2CountryImg.style.display = "none";
+                            }
+                        }
+
+                        if (player1Score !== null && player1Score !== undefined) {
+                            matchBox.querySelector('.player1-score').innerText = player1Score;
+                        } else {
+                            matchBox.querySelector('.player1-score').innerText = "";
+                        }
+
+                        if (player2Score !== null && player2Score !== undefined) {
+                            matchBox.querySelector('.player2-score').innerText = player2Score;
+                        } else {
+                            matchBox.querySelector('.player2-score').innerText = "";
+                        }
+
+                        if (tableNumber !== null && tableNumber !== undefined) {
+                            matchBox.querySelector('.table-number').innerText = tableNumber;
+                        } else {
+                            matchBox.querySelector('.table-number').innerText = "N/A";
+                        }
+
+                        if (raceToNumber !== null && raceToNumber !== undefined) {
+                            matchBox.querySelector('.raceTo-number').innerText = raceToNumber;
+                        } else {
+                            matchBox.querySelector('.raceTo-number').innerText = "_";
+                        }
+                        if(winMatchNumber == 0){
+                            matchBox.querySelector('.win-match-number').innerText = '';
+                        }else{
+                            matchBox.querySelector('.win-match-number').innerText = 'W: ' + winMatchNumber;
+                        }
+
+                        // Update the player IDs 
+                        var player1IdElements = matchBox.getElementsByClassName('player1-id');
+                        var player2IdElements = matchBox.getElementsByClassName('player2-id');
+                        if (player1IdElements.length > 0) {
+                            player1IdElements[0].innerText = match.P1Id;
+                        }
+                        if (player2IdElements.length > 0) {
+                            player2IdElements[0].innerText = match.P2Id;
+                        }
+                    }
+                });
+            },
+            error: function (xhr, textStatus, errorThrown) {
+                console.log('Error:', errorThrown);
+            }
+        });
+    }
+</script>

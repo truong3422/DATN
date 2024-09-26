@@ -1,0 +1,1767 @@
+﻿@using PoolComVnWebClient.Common
+@using PoolComVnWebClient.DTO
+@{
+    Layout = "~/Views/Shared/_TournamentLayout.cshtml";
+    int tourId = ViewBag.TourId;
+    int maxNumberOfTournament = ViewBag.MaxNumberOfTournament;
+    int knockOutNumber = ViewBag.KnockOutNumber;
+    int tourStatus = ViewBag.TourStatus;
+    int clubId = ViewBag.ClubId;
+}
+
+<div class="numberOfPlayer d-none">@maxNumberOfTournament</div>
+<div class="knockOutNumber d-none">@knockOutNumber</div>
+<div class="tourId d-none">@tourId</div>
+<div class="tourStatus d-none">@tourStatus</div>
+<div class="clubId d-none">@clubId</div>
+
+
+<div class="container-bracket d-flex">
+    @*form bắt đầu giải đấu *@
+    <div class="start-tour-container d-none">
+        <div class="start-tour">
+            <div>
+                <div class="start-logo">
+                    <img src="Images/logo.png" alt="">
+                </div>
+                <div class="start-title">
+                    Các tính năng quản lý trận đấu không hoạt động khi chưa bắt đầu giải.<br>Hãy bắt đầu giải đấu.
+                </div>
+                <div class="d-flex justify-content-center">
+                    <div class="start-btn">Bắt đầu giải đấu</div>
+                </div>
+            </div>
+        </div>
+        <div class="overlay"></div>
+    </div>
+    @*form bắt đầu giải đấu *@
+    <div class="bracket-tab">
+        <div class="bracket-content d-flex">
+            <div id="loser-match-body"></div>
+            <div id="winer-match-body"></div>
+        </div>
+    </div>
+    <div class="zoom-btns">
+        <div class="screen-size">
+            <button class="zoom-in" onclick="fullScreen()">
+                <i class="fa-solid fa-expand"></i>
+            </button>
+        </div>
+        <div>
+            <button id="zoom-in" class="zoom-in" onclick="zoomIn()">
+                <i class="fa-solid fa-plus"></i>
+            </button>
+        </div>
+        <div>
+            <button id="zoom-out" class="zoom-out" onclick="zoomOut()">
+                <i class="fa-solid fa-minus"></i>
+            </button>
+        </div>
+    </div>
+    <div class="start-display d-flex justify-content-center align-items-center d-none">
+        <div class="start-content">
+            <div class="start-header d-flex justify-content-end">
+                <div class="start-close">
+                    <i class="fa-solid fa-xmark"></i>
+                </div>
+            </div>
+            <div class="start-title">Giải đấu sẽ bắt đầu.</div>
+            <div class="d-flex justify-content-around">
+                <div class="cancle-start text-center">Hủy</div>
+                <div class="ok-start text-center">Bắt đầu</div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+@*đặt lịch cho trận đấu*@
+
+<div id="display1" class="match-display d-flex justify-content-center align-items-center d-none popup-schedule">
+    <div class="match-detail ">
+        <div class="match-header d-flex justify-content-between">
+            <div class="match-title">
+                <span class="match-id d-none"></span>       <!-- id trận -->
+                Trận <span class="match-number"></span>             <!-- số trận -->
+                <span class="match-code"></span>           <!-- mã trận -->
+                <span>Chạm <span id="race-to-d1" class="match-raceTo"></span></span>  <!-- chạm mấy để thắng -->
+            </div>
+            <div class="match-close">
+                <i class="fa-solid fa-xmark"></i>
+            </div>
+        </div>
+        <div class="details-body">
+            <div class="edit-score">
+                <div class="player-score first">
+                    <div class="player-header" style="width: 200px;">
+                        Nguời chơi
+                    </div>
+                </div>
+                <div class="player-score mt-2">
+                    <div class="player-name player-1">
+                        <img src="" class="p1-country">  <!-- p1 country -->
+                        <span id="name-d1-2" class="p1-name"></span>    <!-- p1 name -->
+                    </div>
+                </div>
+                <div class="player-score mt-2">
+                    <div class="player-name player-2">
+                        <img src="" class="p2-country"> <!-- p2 country -->
+                        <span id="name-d1-2" class="p2-name"></span>    <!-- p2 name -->
+                    </div>
+                </div>
+            </div>
+
+            <div class="edit-table mt-4 d-flex">
+                <div>
+                    <div class="d-flex align-items-center">
+                        <div class="table-header">Mở bàn</div>
+                        <div class="table-name open-table">
+                            <div class="nameText">
+                                Chọn bàn
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="d-flex justify-content-center">
+                <div class="start-match-btn">
+                    Bắt đầu
+                </div>
+            </div>
+            <div class="details-next d-flex justify-content-around">
+                <div class="lose-next row">
+                    <div class="col-3">
+                        <i class="fa-solid fa-angles-left"></i>
+                    </div>
+                    <div class="text-center col-9 px-0 schedule-loseto lose-text">Thua ()</div>
+                </div>
+                <div class="win-next row">
+                    <div class="text-center col-9 px-0 schedule-winto win-text">Thắng ()</div>
+                    <div class="col-3">
+                        <i class="fa-solid fa-angles-right"></i>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+@*kết thúc đặt lịch cho trận đấu*@
+
+
+@*Bắt đầu quản lý trận*@
+
+<div id="display2" class="match-display next d-flex justify-content-center align-items-center d-none popup-control">
+    <div class="match-detail ">
+        <div class="match-header d-flex justify-content-between">
+            <div class="match-title">
+                <span class="match-id d-none"></span>
+                Trận <span class="match-number"></span>
+                <span class="match-code"></span>
+                <span>Chạm <span id="race-to-d2" class="race-to match-raceTo"> </span></span>
+            </div>
+            <div class="match-close">
+                <i class="fa-solid fa-xmark"></i>
+            </div>
+        </div>
+        <div class="details-body">
+            <div class="d-flex justify-content-between">
+                <div class="match-time m-0 mb-3">
+                    <span class="start-date"></span>
+                </div>
+                <div class="match-complete m-0 mb-3">Đang chơi</div>
+            </div>
+            <div class="edit-score">
+                <div class="player-score first">
+                    <div class="player-header" style="width: 200px;">
+                        Nguời chơi
+                    </div>
+                    <div class="player-header text-center" style="width: 120px;">
+                        Điểm
+                    </div>
+                    <div class="player-header text-center" style="width: 120px;">
+                        Trạng thái
+                    </div>
+                </div>
+                <div class="player-score detail mt-2 player1-score">
+                    <div class="player-name player-1">
+                        <div class="p1-id d-none"></div>
+                        <img src="" class="p1-country">  <!-- p1 country -->
+                        <span id="name-d2-1" class="p1-name"></span>    <!-- p1 name -->
+                    </div>
+                    <div class="player-point">
+                        <div class="point-view-bg first-player">
+                            <div id="first-down-btn" class="control-btn point-minus down">-</div>
+                            <span class="point-view first p1-score">0</span>
+                            <div class="control-btn point-plus up">+</div>
+                        </div>
+                    </div>
+                    <div class="player-status p1-status">
+                        <select class="first">
+                            <option value="0">BT</option>
+                            <option value="2">Bỏ giải</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="player-score detail mt-2 player2-score">
+                    <div class="player-name player-2">
+                        <div class="p2-id d-none"></div>
+                        <img src="" class="p2-country">  <!-- p1 country -->
+                        <span id="name-d2-2" class="p2-name"></span>    <!-- p1 name -->
+                    </div>
+                    <div class="player-point">
+                        <div class="point-view-bg second-player">
+                            <div id="second-down-btn" class="control-btn point-minus down">-</div>
+                            <span class="point-view second p2-score">0</span>
+                            <div class="control-btn point-plus up">+</div>
+                        </div>
+                    </div>
+                    <div class="player-status p2-status">
+                        <select class="second">
+                            <option value="0">BT</option>
+                            <option value="2">Bỏ giải</option>
+                        </select>
+                    </div>
+                </div>
+            </div>
+
+            <div class="edit-table mt-4 d-flex">
+                <div>
+                    <div class="d-flex align-items-center">
+                        <div class="table-header">Bàn thi đấu</div>
+                        <div class="table-name">
+                            @*bàn *@
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="d-flex justify-content-center">
+                <div class="save-btn" onclick="saveDataForMatch()">
+                    Lưu
+                </div>
+            </div>
+            <div class="details-next d-flex justify-content-around">
+                <div class="lose-next row">
+                    <div class="col-3">
+                        <i class="fa-solid fa-angles-left"></i>
+                    </div>
+                    <div class="text-center col-9 px-0 lose-text">Thua ()</div>
+                </div>
+                <div class="win-next row">
+                    <div class="text-center col-9 px-0 win-text">Thắng ()</div>
+                    <div class="col-3">
+                        <i class="fa-solid fa-angles-right"></i>
+                    </div>
+                </div>
+            </div>
+            <div id="game-win-1" class="d-none"></div>
+            <div id="game-win-2" class="d-none"></div>
+            <div id="game-win">
+            </div>
+        </div>
+    </div>
+</div>
+<div id="confirm-popup" class="confirm-popup d-none">
+    <div class="confirm-content">
+        <div class="confirm-title">
+            Kết thúc trận đấu.
+        </div>
+        <div class="d-flex justify-content-around">
+            <div class="exit-btn" style="width: 200px;">
+                Hủy
+            </div>
+            <div class="save-random" style="width: 200px;">
+                Kết thúc
+            </div>
+        </div>
+    </div>
+</div>
+
+@*kết thúc quản lý trận -> nên tách thành module*@
+@Html.Partial("_LoadingPartial")
+<script src="~/lib/jquery/dist/jquery.min.js"></script>
+
+<script>
+    //loading screen
+    closeLoad();
+    const winMatchBody = document.getElementById('winer-match-body');
+    //Số lượng người chơi tham gia giải
+    // Gán giá trị cho playerNumber và finalSinglePlayer từ dữ liệu nhận được
+    var playerNumber = $(".numberOfPlayer").text().trim();
+
+    //Số vòng đấu nhánh thắng trước vòng chung kết
+    //(tính theo đấu loại đơn)
+    let roundNumber = Math.log2(playerNumber / 2);
+
+    //Số người chơi vào vòng loại trực tiếp
+    var finalSinglePlayer = $(".knockOutNumber").text().trim();
+
+    //số vòng đấu nhánh thắng tính từ R2 -> R(cuối) vòng loại
+    let finalSingleRound = roundNumber - Math.log2(finalSinglePlayer) + 1;
+    //chiều rộng,cao của match
+    var width = 250;
+    var height = 60;
+    // khoảng cách chiều ngang giữa 2 match
+    var matchDistance = 30;
+    var leftRightSpace = 100;
+    let numberMatchEachRound = 0;
+    let count = 0;
+    var winBody = '';
+
+    for (i = 0; i <= finalSingleRound; i++) {
+        numberMatchEachRound = 2 ** (roundNumber - i);
+        for (j = 0; j < numberMatchEachRound; j++) {
+            if (i == 0) {
+                ++count;
+                winBody += '<div class="match-box done" id="match' + count + '" style=" top:' + (j * 2 * height) + 'px;width: ' + width + 'px; height: ' + height + 'px;">'
+                    + '<div class="match-status d-none"></div>'
+                    + '<div class="match-content row">'
+                    + '<div class="match-number col-2 p-0 text-center">'
+                    + count
+                    + '</div>'
+                    + '<div class="d-none match-id"></div>'
+                    + '<div class="player-match col-8">'
+                    + '<div class="d-flex justify-content-start align-items-center">'
+                    + '<img class="p1country" src="/Images/loading_icon.jpg"/>'
+                    + '<!-- 15 char -->'
+                    + '<div class="player1-name player-name">Loading</div>'
+                    + '<div class="player1-id d-none"></div>'
+                    + '</div>'
+                    + '<div class="d-flex justify-content-start align-items-center">'
+                    + '<img class="p2country" src="/Images/loading_icon.jpg"/>'
+                    + '<!-- 15 char -->'
+                    + '<div class="player2-name player-name">Loading</div>'
+                    + '<div class="player2-id d-none"></div>'
+                    + '</div>'
+                    + '</div>'
+                    + '<div class="col-2">'
+                    + '<div class="match-score player1-score"></div>'
+                    + '<div class="match-score player2-score"></div>'
+                    + '</div>'
+                    + '<div class="match-table d-none">Table <span class="table-number"></span></div>'
+                    + '<div class="match-raceTo">Race to <span class="raceTo-number"></span></div>'
+                    + '<div class="next-match d-flex">'
+                    + '<div class="next-win"><span class="win-match-number"></span></div>'
+                    + '<div class="next-lose"><span class="lose-match-number"></span></div>'
+                    + '</div>'
+                    + '</div>'
+                    + '</div>'
+            } else {
+                ++count;
+                winBody +=
+                    '<div class="line" style="top: ' + (height * (((2 ** i - 1) / 2) + (2 ** (i + 1) * j))) + 'px; left:' + (width * i + matchDistance * (i - 1)) + 'px">'
+                    + '<div class="left-line-win" style="width: ' + matchDistance / 2 + 'px; height: ' + ((2 ** i) * height) + 'px;"></div>'
+                    + '<div class="right-line-win" style="width: ' + matchDistance / 2 + 'px; height: ' + ((2 ** i) * height / 2) + 'px;"></div>'
+                    + '</div>'
+                    + '<div class="match-box" id="match' + count + '" style="top:' + (height * ((2 ** i - 1) + 2 ** (i + 1) * j)) + 'px; left: ' + ((matchDistance + width) * i) + 'px;width: ' + width + 'px; height: ' + height + 'px;">'
+                    + '<div class="match-status d-none"></div>'
+                    + '<div class="match-content row">'
+                    + '<div class="match-number col-2 p-0 text-center">'
+                    + count
+                    + '</div>'
+                    + '<div class="d-none match-id"></div>'
+                    + '<div class="player-match col-8">'
+                    + '<div class="d-flex justify-content-start align-items-center">'
+                    + '<img class="p1country" src="/Images/loading_icon.jpg"/>'
+                    + '<!-- 15 char -->'
+                    + '<div class="player1-name player-name">Loading</div>'
+                    + '<div class="player1-id d-none"></div>'
+                    + '</div>'
+                    + '<div class="d-flex justify-content-start align-items-center">'
+                    + '<img class="p2country" src="/Images/loading_icon.jpg"/>'
+                    + '<!-- 15 char -->'
+                    + '<div class="player2-name player-name">Loading</div>'
+                    + '<div class="player2-id d-none"></div>'
+                    + '</div>'
+                    + '</div>'
+                    + '<div class="col-2">'
+                    + '<div class="match-score player1-score"></div>'
+                    + '<div class="match-score player2-score"></div>'
+                    + '</div>'
+                    + '<div class="match-table d-none">Table <span class="table-number"></span></div>'
+                    + '<div class="match-raceTo">Race to <span class="raceTo-number"></span></div>'
+                    + '<div class="next-match d-flex">'
+                    + '<div class="next-win"><span class="win-match-number"></span></div>'
+                    + '<div class="next-lose"><span class="lose-match-number"></span></div>'
+                    + '</div>'
+                    + '</div>'
+                    + '</div>'
+            }
+        }
+    }
+
+
+
+    const loseMatchBody = document.getElementById('loser-match-body');
+    var loseBody = '';
+    for (i = 1; i <= finalSingleRound; i++) {
+        numberMatchEachRound = 2 ** (roundNumber - i);
+        for (j = 0; j < numberMatchEachRound; j++) {
+            ++count;
+            loseBody +=
+                '<div class="line" style="top: ' + (height * (((2 ** i - 1) / 2) + (2 ** (i + 1) * j))) + 'px; right:' + ((i - 1) * (1.5 * matchDistance + 2 * width)) + 'px">'
+                + '<div class="left-line-lose" style="width: ' + matchDistance / 2 + 'px; height: ' + ((2 ** i) * height / 2) + 'px;"></div>'
+                + '<div class="right-line-lose" style="width: ' + matchDistance / 2 + 'px; height: ' + ((2 ** i) * height) + 'px;"></div>'
+                + '</div>'
+                + '<div class="match-box" id="match' + count + '" style="top:' + (height * ((2 ** i - 1) + 2 ** (i + 1) * j)) + 'px; right: ' + ((1.5 * i - 0.5) * matchDistance + 2 * (i - 1) * width) + 'px;width: ' + width + 'px; height: ' + height + 'px;">'
+                + '<div class="match-status d-none"></div>'
+                + '<div class="match-content row">'
+                + '<div class="match-number col-2 p-0 text-center">'
+                + count
+                + '</div>'
+                + '<div class="d-none match-id"></div>'
+                + '<div class="player-match col-8">'
+                + '<div class="d-flex justify-content-start align-items-center">'
+                + '<img class="p1country" src="/Images/loading_icon.jpg"/>'
+                + '<!-- 15 char -->'
+                + '<div class="player1-name player-name">Loading</div>'
+                + '<div class="player1-id d-none"></div>'
+                + '</div>'
+                + '<div class="d-flex justify-content-start align-items-center">'
+                + '<img class="p2country" src="/Images/loading_icon.jpg"/>'
+                + '<!-- 15 char -->'
+                + '<div class="player2-name player-name">Loading</div>'
+                + '<div class="player2-id d-none"></div>'
+                + '</div>'
+                + '</div>'
+                + '<div class="col-2">'
+                + '<div class="match-score player1-score"></div>'
+                + '<div class="match-score player2-score"></div>'
+                + '</div>'
+                + '<div class="match-table d-none">Table <span class="table-number"></span></div>'
+                + '<div class="match-raceTo">Race to <span class="raceTo-number"></span></div>'
+                + '<div class="next-match d-flex">'
+                + '<div class="next-win"><span class="win-match-number"></span></div>'
+                + '<div class="next-lose"><span class="lose-match-number"></span></div>'
+                + '</div>'
+                + '</div>'
+                + '</div>'
+        }
+        for (j = 0; j < numberMatchEachRound; j++) {
+            ++count;
+            loseBody +=
+                '<div class="between-line" style="top: ' + (height * (((2 ** i - 1) / 2) + (2 ** (i + 1) * j))) + 'px; right:' + ((1.5 * i - 0.5) * matchDistance + (2 * i - 1) * width) + 'px; width: ' + matchDistance / 2 + 'px; height: ' + ((2 ** i) * height / 2) + 'px;"></div>'
+                + '<div class="match-box" id="match' + count + '" style="top: ' + (height * ((2 ** i - 1) + 2 ** (i + 1) * j)) + 'px; right: ' + ((matchDistance * 1.5 * i + width * (2 * i - 1))) + 'px;width: ' + width + 'px; height: ' + height + 'px;">'
+                + '<div class="match-status d-none"></div>'
+                + '<div class="match-content row">'
+                + '<div class="match-number col-2 p-0 text-center">'
+                + count
+                + '</div>'
+                + '<div class="d-none match-id"></div>'
+                + '<div class="player-match col-8">'
+                + '<div class="d-flex justify-content-start align-items-center">'
+                + '<img class="p1country" src="/Images/loading_icon.jpg"/>'
+                + '<!-- 15 char -->'
+                + '<div class="player1-name player-name">Loading</div>'
+                + '<div class="player1-id d-none"></div>'
+                + '</div>'
+                + '<div class="d-flex justify-content-start align-items-center">'
+                + '<img class="p2country" src="/Images/loading_icon.jpg"/>'
+                + '<!-- 15 char -->'
+                + '<div class="player2-name player-name">Loading</div>'
+                + '<div class="player2-id d-none"></div>'
+                + '</div>'
+                + '</div>'
+                + '<div class="col-2">'
+                + '<div class="match-score player1-score"></div>'
+                + '<div class="match-score player2-score"></div>'
+                + '</div>'
+                + '<div class="match-table d-none">Table <span class="table-number"></span></div>'
+                + '<div class="match-raceTo">Race to <span class="raceTo-number"></span></div>'
+                + '<div class="next-match d-flex">'
+                + '<div class="next-win"><span class="win-match-number"></span></div>'
+                + '<div class="next-lose"><span class="lose-match-number"></span></div>'
+                + '</div>'
+                + '</div>'
+                + '</div>'
+        }
+    }
+    loseMatchBody.innerHTML = loseBody;
+
+    for (i = finalSingleRound; i <= roundNumber; i++) {
+        numberMatchEachRound = 2 ** (roundNumber - i);
+        if (i === finalSingleRound) {
+            for (j = 0; j < numberMatchEachRound; j++) {
+                ++count;
+                winBody +=
+                    '<div class="line" style="top: ' + (height * (((2 ** i - 1) / 2) + (2 ** (i + 1) * j))) + 'px; left:' + (width * (i + 1) + matchDistance * i) + 'px">'
+                    + '<div class="right-line-win" style="width: ' + matchDistance / 2 + 'px; height: ' + ((2 ** i) * height / 2) + 'px;"></div>'
+                    + '</div>'
+                    + '<div class="match-box" id="match' + count + '" style="top:' + (height * ((2 ** i - 1) + 2 ** (i + 1) * j)) + 'px; left: ' + (matchDistance * (i + 0.5) + width * (i + 1)) + 'px;width: ' + width + 'px; height: ' + height + 'px;">'
+                    + '<div class="match-status d-none"></div>'
+                    + '<div class="match-content row">'
+                    + '<div class="match-number col-2 p-0 text-center">'
+                    + count
+                    + '</div>'
+                    + '<div class="d-none match-id"></div>'
+                    + '<div class="player-match col-8">'
+                    + '<div class="d-flex justify-content-start align-items-center">'
+                    + '<img class="p1country" src="/Images/loading_icon.jpg"/>'
+                    + '<!-- 15 char -->'
+                    + '<div class="player1-name player-name">Loading</div>'
+                    + '<div class="player1-id d-none"></div>'
+                    + '</div>'
+                    + '<div class="d-flex justify-content-start align-items-center">'
+                    + '<img class="p2country" src="/Images/loading_icon.jpg"/>'
+                    + '<!-- 15 char -->'
+                    + '<div class="player2-name player-name">Loading</div>'
+                    + '<div class="player2-id d-none"></div>'
+                    + '</div>'
+                    + '</div>'
+                    + '<div class="col-2">'
+                    + '<div class="match-score player1-score"></div>'
+                    + '<div class="match-score player2-score"></div>'
+                    + '</div>'
+                    + '<div class="match-table d-none">Table <span class="table-number"></span></div>'
+                    + '<div class="match-raceTo">Race to <span class="raceTo-number"></span></div>'
+                    + '<div class="next-match d-flex">'
+                    + '<div class="next-win"><span class="win-match-number"></span></div>'
+                    + '<div class="next-lose"><span class="lose-match-number"></span></div>'
+                    + '</div>'
+                    + '</div>'
+                    + '</div>'
+            }
+        } else {
+            for (j = 0; j < numberMatchEachRound; j++) {
+                ++count;
+                winBody +=
+                    '<div class="line" style="top: ' + (height * (((2 ** i - 1) / 2) + (2 ** (i + 1) * j))) + 'px; left:' + (width * (i + 1) + matchDistance * (i - 0.5)) + 'px">'
+                    + '<div class="left-line-win" style="width: ' + matchDistance / 2 + 'px; height: ' + ((2 ** i) * height) + 'px;"></div>'
+                    + '<div class="right-line-win" style="width: ' + matchDistance / 2 + 'px; height: ' + ((2 ** i) * height / 2) + 'px;"></div>'
+                    + '</div>'
+                    + '<div class="match-box" id="match' + count + '" style="top:' + (height * ((2 ** i - 1) + 2 ** (i + 1) * j)) + 'px; left: ' + (matchDistance * (i + 0.5) + width * (i + 1)) + 'px;width: ' + width + 'px; height: ' + height + 'px;">'
+                    + '<div class="match-status d-none"></div>'
+                    + '<div class="match-content row">'
+                    + '<div class="match-number col-2 p-0 text-center">'
+                    + count
+                    + '</div>'
+                    + '<div class="d-none match-id"></div>'
+                    + '<div class="player-match col-8">'
+                    + '<div class="d-flex justify-content-start align-items-center">'
+                    + '<img class="p1country" src="/Images/loading_icon.jpg"/>'
+                    + '<!-- 15 char -->'
+                    + '<div class="player1-name player-name">Loading</div>'
+                    + '<div class="player1-id d-none"></div>'
+                    + '</div>'
+                    + '<div class="d-flex justify-content-start align-items-center">'
+                    + '<img class="p2country" src="/Images/loading_icon.jpg"/>'
+                    + '<!-- 15 char -->'
+                    + '<div class="player2-name player-name">Loading</div>'
+                    + '<div class="player2-id d-none"></div>'
+                    + '</div>'
+                    + '</div>'
+                    + '<div class="col-2">'
+                    + '<div class="match-score player1-score"></div>'
+                    + '<div class="match-score player2-score"></div>'
+                    + '</div>'
+                    + '<div class="match-table d-none">Table <span class="table-number"></span></div>'
+                    + '<div class="match-raceTo">Race to <span class="raceTo-number"></span></div>'
+                    + '<div class="next-match d-flex">'
+                    + '<div class="next-win"><span class="win-match-number"></span></div>'
+                    + '<div class="next-lose"><span class="lose-match-number"></span></div>'
+                    + '</div>'
+                    + '</div>'
+                    + '</div>'
+            }
+        }
+
+    }
+    winBody +=
+        '<div class="line" style="left:' + (width * (i + 1) + matchDistance * i) + 'px">'
+        + '<div style="width: 300px;height:10px;"></div>'
+        + '</div>'
+        + '</div>'
+
+    winMatchBody.innerHTML = winBody;
+
+    var startBoxWidth = 0;
+    const lastMatchHeight = document.getElementById('match' + playerNumber / 2);
+    const matchTableElement = lastMatchHeight.querySelector('.match-raceTo');
+    matchTableElement.style.paddingBottom = '200px';
+
+    window.addEventListener('load', centerPosition);
+
+    function centerPosition() {
+        bracketTab.scrollLeft = loseMatchBody.offsetWidth - window.innerWidth / 2 + width / 2;
+    }
+
+    let currentZoom = 0.6;
+
+    let winerWidth;
+    let loserWidth;
+
+    const bracketContent = document.querySelector('.bracket-content');
+    const bracketTab = document.querySelector('.bracket-tab');
+    const zoomInBtn = document.querySelector('.zoom-in');
+    const zoomOutBtn = document.querySelector('.zoom-out');
+
+    zoomInBtn.removeEventListener
+    applyZoom();
+    bindingData();
+
+    function zoomIn() {
+        if (currentZoom <= 1.5) {
+            currentZoom += 0.1;
+            applyZoom();
+            zoomOutBtn.style.opacity = '1';
+            zoomOutBtn.classList.remove('no-hover');
+        } else {
+            zoomInBtn.style.opacity = '0.3';
+            zoomInBtn.classList.add('no-hover');
+        }
+    }
+
+    function zoomOut() {
+        if (currentZoom >= 0.4) {
+            currentZoom -= 0.1;
+            applyZoom();
+            zoomInBtn.style.opacity = '1';
+            zoomInBtn.classList.remove('no-hover');
+        } else {
+            zoomOutBtn.style.opacity = '0.3';
+            zoomOutBtn.classList.add('no-hover');
+        }
+    }
+
+    function applyZoom() {
+        winerWidth = ((roundNumber + 2) * width + (roundNumber + 0.5) * matchDistance) * currentZoom + leftRightSpace;
+        loserWidth = (finalSingleRound * (2 * width + 1.5 * matchDistance)) * currentZoom + leftRightSpace;
+        winMatchBody.style.width = winerWidth + 'px';
+        loseMatchBody.style.width = loserWidth + 300 + 'px';
+        bracketContent.style.transform = `scale(${currentZoom})`;
+        centerPosition();
+    }
+
+    const matchDisplay1 = document.querySelector('#display1');
+    const matchDisplay2 = document.querySelector('#display2');
+    function scrollToElement(elementId) {
+        if (currentZoom !== 1) {
+            currentZoom = 1;
+            applyZoom();
+        }
+
+        if (!matchDisplay1.classList.contains('d-none')) {
+            matchDisplay1.classList.add('d-none');
+        }
+
+        if (!matchDisplay2.classList.contains('d-none')) {
+            matchDisplay2.classList.add('d-none');
+        }
+
+        // Get the element to scroll to by its ID
+        setTimeout(() => {
+            const elementToScrollTo = document.getElementById('match' + elementId);
+            const elementRect = elementToScrollTo.getBoundingClientRect();
+            const parentRect = bracketContent.getBoundingClientRect();
+
+            let distanceToLeft = (elementRect.x - parentRect.x - window.innerWidth / 2 + width / 2 + startBoxWidth / 2);
+            let distanceToTop = elementRect.top - parentRect.top - window.innerHeight / 4;
+
+            bracketTab.scrollTo({
+                left: distanceToLeft,
+                top: distanceToTop,
+                behavior: 'smooth'
+            });
+
+            flashingBox(elementToScrollTo);
+        }, 250);
+    }
+
+    function flashingBox(element) {
+        let count = 0;
+        element.classList.add('flashing');
+        const interval = setInterval(() => {
+            if (count < 3) {
+                if (element.classList.contains('flashing')) {
+                    element.classList.remove('flashing');
+                } else {
+                    element.classList.add('flashing');
+                    count++;
+                }
+            } else {
+                clearInterval(interval);
+            }
+        }, 300);
+        setTimeout(() => {
+            element.classList.remove('flashing');
+        }, 3500);
+    }
+
+    //Handle full screen
+    const containerBracket = document.querySelector('.container-bracket');
+    const header = document.querySelector('header');
+    const screenSize = document.querySelector('.screen-size');
+    const body = document.querySelector('body');
+
+    function fullScreen() {
+        containerBracket.classList.add('full-screen');
+        screenSize.innerHTML = '<button class="zoom-in" onclick="minimized()">'
+            + '<i class="fa-solid fa-compress"></i>'
+            + '</button>';
+        header.classList.add('d-none');
+
+        if (body.requestFullscreen) {
+            body.requestFullscreen();
+        } else if (body.webkitRequestFullscreen) { /* Safari */
+            body.webkitRequestFullscreen();
+        } else if (body.msRequestFullscreen) { /* IE11 */
+            body.msRequestFullscreen();
+        }
+    }
+
+    function minimized() {
+        containerBracket.classList.remove('full-screen');
+        screenSize.innerHTML = '<button class="zoom-in" onclick="fullScreen()">'
+            + '<i class="fa-solid fa-expand"></i>'
+            + '</button>';
+        header.classList.remove('d-none');
+
+        if (document.exitFullscreen) {
+            document.exitFullscreen();
+        } else if (document.webkitExitFullscreen) { /* Safari */
+            document.webkitExitFullscreen();
+        } else if (document.msExitFullscreen) { /* IE11 */
+            document.msExitFullscreen();
+        }
+    }
+
+    //Handle click choose table
+    const openTable = document.querySelector('.open-table');
+
+    if (openTable !== null) {
+        openTable.addEventListener('click', onOffSearchBox);
+    }
+
+    function onOffSearchBox() {
+        if (document.querySelector('.search-box').classList.contains('d-none')) {
+            document.querySelector('.search-box').classList.remove('d-none');
+        } else {
+            document.querySelector('.search-box').classList.add('d-none');
+        }
+    }
+
+    function removeSearchBox() {
+        const searchBox = document.querySelector('.search-box');
+        if (searchBox !== null) {
+            searchBox.remove();
+        }
+    }
+
+    //close popup
+    const popup1 = matchDisplay1.querySelector('.match-close');
+    popup1.addEventListener('click', () => {
+        matchDisplay1.classList.add('d-none');
+        if (document.querySelector('.search-box') !== null && !document.querySelector('.search-box').classList.contains('d-none')) {
+            document.querySelector('.search-box').classList.add('d-none');
+        }
+    })
+
+    const popup2 = matchDisplay2.querySelector('.match-close');
+    popup2.addEventListener('click', () => {
+        matchDisplay2.classList.add('d-none');
+        if (document.querySelector('.search-box') !== null && !document.querySelector('.search-box').classList.contains('d-none')) {
+            document.querySelector('.search-box').classList.add('d-none');
+        }
+    })
+
+    //open popup
+    const matchBoxList = document.querySelectorAll('.match-box');
+    matchBoxList.forEach(element => {
+        element.addEventListener('click', () => {
+            const matchIdElement = element.getElementsByClassName('match-id')[0];
+            const matchId = matchIdElement.innerText.trim();
+            var matchStatus = element.querySelector('.match-status').textContent;
+            if (matchStatus === '0') {
+                getDataForScheduleMatch(matchId);
+                getOpenTable();
+                matchDisplay1.classList.remove('d-none');
+                //matchDisplay1.querySelector('.nameText') = 'Chọn bàn';
+            } else if (matchStatus === '1') {
+                $('.match-complete').text("Đang chơi");
+                selectBoxList.forEach(btn => {
+                    btn.disabled = false;
+                })
+                controlBtns.forEach(btn => {
+                    btn.classList.remove('d-none');
+                })
+                console.log(matchStatus);
+                getDataForMatch(matchId, false);
+                matchDisplay2.classList.remove('d-none');
+                matchDisplay2.querySelector('.save-btn').classList.remove('d-none');
+                var point1 = document.querySelector('.point-view.first');
+                var point2 = document.querySelector('.point-view.second');
+                point1.closest('.player-score').classList.remove('win');
+                point2.closest('.player-score').classList.remove('lose');
+                selectBoxList.forEach(btn => {
+                    btn.disabled = false;
+                });
+                document.querySelectorAll('.player-score.detail').forEach(player => {
+                    if (player.classList.contains('win')) {
+                        player.classList.remove('win');
+                    }
+                    if (player.classList.contains('lose')) {
+                        player.classList.remove('lose');
+                    }
+                })
+            } else if (matchStatus === '2') {
+                $('.match-complete').text("Kết thúc");
+                matchDisplay2.classList.remove('d-none');
+                getDataForMatch(matchId, true);
+                controlBtns.forEach(btn => {
+                    btn.classList.add('d-none');
+                })
+                matchDisplay2.querySelector('.save-btn').classList.add('d-none');
+                selectBoxList.forEach(btn => {
+                    btn.disabled = true;
+                });
+                removeEmptyScoreTable();
+            }
+        })
+    });
+
+    //Handle start popup
+    const startBtn = document.querySelector('.start-btn');
+    const startPopup = document.querySelector('.start-display');
+    const startCloseBtn = document.querySelector('.start-close');
+    const startOkBtn = document.querySelector('.ok-start');
+    const startCancleBtn = document.querySelector('.cancle-start');
+    const startTour = document.querySelector('.start-tour');
+    if (!startTour.classList.contains('d-none')) {
+        startBoxWidth = 300;
+    }
+
+    startBtn.addEventListener('click', () => {
+        startPopup.classList.remove('d-none');
+    });
+
+    startCloseBtn.addEventListener('click', () => {
+        startPopup.classList.add('d-none');
+    });
+
+    startCancleBtn.addEventListener('click', () => {
+        startPopup.classList.add('d-none');
+    });
+
+    startOkBtn.addEventListener('click', () => {
+        startTour.classList.add('d-none');
+        startPopup.classList.add('d-none');
+        startBoxWidth = 0;
+    })
+
+    //Handle click table
+    function handleClickTable() {
+        const tableList = document.querySelectorAll('.table-name .player-name');
+        tableList.forEach(table => {
+            table.addEventListener('click', () => {
+                let tableName = table.querySelector('span').textContent;
+                const parent3 = table.parentNode.parentNode.parentNode;
+                const parent2 = table.parentNode.parentNode;
+                const tableId = table.querySelector('.table-id');
+                if (parent2.classList.contains('open-table')) {
+                    // mở bàn để đánh
+                    const nameInput = parent3.querySelector('.nameText');
+                    nameInput.textContent = tableName;
+                    nameInput.appendChild(tableId.cloneNode(true));
+                    if (parent3.querySelector('.cancle-table') === null) {
+                        var removeOpen = document.createElement('div');
+                        removeOpen.classList.add('cancle-table', 'open');
+
+                        var removeIcon = document.createElement('i');
+                        removeIcon.classList.add('fa-solid', 'fa-xmark');
+                        removeOpen.appendChild(removeIcon);
+
+                        parent3.appendChild(removeOpen);
+
+                        removeOpen.addEventListener('click', () => {
+                            nameInput.textContent = 'Chọn bàn';
+                            parent3.removeChild(removeOpen);
+                            removeBtnSaveAndStart();
+                        })
+                    }
+
+                    saveBtn.classList.add('d-none');
+                    if (startMatchBtn !== null) {
+                        startMatchBtn.classList.remove('d-none');
+                    }
+                }
+            });
+        });
+    }
+
+    const startMatchBtn = document.querySelector('.start-match-btn');
+    const saveBtn = document.querySelector('.save-btn');
+
+    removeBtnSaveAndStart();
+    function removeBtnSaveAndStart() {
+        if (startMatchBtn !== null) {
+            startMatchBtn.classList.add('d-none');
+        }
+        saveBtn.classList.add('d-none');
+    }
+
+    if (startMatchBtn !== null) {
+        startMatchBtn.addEventListener('click', () => {
+            startMatch();
+            selectBoxList.forEach(btn => {
+                btn.disabled = false;
+            });
+            controlBtns.forEach(btn => {
+                btn.classList.remove('d-none');
+            });
+            console.log("nguoi dung da bam vao day");
+            startMatchBtn.classList.add('d-none');
+            saveBtn.classList.remove('d-none');
+            const removeOpen = document.querySelector('.cancle-table');
+            removeOpen.classList.add('d-none');
+            matchDisplay1.classList.add('d-none');
+            matchDisplay2.classList.remove('d-none');
+            var matchNumber = matchDisplay1.querySelector('.match-number');
+            document.getElementById('match' + matchNumber.textContent).querySelector('.match-status').textContent = '1';
+        })
+    }
+
+    // binding dữ liệu
+    function bindingData() {
+        openLoad();
+        var tourId = $(".tourId").text().trim();
+        $.ajax({
+            url: 'https://localhost:5000/api/MatchOfTour/GetMatchForBracket',
+            method: 'GET',
+            data: { tourId: tourId },
+            success: function (data) {
+                var matches = data;
+                matches.forEach(function (match) {
+                    var matchTourId = match.matchId;
+                    var count = match.matchNumber;
+                    var player1Name = match.p1Name;
+                    var player2Name = match.p2Name;
+                    var player1Country = match.p1Country;
+                    var player2Country = match.p2Country;
+                    var player1Score = match.p1Score;
+                    var player2Score = match.p2Score;
+                    var tableNumber = match.tableNumber;
+                    var raceToNumber = match.raceToNumber;
+                    var winMatchNumber = match.winNextMatch;
+                    var loseMatchNumber = match.loseNextMatch;
+                    var matchStatus = match.matchStatus;
+
+                    // Find the corresponding match box element by ID
+                    var matchId = 'match' + count;
+                    var matchBox = document.getElementById(matchId);
+
+                    if (matchBox) {
+                        // Update the inner HTML of the elements with new data
+                        if (matchTourId !== null && matchTourId !== undefined) {
+                            matchBox.querySelector('.match-id').innerText = matchTourId;
+                        } else {
+                            matchBox.querySelector('.match-id').innerText = "";
+                        }
+
+                        if (matchStatus !== null && matchStatus !== undefined) {
+                            matchBox.querySelector('.match-status').innerText = matchStatus;
+                        } else {
+                            matchBox.querySelector('.match-status').innerText = "";
+                        }
+
+                        if (player1Name !== null && player1Name !== undefined) {
+                            matchBox.querySelector('.player1-name').innerText = player1Name;
+                        } else {
+                            matchBox.querySelector('.player1-name').innerText = "TBD";
+                        }
+
+                        if (player2Name !== null && player2Name !== undefined) {
+                            matchBox.querySelector('.player2-name').innerText = player2Name;
+                        } else {
+                            matchBox.querySelector('.player2-name').innerText = "TBD";
+                        }
+
+                        var player1CountryImg = matchBox.querySelector('.p1country');
+                        var player2CountryImg = matchBox.querySelector('.p2country');
+
+
+                        if (player1CountryImg) {
+                            if (player1Country !== null) {
+                                player1CountryImg.src = player1Country;
+                                player1CountryImg.style.display = "inline";
+                            } else {
+                                player1CountryImg.style.display = "none";
+                            }
+                        }
+
+                        if (player2CountryImg) {
+                            if (player2Country !== null) {
+                                player2CountryImg.src = player2Country;
+                                player2CountryImg.style.display = "inline";
+                            } else {
+                                player2CountryImg.style.display = "none";
+                            }
+                        }
+
+                        if (player1Score !== null && player1Score !== undefined) {
+                            matchBox.querySelector('.player1-score').innerText = player1Score;
+                        } else {
+                            matchBox.querySelector('.player1-score').innerText = "";
+                        }
+
+                        if (player2Score !== null && player2Score !== undefined) {
+                            matchBox.querySelector('.player2-score').innerText = player2Score;
+                        } else {
+                            matchBox.querySelector('.player2-score').innerText = "";
+                        }
+
+                        if (tableNumber !== null && tableNumber !== undefined) {
+                            matchBox.querySelector('.table-number').innerText = tableNumber;
+                        } else {
+                            matchBox.querySelector('.table-number').innerText = "N/A";
+                        }
+
+                        if (raceToNumber !== null && raceToNumber !== undefined) {
+                            matchBox.querySelector('.raceTo-number').innerText = raceToNumber;
+                        } else {
+                            matchBox.querySelector('.raceTo-number').innerText = "_";
+                        }
+
+                        if (winMatchNumber > 0) {
+                            matchBox.querySelector('.win-match-number').innerText = 'W: ' + winMatchNumber;
+                        }
+                        if (loseMatchNumber > 0) {
+                            matchBox.querySelector('.lose-match-number').innerText = ', L: ' + loseMatchNumber;
+                        }
+
+                        // Update the player IDs
+                        var player1IdElements = matchBox.getElementsByClassName('player1-id');
+                        var player2IdElements = matchBox.getElementsByClassName('player2-id');
+                        if (player1IdElements.length > 0) {
+                            player1IdElements[0].innerText = match.P1Id;
+                        }
+                        if (player2IdElements.length > 0) {
+                            player2IdElements[0].innerText = match.P2Id;
+                        }
+                    }
+                });
+                closeLoad();
+            },
+            error: function (xhr, textStatus, errorThrown) {
+                closeLoad();
+                console.log('Error:', errorThrown);
+            }
+        });
+    }
+
+    // Lấy bàn đang đánh để binding
+    function getOpenTable() {
+        var clubId = $(".clubId").text().trim();
+        $.ajax({
+            url: 'https://localhost:5000/api/Table/GetTableNotInUse',
+            method: 'GET',
+            data: { clubId: clubId },
+            success: function (data) {
+                var tableBox = document.querySelector('.search-box');
+                if (tableBox !== null && tableBox !== undefined) {
+                    tableBox.remove();
+                }
+                var searchBox = document.createElement('div');
+                searchBox.classList.add('search-box');
+                searchBox.classList.add('d-none');
+                console.log("chay vao cho nay");
+                for (var i = 0; i < data.length; i++) {
+                    var playerContainer = document.createElement('div');
+                    playerContainer.classList.add('player-name');
+
+                    var span = document.createElement('span');
+                    span.textContent = data[i].tagName;
+                    playerContainer.appendChild(span);
+
+                    var tableId = document.createElement('div');
+                    tableId.textContent = data[i].tableId;
+                    tableId.classList.add('d-none', 'table-id');
+                    playerContainer.appendChild(tableId);
+
+                    searchBox.appendChild(playerContainer);
+                }
+                openTable.appendChild(searchBox);
+                handleClickTable();
+            },
+            error: function (xhr, textStatus, errorThrown) {
+                console.log('Error:', errorThrown);
+            }
+        });
+    }
+
+
+    // Lấy dữ liệu cài đặt lịch cho bàn
+    function getDataForScheduleMatch(matchId) {
+        openLoad();
+        $.ajax({
+            url: 'https://localhost:5000/api/MatchOfTour/GetMatchForSchedule',
+            method: 'GET',
+            data: { matchId: matchId },
+            success: function (data) {
+                // Tìm thẻ cha có class là popup-schedule
+                var $popupSchedule = $('.popup-schedule');
+
+                // Gán dữ liệu từ DTO vào các phần tử HTML bên trong thẻ cha
+                $popupSchedule.find('.match-id').text(matchId);
+                $popupSchedule.find('.match-number').text(data.matchNumber);
+                $popupSchedule.find('.match-code').text(data.matchCode);
+                $popupSchedule.find('.match-raceTo').text(data.raceTo);
+                $popupSchedule.find('.p1-country').attr('src', data.p1Country); // src của hình ảnh p1 country
+                $popupSchedule.find('.p1-name').text(data.p1Name);
+                $popupSchedule.find('.p2-country').attr('src', data.p2Country); // src của hình ảnh p2 country
+                $popupSchedule.find('.p2-name').text(data.p2Name);
+                var loseButton = $popupSchedule.find('.lose-next');
+                var winButton = $popupSchedule.find('.win-next');
+                if (data.loseToMatch === 0) {
+                    if (!loseButton.hasClass("d-none")) {
+                        loseButton.addClass("d-none");
+                    }
+                }
+                else {
+                    if (loseButton.hasClass("d-none")) {
+                        loseButton.removeClass("d-none");
+                    }
+                    loseButton.find(".lose-text").text("Thua (" + data.loseToMatch + ")");
+                    loseButton.off('click');
+                    loseButton.click(function () {
+                        scrollToElement(data.loseToMatch);
+                    });
+                }
+
+                if (data.winToMatch === 0) {
+                    if (!winButton.hasClass("d-none")) {
+                        winButton.addClass("d-none");
+                    }
+                }
+                else {
+                    if (winButton.hasClass("d-none")) {
+                        winButton.removeClass("d-none");
+                    }
+                    winButton.find(".win-text").text("Thắng (" + data.winToMatch + ")");
+                    winButton.off('click');
+                    winButton.click(function () {
+                        scrollToElement(data.winToMatch);
+                    });
+                }
+                closeLoad();
+            },
+            error: function (xhr, textStatus, errorThrown) {
+                console.log('Error:', errorThrown);
+                closeLoad();
+            }
+        });
+
+    }
+
+    function startMatch() {
+        var display1 = document.getElementById('display1');
+        var matchId;
+        var tableId;
+        if (display1) {
+            // Tìm phần tử con có lớp là "match-id" bên trong phần tử cha
+            var matchIdElement = display1.querySelector('.match-id');
+
+            var tableIdElement = display1.querySelector('.table-id');
+            // Kiểm tra xem phần tử con có tồn tại không
+            if (matchIdElement) {
+                // Lấy giá trị text của phần tử con
+                matchId = matchIdElement.textContent.trim();
+            }
+
+            if (tableIdElement) {
+                // Lấy giá trị text của phần tử con
+                tableId = tableIdElement.textContent.trim();
+            } else {
+                tableId = -1;
+            }
+
+            var dataToSend = {
+                matchId: matchId,
+                tableId: tableId
+            };
+            //console.log(123);
+            // cập nhật trạng thái trận đấu
+            $.ajax({
+                url: 'https://localhost:5000/api/MatchOfTour/StartMatch',
+                method: 'POST',
+                data: JSON.stringify(dataToSend),
+                contentType: 'application/json',
+                success: function (data) {
+                    getDataForMatch(matchId, true);
+                },
+                error: function (xhr, textStatus, errorThrown) {
+                    console.log('Error:', errorThrown);
+                }
+            });
+        }
+    }
+
+    // Lấy dữ liệu điều khiển trận đấu
+    function getDataForMatch(matchId, endMatch) {
+        openLoad();
+        $.ajax({
+            url: 'https://localhost:5000/api/MatchOfTour/GetMatchForControl',
+            method: 'GET',
+            data: { matchId: matchId },
+            success: function (data) {
+                // Tìm thẻ cha có class là popup-control
+                //console.log(data);
+                var $popupControl = $('.popup-control');
+                // Gán dữ liệu từ DTO vào các phần tử HTML bên trong thẻ cha
+                $popupControl.find('.match-id').text(matchId);
+                $popupControl.find('.match-number').text(data.matchNumber);
+                $popupControl.find('.match-code').text(data.matchCode);
+                $popupControl.find('.match-raceTo').text(data.raceTo);
+                $popupControl.find('.p1-country').attr('src', data.p1Country); // src của hình ảnh p1 country
+                $popupControl.find('.p1-id').text(data.p1Id);
+                $popupControl.find('.p1-name').text(data.p1Name);
+                if (data.p1Score !== null && data.p1Score !== undefined && data.p1Score.trim() !== "") {
+                    $popupControl.find('.p1-score').text(data.p1Score);
+
+                } else {
+                    $popupControl.find('.p1-score').text(0);
+                }
+                $popupControl.find('.p2-country').attr('src', data.p2Country); // src của hình ảnh p2 country
+                $popupControl.find('.p2-id').text(data.p2Id);
+                $popupControl.find('.p2-name').text(data.p2Name);
+                if (data.p2Score !== null && data.p2Score !== undefined && data.p2Score.trim() !== "") {
+                    $popupControl.find('.p2-score').text(data.p2Score);
+                } else {
+                    $popupControl.find('.p2-score').text(0);
+                }
+                if (data.p1Status == 3) {
+                    data.p1Status = 0;
+                }
+                if (data.p2Status == 3) {
+                    data.p2Status = 0;
+                }
+                $popupControl.find('.p1-status').find('.first').val(data.p1Status);
+                $popupControl.find('.p2-status').find('.second').val(data.p2Status);
+                $popupControl.find('#game-win-1').text(data.p1GameWin);
+                $popupControl.find('#game-win-2').text(data.p2GameWin);
+
+                if (data.tableName !== null && data.tableName !== undefined) {
+                    $popupControl.find('.table-name').text(data.tableName);
+                } else {
+                    $popupControl.find('.table-name').text("Not Determine");
+                }
+                var loseButton = $popupControl.find('.lose-next');
+                var winButton = $popupControl.find('.win-next');
+                if (data.loseToMatch === 0) {
+                    if (!loseButton.hasClass("d-none")) {
+                        loseButton.addClass("d-none");
+                    }
+                }
+                else {
+                    if (loseButton.hasClass("d-none")) {
+                        loseButton.removeClass("d-none");
+                    }
+                    loseButton.find(".lose-text").text("Thua (" + data.loseToMatch + ")");
+                    loseButton.off('click');
+                    loseButton.click(function () {
+                        scrollToElement(data.loseToMatch);
+                    });
+                }
+
+                if (data.winToMatch === 0) {
+                    if (!winButton.hasClass("d-none")) {
+                        winButton.addClass("d-none");
+                    }
+                }
+                else {
+                    if (winButton.hasClass("d-none")) {
+                        winButton.removeClass("d-none");
+                    }
+                    winButton.find(".win-text").text("Thắng (" + data.winToMatch + ")");
+                    winButton.off('click');
+                    winButton.click(function () {
+                        scrollToElement(data.winToMatch);
+                    });
+                }
+
+                if (endMatch === true) {
+                    var player1Score = $popupControl.find('.player1-score');
+                    var player2Score = $popupControl.find('.player2-score');
+
+                    if (player1Score.hasClass("win")) {
+                        player1Score.removeClass("win");
+                    }
+                    if (player1Score.hasClass("lose")) {
+                        player1Score.removeClass("lose");
+                    }
+
+                    if (player2Score.hasClass("win")) {
+                        player2Score.removeClass("win");
+                    }
+                    if (player2Score.hasClass("lose")) {
+                        player2Score.removeClass("lose");
+                    }
+                    var p1Score;
+                    var p2Score
+                    if (data.p1Score !== null && data.p1Score !== undefined && data.p1Score.trim() !== "") {
+                        p1Score = parseInt(data.p1Score);
+                    } else {
+                        p1Score = 0;
+                    }
+                    if (data.p2Score !== null && data.p2Score !== undefined && data.p2Score.trim() !== "") {
+                        p2Score = parseInt(data.p2Score);
+                    } else {
+                        p2Score = 0;
+                    }
+
+                    if (p1Score > p2Score) {
+                        player1Score.addClass("win");
+                        player2Score.addClass("lose");
+                    }
+                    if (p1Score < p2Score) {
+                        player1Score.addClass("lose");
+                        player2Score.addClass("win");
+                    }
+                }
+
+                // nếu có bot thì tắt hết phím điều khiển hoặc có người đầu hàng
+                if (data.p1Name == 'BOT' || data.p2Name == 'BOT'
+                    || data.p1Status == 2 || data.p2Status == 2) {
+                    selectBoxList.forEach(btn => {
+                        if (!btn.disabled) {
+                            btn.disabled = true;
+                        }
+                    });
+                    controlBtns.forEach(btn => {
+                        if (!btn.classList.contains('d-none')) {
+                            btn.classList.add('d-none');
+                        }
+                    });
+                }
+
+                bindingGameWin();
+                onOffSelectBox();
+                closeLoad();
+            },
+            error: function (xhr, textStatus, errorThrown) {
+                console.log('Error:', errorThrown);
+                closeLoad();
+            }
+        });
+
+    }
+
+    // Lưu dữ liệu trận đấu
+    function saveDataForMatch() {
+        var data = {};
+        openLoad();
+        var $popupControl = $('.popup-control');
+        data.matchId = $popupControl.find('.match-id').text();
+        data.p1Id = $popupControl.find('.p1-id').text();
+        data.p2Id = $popupControl.find('.p2-id').text();
+        data.p1Score = $popupControl.find('.p1-score').text();
+        data.p2Score = $popupControl.find('.p2-score').text();
+        data.p1Status = $popupControl.find('.p1-status').find('.first').val();
+        data.p2Status = $popupControl.find('.p2-status').find('.second').val();
+        data.p1GameWin = $popupControl.find('#game-win-1').text();
+        data.p2GameWin = $popupControl.find('#game-win-2').text();
+        //console.log(data);
+        $.ajax({
+            url: 'https://localhost:5000/api/MatchOfTour/SaveMatch',
+            method: 'POST',
+            data: JSON.stringify(data),
+            contentType: 'application/json',
+            success: function (data) {
+                bindingData();
+                closeLoad();
+                if ($popupControl.find('.p1-name').text() == 'BOT'
+                    || $popupControl.find('.p2-name').text() == 'BOT') {
+                    matchDisplay2.classList.add('d-none');
+                }
+            },
+            error: function (xhr, textStatus, errorThrown) {
+                console.log('Error:', errorThrown);
+            }
+        });
+        bindingData();
+        if ($popupControl.find('.p1-status').find('.first').val() == 2
+            || $popupControl.find('.p2-status').find('.second').val() == 2) {
+            matchDisplay2.classList.add('d-none');
+        }
+    }
+
+    // kết thúc trận đấu
+    function endMatch() {
+        openLoad();
+        var data = {};
+        var $popupControl = $('.popup-control');
+        data.matchId = $popupControl.find('.match-id').text();
+        data.p1Id = $popupControl.find('.p1-id').text();
+        data.p2Id = $popupControl.find('.p2-id').text();
+        data.p1Score = $popupControl.find('.p1-score').text();
+        data.p2Score = $popupControl.find('.p2-score').text();
+        data.p1Status = $popupControl.find('.p1-status').find('.first').val();
+        data.p2Status = $popupControl.find('.p2-status').find('.second').val();
+        data.p1GameWin = $popupControl.find('#game-win-1').text();
+        data.p2GameWin = $popupControl.find('#game-win-2').text();
+        //console.log(data);
+        //console.log("data above");
+        $.ajax({
+            url: 'https://localhost:5000/api/MatchOfTour/CloseMatch',
+            method: 'POST',
+            data: JSON.stringify(data),
+            contentType: 'application/json',
+            success: function (data) {
+                bindingData();
+                getOpenTable();
+            },
+            error: function (xhr, textStatus, errorThrown) {
+                console.log('Error:', errorThrown);
+            }
+        });
+    }
+</script>
+
+
+<script>
+
+    const controlBtns = document.querySelectorAll('.control-btn');
+    const popupFinish = document.getElementById('confirm-popup');
+    const firstDown = document.getElementById('first-down-btn');
+    const secondDown = document.getElementById('second-down-btn');
+    const selectBoxList = document.querySelectorAll('.player-status select');
+    var totalScoreNumber = 0;
+    var gameWin1OpenPopup = '';
+    var gameWin2OpenPopup = '';
+    var gameWin1 = '';
+    var gameWin2 = '';
+
+    controlBtns.forEach(controlBtn => {
+        controlBtn.addEventListener('click', () => {
+            const parent = controlBtn.parentNode;
+            var score = parent.querySelector('.point-view');
+            var scoreNumber = score.textContent;
+            var playerTag = 0;
+            var raceToNumber = parseInt(matchDisplay2.querySelector('.race-to').textContent);
+
+            if (parent.classList.contains('first-player')) {
+                playerTag = 1;
+            } else {
+                playerTag = 2;
+            }
+
+            if (controlBtn.classList.contains('up')) {
+                if (parseInt(scoreNumber) < (raceToNumber - 1)) {
+                    score.textContent = parseInt(scoreNumber) + 1;
+                    updateScore();
+                    updateMark(2, playerTag);
+                    onOffDownBtn();
+                }
+                if (parseInt(scoreNumber) + 1 === raceToNumber) {
+                    popupFinish.classList.remove('d-none');
+                    matchDisplay2.classList.add('d-none');
+                    popupFinish.querySelector('.exit-btn').addEventListener('click', () => {
+                        popupFinish.classList.add('d-none');
+                        matchDisplay2.classList.remove('d-none');
+                        popupFinish.querySelector('.save-random').removeEventListener('click', finishMatch);
+                    })
+                    popupFinish.querySelector('.save-random').addEventListener('click', finishMatch);
+                    function finishMatch() {
+                        matchDisplay2.classList.remove('d-none');
+                        if (controlBtns.length > 0) {
+                            controlBtns.forEach(btn => {
+                                btn.classList.add('d-none');
+                            })
+                        }
+
+                        score.textContent = parseInt(scoreNumber) + 1;
+                        matchDisplay2.querySelector('.save-btn').classList.add('d-none');
+                        popupFinish.classList.add('d-none');
+                        updateScore();
+                        updateMark(2, playerTag);
+                        updateScoreEachTable();
+
+                        parent.parentNode.parentNode.classList.add('win');
+                        document.querySelectorAll('.player-score.detail').forEach(player => {
+                            if (!player.classList.contains('win')) {
+                                player.classList.add('lose');
+                            }
+                        })
+                        removeEmptyScoreTable();
+                        selectBoxList.forEach(btn => {
+                            btn.disabled = true;
+                        })
+                        endMatch();
+                        popupFinish.querySelector('.save-random').removeEventListener('click', finishMatch);
+                    }
+                }
+            } else if (controlBtn.classList.contains('down') && parseInt(scoreNumber) > 0) {
+                score.textContent = parseInt(scoreNumber) - 1;
+                updateMark(1, playerTag);
+                updateScore();
+                onOffDownBtn();
+            }
+            updateScoreEachTable();
+        })
+    })
+
+    function updateScore() {
+        const firstScore = document.querySelector('.point-view.first');
+        const secondScore = document.querySelector('.point-view.second');
+
+        var firstScoreNumber = parseInt(firstScore.textContent);
+        var secondScoreNumber = parseInt(secondScore.textContent);
+        totalScoreNumber = firstScoreNumber + secondScoreNumber;
+    }
+
+    function onOffDownBtn() {
+        if (totalScoreNumber > 0) {
+            const setBox = document.getElementById('set-' + totalScoreNumber);
+            if (setBox !== null) {
+                const firstMark = setBox.querySelector('.first-mark');
+                const secondMark = setBox.querySelector('.second-mark');
+
+                if (firstMark.querySelector('i') !== null) {
+                    firstDown.classList.remove('disable');
+                } else {
+                    firstDown.classList.add('disable');
+                }
+
+                if (secondMark.querySelector('i') !== null) {
+                    secondDown.classList.remove('disable');
+                } else {
+                    secondDown.classList.add('disable');
+                }
+            }
+        } else {
+            firstDown.classList.add('disable');
+            secondDown.classList.add('disable');
+        }
+    }
+
+    function updateMark(controlTag, playerTag) {
+        if (totalScoreNumber > 0) {
+            const setBox = document.getElementById('set-' + totalScoreNumber);
+            if (setBox !== null) {
+                if (controlTag === 1) {
+                    if (playerTag === 1) {
+                        setBox.querySelector('.first-mark').innerHTML =
+                            '<span>&nbsp;</span>';
+                        var splitString1 = document.getElementById('game-win-1').textContent.split(',');
+                        gameWin1 = splitString1.length > 1 ? splitString1[0] : '';
+                        for (var i = 1; i < splitString1.length; i++) {
+                            if (parseInt(splitString1[i]) < totalScoreNumber) {
+                                gameWin1 += ',' + splitString1[i];
+                            }
+                        }
+                        document.getElementById('game-win-1').textContent = gameWin1;
+                    } else if (playerTag === 2) {
+                        setBox.querySelector('.second-mark').innerHTML =
+                            '<span>&nbsp;</span>';
+                        var splitString2 = document.getElementById('game-win-2').textContent.split(',');
+                        gameWin2 = splitString2.length > 1 ? splitString2[0] : '';
+                        for (var i = 1; i < splitString2.length; i++) {
+                            if (parseInt(splitString2[i]) < totalScoreNumber) {
+                                gameWin2 += ',' + splitString2[i];
+                            }
+                        }
+                        document.getElementById('game-win-2').textContent = gameWin2;
+                    }
+                } else {
+                    if (playerTag === 1) {
+                        setBox.querySelector('.first-mark').innerHTML =
+                            '<span><i class="fa-solid fa-xmark">';
+                        if (gameWin1 == '') {
+                            gameWin1 = totalScoreNumber;
+                        } else {
+                            gameWin1 += ',' + totalScoreNumber;
+                        }
+                        document.getElementById('game-win-1').textContent = gameWin1;
+                    } else if (playerTag === 2) {
+                        setBox.querySelector('.second-mark').innerHTML =
+                            '<span><i class="fa-solid fa-xmark">';
+                        if (gameWin2 == '') {
+                            gameWin2 = totalScoreNumber;
+                        } else {
+                            gameWin2 += ',' + totalScoreNumber;
+                        }
+                        document.getElementById('game-win-2').textContent = gameWin2;
+                    }
+                }
+            }
+        }
+    }
+
+    const detailScoreList = document.querySelectorAll('.detail-score');
+    function removeEmptyScoreTable() {
+        if (document.querySelector('.player-score.detail').classList.contains('win')
+            || document.querySelector('.player-score.detail').classList.contains('lose')) {
+            var maxSetNumber = 0;
+            for (var i = (detailScoreList.length - 1); i > totalScoreNumber; i--) {
+                if (i % 15 === 1) {
+                    const setBox = document.getElementById('set-' + i);
+                    if (setBox !== null) {
+                        const firstMark = setBox.querySelector('.first-mark');
+                        const secondMark = setBox.querySelector('.second-mark');
+
+                        if (firstMark.querySelector('i') === null
+                            && secondMark.querySelector('i') === null) {
+                            setBox.parentNode.remove();
+                        }
+                        maxSetNumber = i;
+                    }
+                }
+            }
+
+            for (var i = totalScoreNumber + 1; i < maxSetNumber; i++) {
+                const setBox = document.getElementById('set-' + i);
+                setBox.innerHTML = '<div class="round-score board-line"><span>&nbsp;</span></div>'
+                    + '<div class="board-line first-mark"><span>&nbsp;</i></span></div>'
+                    + '<div class="second-mark"><span>&nbsp;</span></div>';
+            }
+        }
+    }
+
+    function updateScoreEachTable() {
+        const scoreBoardList = document.querySelectorAll('.score-board');
+        var countWinFisrtLine;
+        var countWinSecondLine;
+        scoreBoardList.forEach(scoreBoard => {
+            countWinFisrtLine = 0;
+            countWinSecondLine = 0;
+            const firstTotal = scoreBoard.querySelector('.first-total-score');
+            const secondTotal = scoreBoard.querySelector('.second-total-score');
+            const detailScoreList = scoreBoard.querySelectorAll('.detail-score');
+            detailScoreList.forEach(detailScore => {
+                if (detailScore.querySelector('.first-mark').querySelector('i') !== null) {
+                    countWinFisrtLine++;
+                } else if (detailScore.querySelector('.second-mark').querySelector('i') !== null) {
+                    countWinSecondLine++;
+                }
+            })
+            firstTotal.textContent = countWinFisrtLine;
+            secondTotal.textContent = countWinSecondLine;
+        })
+    }
+
+    //binding game win
+    function bindingGameWin() {
+        const gameWinBox = document.getElementById('game-win');
+        var name1 = '';
+        var name2 = '';
+        var race = '';
+        if (!matchDisplay1.classList.contains('d-none')) {
+            name1 = document.getElementById('name-d1-1').textContent;
+            name2 = document.getElementById('name-d1-2').textContent;
+            race = document.getElementById('race-to-d1').textContent;
+        } else if (!matchDisplay2.classList.contains('d-none')) {
+            name1 = document.getElementById('name-d2-1').textContent;
+            name2 = document.getElementById('name-d2-2').textContent;
+            race = document.getElementById('race-to-d2').textContent;
+        }
+        gameWin1OpenPopup = document.getElementById('game-win-1').textContent;
+        gameWin2OpenPopup = document.getElementById('game-win-2').textContent;
+
+        gameWin1 = gameWin1OpenPopup;
+        gameWin2 = gameWin2OpenPopup;
+        var setInLine = 15;
+        var totalSet = race * 2 - 1;
+
+        var countSet = 0;
+        var lineHTML = '';
+        for (var i = 0; i <= (Math.floor(totalSet / setInLine)); i++) {
+            lineHTML += '<div class="score-board d-flex align-items-end">'
+                + '<div class="name-board">'
+                + '<div class="board-line"><span>' + name1 + '</span></div>'
+                + '<div><span>' + name2 + '</span></div>'
+                + '</div>'
+                + '<div class="general-score">'
+                + '<div class="board-line px-2"><span>Điểm</span></div>'
+                + '<div class="text-center board-line"><span class="first-total-score">0</span></div>'
+                + '<div class="text-center"><span class="second-total-score">0</span></div>'
+                + '</div>';
+            for (var j = 0; j < setInLine; j++) {
+                countSet++;
+                var countTemp = countSet;
+                if (countSet > totalSet) {
+                    countTemp = '&nbsp;';
+                }
+                lineHTML += '<div id="set-' + countSet + '" class="detail-score">'
+                    + '<div class="round-score board-line"><span>' + countTemp + '</span></div>'
+                    + '<div class="board-line first-mark"><span>&nbsp;</i></span></div>'
+                    + '<div class="second-mark"><span>&nbsp;</span></div>'
+                    + '</div>';
+            }
+            lineHTML += '</div>';
+        }
+        gameWinBox.innerHTML = lineHTML;
+
+        if (gameWin1OpenPopup !== '') {
+            gameWin1.split(',').forEach(set => {
+                document.getElementById('set-' + set)
+                    .querySelector('.first-mark').innerHTML =
+                    '<span><i class="fa-solid fa-xmark">';
+            })
+        }
+
+        if (gameWin2OpenPopup !== '') {
+            gameWin2.split(',').forEach(set => {
+                document.getElementById('set-' + set)
+                    .querySelector('.second-mark').innerHTML =
+                    '<span><i class="fa-solid fa-xmark">';
+            })
+        }
+        console.log("gamewin");
+        updateScore();
+        onOffDownBtn();
+        updateScoreEachTable();
+    }
+
+    function checkGameWinChange() {
+        if (gameWin1 == gameWin1OpenPopup && gameWin2 == gameWin2OpenPopup) {
+            saveBtn.classList.add('disable');
+        } else {
+            saveBtn.classList.remove('disable');
+        }
+    }
+
+    selectBoxList.forEach(select => {
+        console.log("chayvaochonay");
+        select.addEventListener('change', () => {
+            console.log("chayvaochonay");
+            saveBtn.classList.remove('disable');
+            var selectValue = select.value;
+            const selectFirst = document.querySelector('select.first');
+            const selectSecond = document.querySelector('select.second');
+            const parentFirst = selectFirst.closest('.player-score');
+            const parentSecond = selectSecond.closest('.player-score');
+            if (selectValue != 0) {
+                if (select.classList.contains('first')) {
+                    selectSecond.disabled = true;
+                    parentSecond.querySelector('.point-view').textContent = 1;
+                    parentFirst.querySelector('.point-view').textContent = 0;
+                } else {
+                    selectFirst.disabled = true;
+                    parentFirst.querySelector('.point-view').textContent = 1;
+                    parentSecond.querySelector('.point-view').textContent = 0;
+                }
+                controlBtns.forEach(btn => {
+                    btn.classList.add('d-none');
+                })
+            } else {
+                selectBoxList.forEach(btn => {
+                    btn.disabled = false;
+                })
+                controlBtns.forEach(btn => {
+                    btn.classList.remove('d-none');
+                })
+                parentFirst.querySelector('.point-view').textContent = 0;
+                parentSecond.querySelector('.point-view').textContent = 0;
+            }
+        })
+    })
+
+    function onOffSelectBox() {
+        if (document.querySelector('select.first').value != 0) {
+            document.querySelector('select.second').disabled = true;
+        }
+        if (document.querySelector('select.second').value != 0) {
+            document.querySelector('select.first').disabled = true;
+        }
+    }
+</script>

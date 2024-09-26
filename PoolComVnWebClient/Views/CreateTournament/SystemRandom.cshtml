@@ -1,0 +1,453 @@
+﻿@{
+    Layout = "~/Views/Shared/_BackBtnLayout.cshtml";
+    int tourId = ViewBag.TourID;
+    int maxNumberOfTournament = ViewBag.MaxNumberOfTournament;
+    int knockOutNumber = ViewBag.KnockOutNumber;
+}
+<div class="numberOfPlayer d-none">@maxNumberOfTournament</div>
+<div class="knockOutNumber d-none">@knockOutNumber</div>
+<div class="container-full">
+    <div class="random-round">
+        <div class="">
+            <div class="players-header">
+                Hệ thống ngẫu nhiên
+            </div>
+            <div class="system-random">
+                <div class="container-bracket mt-0">
+                    <div class="bracket-tab">
+                        <div class="bracket-content d-flex" style="top:50px">
+                            <div id="loser-match-body"></div>
+                            <div id="winer-match-body"></div>
+                        </div>
+                    </div>
+                    <div class="zoom-btns">
+                        <div class="screen-size">
+                            <button id="full-screen" class="zoom-in">
+                                <i class="fa-solid fa-expand"></i>
+                            </button>
+                        </div>
+                        <div>
+                            <button id="zoom-in" class="zoom-in">
+                                <i class="fa-solid fa-plus"></i>
+                            </button>
+                        </div>
+                        <div>
+                            <button id="zoom-out" class="zoom-out">
+                                <i class="fa-solid fa-minus"></i>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="random-btn-group row mx-0">
+                <div class="random-btn col-4" onclick="randomMatch(@tourId)">
+                    <button>
+                        <i class="fa-solid fa-shuffle"></i>
+                    </button>
+                </div>
+                <div class="players-note save col-8 disabled-div" onclick="saveBracket(@tourId)" id="saveBracketButton">
+                    <i class="fa-solid fa-floppy-disk px-2"></i>
+                    <span style="font-size: 20px;">Lưu sơ đồ đấu</span>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<script src="~/lib/jquery/dist/jquery.min.js"></script>
+<script>
+    const backBtn = document.querySelector('.back-btn');
+    if (backBtn !== null) {
+        backBtn.addEventListener('click', () => {
+            window.location.href = document.referrer;
+        });
+    }
+
+    const winMatchBody = document.getElementById('winer-match-body');
+    var width = 250;
+    var height = 60;
+    var matchDistance = 30;
+    var leftRightSpace = 100;
+    let numberMatchEachRound = 0;
+    let count = 0;
+    var winBody = '';
+    var imgList;
+
+    // Gán giá trị cho playerNumber và finalSinglePlayer từ dữ liệu nhận được
+    var playerNumber = $(".numberOfPlayer").text().trim();
+    var finalSinglePlayer = $(".knockOutNumber").text().trim();
+
+    let roundNumber = Math.log2(playerNumber / 2);
+    let finalSingleRound = roundNumber - Math.log2(finalSinglePlayer) + 1;
+
+    console.log('playerNumber:', playerNumber);
+    console.log('finalSinglePlayer:', finalSinglePlayer);
+    for (i = 0; i <= finalSingleRound; i++) {
+        numberMatchEachRound = 2 ** (roundNumber - i);
+        for (j = 0; j < numberMatchEachRound; j++) {
+            if (i == 0) {
+                ++count;
+                winBody += '<div class="match-box have-data" id="' + count + '" style=" top:' + (j * 2 * height) + 'px;width: ' + width + 'px; height: ' + height + 'px;">'
+                    + '<div class="match-content row">'
+                    + '<div class="match-number col-2 p-0 text-center">'
+                    + count
+                    + '</div>'
+                    + '<div class="player-match col-10">'
+                    + '<div class="d-flex justify-content-start align-items-center player-1">'
+                    + '<img src=""/>'
+                    + '<!-- 15 char -->'
+                    + '<div class="player-name"></div>'
+                    + '<div class="player-id d-none"></div>'
+                    + '</div>'
+                    + '<div class="d-flex justify-content-start align-items-center player-2">'
+                    + '<img src=""/>'
+                    + '<!-- 15 char -->'
+                    + '<div class="player-name"></div>'
+                    + '<div class="player-id d-none"></div>'
+                    + '</div>'
+                    + '</div>'
+                    + '</div>'
+                    + '</div>'
+            } else {
+                ++count;
+                winBody +=
+                    '<div class="line" style="top: ' + (height * (((2 ** i - 1) / 2) + (2 ** (i + 1) * j))) + 'px; left:' + (width * i + matchDistance * (i - 1)) + 'px">'
+                    + '<div class="left-line-win" style="width: ' + matchDistance / 2 + 'px; height: ' + ((2 ** i) * height) + 'px;"></div>'
+                    + '<div class="right-line-win" style="width: ' + matchDistance / 2 + 'px; height: ' + ((2 ** i) * height / 2) + 'px;"></div>'
+                    + '</div>'
+                    + '<div class="match-box" id="match' + count + '" style="top:' + (height * ((2 ** i - 1) + 2 ** (i + 1) * j)) + 'px; left: ' + ((matchDistance + width) * i) + 'px;width: ' + width + 'px; height: ' + height + 'px;">'
+                    + '<div class="match-content row">'
+                    + '<div class="match-number col-2 p-0 text-center">'
+                    + count
+                    + '</div>'
+                    + '<div class="player-match col-10">'
+                    + '<div class="d-flex justify-content-start align-items-center">'
+                    + '</div>'
+                    + '<div class="d-flex justify-content-start align-items-center">'
+                    + '</div>'
+                    + '</div>'
+                    + '</div>'
+                    + '</div>'
+            }
+        }
+    }
+
+    const loseMatchBody = document.getElementById('loser-match-body');
+    var loseBody = '';
+    for (i = 1; i <= finalSingleRound; i++) {
+        numberMatchEachRound = 2 ** (roundNumber - i);
+        for (j = 0; j < numberMatchEachRound; j++) {
+            ++count;
+            loseBody +=
+                '<div class="line" style="top: ' + (height * (((2 ** i - 1) / 2) + (2 ** (i + 1) * j))) + 'px; right:' + ((i - 1) * (1.5 * matchDistance + 2 * width)) + 'px">'
+                + '<div class="left-line-lose" style="width: ' + matchDistance / 2 + 'px; height: ' + ((2 ** i) * height / 2) + 'px;"></div>'
+                + '<div class="right-line-lose" style="width: ' + matchDistance / 2 + 'px; height: ' + ((2 ** i) * height) + 'px;"></div>'
+                + '</div>'
+                + '<div class="match-box" id="match' + count + '" style="top:' + (height * ((2 ** i - 1) + 2 ** (i + 1) * j)) + 'px; right: ' + ((1.5 * i - 0.5) * matchDistance + 2 * (i - 1) * width) + 'px;width: ' + width + 'px; height: ' + height + 'px;">'
+                + '<div class="match-content row">'
+                + '<div class="match-number col-2 p-0 text-center">'
+                + count
+                + '</div>'
+                + '<div class="player-match col-10">'
+                + '<div class="d-flex justify-content-start align-items-center">'
+                + '</div>'
+                + '<div class="d-flex justify-content-start align-items-center">'
+                + '</div>'
+                + '</div>'
+                + '</div>'
+                + '</div>'
+        }
+        for (j = 0; j < numberMatchEachRound; j++) {
+            ++count;
+            loseBody +=
+                '<div class="between-line" style="top: ' + (height * (((2 ** i - 1) / 2) + (2 ** (i + 1) * j))) + 'px; right:' + ((1.5 * i - 0.5) * matchDistance + (2 * i - 1) * width) + 'px; width: ' + matchDistance / 2 + 'px; height: ' + ((2 ** i) * height / 2) + 'px;"></div>'
+                + '<div class="match-box" id="match' + count + '" style="top: ' + (height * ((2 ** i - 1) + 2 ** (i + 1) * j)) + 'px; right: ' + ((matchDistance * 1.5 * i + width * (2 * i - 1))) + 'px;width: ' + width + 'px; height: ' + height + 'px;">'
+                + '<div class="match-content row">'
+                + '<div class="match-number col-2 p-0 text-center">'
+                + count
+                + '</div>'
+                + '<div class="player-match col-10">'
+                + '<div class="d-flex justify-content-start align-items-center">'
+                + '</div>'
+                + '<div class="d-flex justify-content-start align-items-center">'
+                + '</div>'
+                + '</div>'
+                + '</div>'
+                + '</div>'
+        }
+    }
+    loseMatchBody.innerHTML = loseBody;
+
+    for (i = finalSingleRound; i <= roundNumber; i++) {
+        numberMatchEachRound = 2 ** (roundNumber - i);
+        if (i === finalSingleRound) {
+            for (j = 0; j < numberMatchEachRound; j++) {
+                ++count;
+                winBody +=
+                    '<div class="line" style="top: ' + (height * (((2 ** i - 1) / 2) + (2 ** (i + 1) * j))) + 'px; left:' + (width * (i + 1) + matchDistance * i) + 'px">'
+                    + '<div class="right-line-win" style="width: ' + matchDistance / 2 + 'px; height: ' + ((2 ** i) * height / 2) + 'px;"></div>'
+                    + '</div>'
+                    + '<div class="match-box" id="match' + count + '" style="top:' + (height * ((2 ** i - 1) + 2 ** (i + 1) * j)) + 'px; left: ' + (matchDistance * (i + 0.5) + width * (i + 1)) + 'px;width: ' + width + 'px; height: ' + height + 'px;">'
+                    + '<div class="match-content row">'
+                    + '<div class="match-number col-2 p-0 text-center">'
+                    + count
+                    + '</div>'
+                    + '<div class="player-match col-10">'
+                    + '<div class="d-flex justify-content-start align-items-center">'
+                    + '</div>'
+                    + '<div class="d-flex justify-content-start align-items-center">'
+                    + '</div>'
+                    + '</div>'
+                    + '</div>'
+                    + '</div>'
+            }
+        } else {
+            for (j = 0; j < numberMatchEachRound; j++) {
+                ++count;
+                winBody +=
+                    '<div class="line" style="top: ' + (height * (((2 ** i - 1) / 2) + (2 ** (i + 1) * j))) + 'px; left:' + (width * (i + 1) + matchDistance * (i - 0.5)) + 'px">'
+                    + '<div class="left-line-win" style="width: ' + matchDistance / 2 + 'px; height: ' + ((2 ** i) * height) + 'px;"></div>'
+                    + '<div class="right-line-win" style="width: ' + matchDistance / 2 + 'px; height: ' + ((2 ** i) * height / 2) + 'px;"></div>'
+                    + '</div>'
+                    + '<div class="match-box" id="match' + count + '" style="top:' + (height * ((2 ** i - 1) + 2 ** (i + 1) * j)) + 'px; left: ' + (matchDistance * (i + 0.5) + width * (i + 1)) + 'px;width: ' + width + 'px; height: ' + height + 'px;">'
+                    + '<div class="match-content row">'
+                    + '<div class="match-number col-2 p-0 text-center">'
+                    + count
+                    + '</div>'
+                    + '<div class="player-match col-10">'
+                    + '<div class="d-flex justify-content-start align-items-center">'
+                    + '</div>'
+                    + '<div class="d-flex justify-content-start align-items-center">'
+                    + '</div>'
+                    + '</div>'
+                    + '</div>'
+                    + '</div>'
+            }
+        }
+    }
+
+    winMatchBody.innerHTML = winBody;
+    imgList = document.querySelector('.bracket-tab').querySelectorAll('img');
+    imgList.forEach(img => {
+        img.classList.add('d-none');
+    });
+    const lastMatchHeight = document.getElementById('match' + playerNumber / 2);
+    window.addEventListener('load', centerPosition);
+
+    let currentZoom = 0.8;
+
+    let winerWidth;
+    let loserWidth;
+
+    const bracketContent = document.querySelector('.bracket-content');
+    const bracketTab = document.querySelector('.bracket-tab');
+    const zoomInBtn = document.getElementById('zoom-in');
+    const zoomOutBtn = document.getElementById('zoom-out');
+
+    zoomInBtn.addEventListener('click', zoomIn);
+    zoomOutBtn.addEventListener('click', zoomOut);
+
+    zoomInBtn.removeEventListener
+    applyZoom();
+
+
+
+    const header = document.querySelector('header');
+    const body = document.querySelector('body');
+    const screenSize = document.querySelector('.screen-size');
+    const playersHeader = document.querySelector('.players-header');
+    const systemRandom = document.querySelector('.system-random');
+    const randomBtnGroup = document.querySelector('.random-btn-group');
+    var fullScreenBtn = document.getElementById('full-screen');
+    var miniScreenBtn;
+
+    if (fullScreenBtn !== null) {
+        fullScreenBtn.addEventListener('click', fullScreen);
+    }
+
+
+    function centerPosition() {
+        bracketTab.scrollLeft = loseMatchBody.offsetWidth - window.innerWidth / 2 + 200;
+    }
+
+    function zoomIn() {
+        if (currentZoom <= 1.5) {
+            currentZoom += 0.1;
+            applyZoom();
+            zoomOutBtn.style.opacity = '1';
+            zoomOutBtn.classList.remove('no-hover');
+        } else {
+            zoomInBtn.style.opacity = '0.3';
+            zoomInBtn.classList.add('no-hover');
+        }
+    }
+
+    function zoomOut() {
+        if (currentZoom >= 0.2) {
+            currentZoom -= 0.1;
+            applyZoom();
+            zoomInBtn.style.opacity = '1';
+            zoomInBtn.classList.remove('no-hover');
+        } else {
+            zoomOutBtn.style.opacity = '0.3';
+            zoomOutBtn.classList.add('no-hover');
+        }
+    }
+
+    function applyZoom() {
+        winerWidth = ((roundNumber + 2) * width + (roundNumber + 0.5) * matchDistance) * currentZoom + leftRightSpace;
+        loserWidth = (finalSingleRound * (2 * width + 1.5 * matchDistance)) * currentZoom + leftRightSpace;
+        winMatchBody.style.width = winerWidth + 'px';
+        loseMatchBody.style.width = loserWidth + 'px';
+        bracketContent.style.transform = `scale(${currentZoom})`;
+        centerPosition();
+    }
+
+    function fullScreen() {
+        systemRandom.classList.add('full-screen');
+        screenSize.innerHTML = '<button id="mini-screen" class="zoom-in">'
+            + '<i class="fa-solid fa-compress"></i>'
+            + '</button>';
+        miniScreenBtn = document.getElementById('mini-screen');
+        miniScreenBtn.addEventListener('click', minimized);
+
+        if (body.requestFullscreen) {
+            body.requestFullscreen();
+        } else if (body.webkitRequestFullscreen) { /* Safari */
+            body.webkitRequestFullscreen();
+        } else if (body.msRequestFullscreen) { /* IE11 */
+            body.msRequestFullscreen();
+        }
+
+        header.classList.add('d-none');
+        playersHeader.classList.add('d-none');
+        randomBtnGroup.classList.add('d-none');
+    }
+
+    function minimized() {
+        systemRandom.classList.remove('full-screen');
+        screenSize.innerHTML = '<button id="full-screen" class="zoom-in">'
+            + '<i class="fa-solid fa-expand"></i>'
+            + '</button>';
+        fullScreenBtn = document.getElementById('full-screen');
+        fullScreenBtn.addEventListener('click', fullScreen);
+
+        if (document.exitFullscreen) {
+            document.exitFullscreen();
+        } else if (document.webkitExitFullscreen) { /* Safari */
+            document.webkitExitFullscreen();
+        } else if (document.msExitFullscreen) { /* IE11 */
+            document.msExitFullscreen();
+        }
+
+        header.classList.remove('d-none');
+        playersHeader.classList.remove('d-none');
+        randomBtnGroup.classList.remove('d-none');
+    }
+
+    // Random và binding dữ liệu
+    function randomMatch(tourId) {
+        $.ajax({
+            url: 'https://localhost:5000/api/MatchOfTour/RandomMatch',
+            method: 'GET',
+            data: { tourId: tourId },
+            success: function (data) {
+                imgList.forEach(img => {
+                    img.classList.remove('d-none');
+                });
+                var matches = data;
+                matches.forEach(function (match) {
+                    var matchNumber = match.matchNumber;
+                    var matchBox = $('#' + matchNumber); // Tìm thẻ match-box có ID tương ứng với matchNumber
+
+
+                    var player1Element = matchBox.find('.player-1').first();
+
+                    // Kiểm tra nếu phần tử tồn tại
+                    if (player1Element.length > 0) {
+                        var playerNameElement = player1Element.find('.player-name');
+                        var playerName = match.p1Name;
+                        playerNameElement.text(playerName);
+
+                        var countryImageElement = player1Element.find('img');
+                        var countryImage = match.p1Country;
+                        countryImageElement.attr('src', countryImage);
+
+                        var playerIdElement = player1Element.find('.player-id');
+                        var playerId = match.p1Id;
+                        playerIdElement.text(playerId);
+                    } else {
+                        console.log('Không tìm thấy phần tử player-1 trong .matchbox');
+                    }
+
+                    var player2Element = matchBox.find('.player-2').first();
+
+                    // Kiểm tra nếu phần tử tồn tại
+                    if (player2Element.length > 0) {
+                        var playerNameElement = player2Element.find('.player-name');
+                        var playerName = match.p2Name;
+                        playerNameElement.text(playerName);
+
+                        var countryImageElement = player2Element.find('img');
+                        var countryImage = match.p2Country;
+                        countryImageElement.attr('src', countryImage);
+
+                        var playerIdElement = player2Element.find('.player-id');
+                        var playerId = match.p2Id;
+                        playerIdElement.text(playerId);
+                    } else {
+                        console.log('Không tìm thấy phần tử player-2 trong .matchbox');
+                    }
+                });
+                var saveBracketButton = document.getElementById('saveBracketButton');
+                if (saveBracketButton.classList.contains('disabled-div')){
+                    saveBracketButton.classList.remove('disabled-div');
+                }
+            },
+            error: function (xhr, textStatus, errorThrown) {
+                console.log('Error:', errorThrown);
+            }
+        });
+    }
+
+    function saveBracket(tourId) {
+        var matchData = [];
+        $('.have-data').each(function () {
+            var matchNumber = $(this).attr('id');
+            var p1Id = $(this).find('.player-1 .player-id').text();
+            var p2Id = $(this).find('.player-2 .player-id').text();
+            var match = {
+                MatchNumber: matchNumber,
+                P1Id: parseInt(p1Id),
+                P2Id: parseInt(p2Id),
+            };
+            matchData.push(match);
+        });
+        var jsonData = JSON.stringify(matchData);
+        console.log(jsonData);
+        $.ajax({
+            url: 'https://localhost:5000/api/MatchOfTour/SaveMatchesRandom/' + tourId,
+            method: 'POST',
+            contentType: 'application/json',
+            data: jsonData
+            //,success: function (response) {
+            //    window.location.href = '/Tournament/TournamentDetailForManager?tourId=' + tourId;
+            //},
+            //error: function (xhr, textStatus, errorThrown) {
+            //    console.log('Error:', errorThrown);
+            //}
+        });
+        setTimeout(function () {
+            window.location.href = '/Tournament/TournamentDetailForManager?tourId=' + tourId;
+        }, 100);
+    }
+
+    //Handle back btn
+    const confirmPopup = document.querySelector('.confirm-popup');
+
+    //backBtn.addEventListener('click', showPopUpConfirm);
+
+    function showPopUpConfirm() {
+        confirmPopup.classList.remove('d-none');
+    }
+
+</script>

@@ -1,0 +1,464 @@
+﻿@{
+    Layout = "~/Views/Shared/_BackBtnLayout.cshtml";
+    int tourId = ViewBag.TourId;
+    int maxNumberOfTournament = ViewBag.MaxNumberOfTournament;
+}
+<div class="numberOfPlayer d-none">@maxNumberOfTournament</div>
+<div class="tour-id d-none">@tourId</div>
+<div class="container-full">
+    <div class="random-round d-flex justify-content-between row">
+        <div class="matches col-lg-3 px-0">
+            <div class="matches-header">
+                Trận đấu
+            </div>
+            <div class="matches-view">
+                <div class="match-list-view"></div>
+                <!-- <div class="d-flex justify-content-center">
+                    <div class="match-box" id="match1">
+                        <div class="d-flex">
+                            <div class="match-number col-2 text-center">
+                                1
+                            </div>
+                            <div class="player-match col-8">
+                                <div class="d-flex justify-content-start align-items-center">
+                                    <img src="Image/VietNamFlag.png" />
+                                    <div class="player-name">Vũ Hoài Nam</div>
+                                </div>
+                                <div class="d-flex justify-content-start align-items-center">
+                                    <img src="Image/VietNamFlag.png" />
+                                    <div class="player-name">Vũ Hữu Quảng</div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>-->
+            </div>
+            <div class="reset-btn">
+                <i class="fa-solid fa-arrows-rotate"></i>
+                <span style="font-size: 20px;">Đặt lại</span>
+            </div>
+        </div>
+        <div class=" col-lg-8 px-0">
+            <div class="players-header">
+                Người chơi
+            </div>
+            <div class="players-view">
+                <!-- <div class="player">
+                    <div class="d-flex">
+                        <div class="player-flag">
+                            <img src="/Image/VietNamFlag.png" alt="">
+                        </div>
+                        <div class="player-name">Vũ Đoàn Nam Thư</div>
+                    </div>
+                </div> -->
+            </div>
+            <div class="random-btn-group row mx-0">
+                <div class="random-btn col-4">
+                    <i class="fa-solid fa-shuffle"></i>
+                </div>
+                <div class="random-btn-virtual col-4 d-none">
+                    <i class="fa-solid fa-shuffle"></i>
+                </div>
+                <div class="players-note col-8">
+                    Nhấn phím cách (space) để lấy ra tên cơ thủ cho vị trí tiếp theo.
+                </div>
+            </div>
+            <div class="players-note save save-btn d-none">
+                <i class="fa-solid fa-floppy-disk px-2"></i>
+                <button onclick="saveBracket(@tourId)">
+                    <span style="font-size: 20px;">Lưu và xem sơ đồ đấu</span>
+                </button>
+            </div>
+        </div>
+    </div>
+</div>
+<script src="~/lib/jquery/dist/jquery.min.js"></script>
+<script>
+
+    const backBtn = document.querySelector('.back-btn');
+    if (backBtn !== null) {
+        backBtn.addEventListener('click', () => {
+            window.location.href = document.referrer;
+        });
+    }
+
+    var playerPick;
+    var playerPickBg;
+    var randomBtnGroup;
+
+    //add html to matches view
+    const matchesView = document.querySelector('.matches-view');
+    const matchList = document.querySelector('.match-list-view');
+    var matchesListHTML = '';
+    let matchCount = 0;
+    
+
+    //add html to Player view
+    const playerView = document.querySelector('.players-view');
+    
+    var tourId = $(".tour-id").text().trim();
+    var playerNumber = parseInt($(".numberOfPlayer").text().trim());
+
+    console.log('playerNumber:', playerNumber);
+
+    for (var i = 0; i < (playerNumber / 2); i++) {
+        matchesListHTML += '<div class="d-flex justify-content-center matchRandom">'
+            + '<div class="match-box" id="match' + (i + 1) + '">'
+            + '<div class="d-flex">'
+            + '<div class="match-number col-2 text-center">'
+            + (i + 1)
+            + '</div>'
+            + '<div class="player-match col-8">'
+            + '<div id="randomMatch' + (++matchCount) + '" class="d-flex justify-content-start align-items-center randomMatch player-1">'
+            + '</div>'
+            + '<div id="randomMatch' + (++matchCount) + '" class="d-flex justify-content-start align-items-center randomMatch player-2">'
+            + '</div>'
+            + '</div>'
+            + '</div>'
+            + '</div>'
+            + '</div>'
+    }
+
+    matchList.innerHTML = matchesListHTML;
+    loadPlayer();
+    function loadPlayer() {
+        console.log('1');
+        $.ajax({
+            url: 'https://localhost:5000/api/Player/GetPlayerByTourId?tourId=' + tourId,
+            method: 'GET',
+            success: function (data) {
+                var players = data;
+                var playerViewHTML = '';
+                players.forEach(function (player) {
+                    playerViewHTML += '<div class="player">'
+                        + '<div class="d-flex">'
+                        + '<div class="player-flag">'
+                        + '<img src="' + player.countryName + '" alt="">'
+                        + '</div>'
+                        + '<div class="player-name">' + player.playerName + '</div>'
+                        + '<div class="player-id d-none">' + player.playerId + '</div>'
+                        + '</div>'
+                        + '</div>'
+                });
+                playerViewHTML += '<div class="player-pick-bg d-none">'
+                    + '<div class="player-pick">'
+                    + '<div class="d-flex">'
+                    + '<div class="player-flag">'
+                    + '<img src="/Image/VietNamFlag.png" alt="">'
+                    + '</div>'
+                    + '<div class="player-name"></div>'
+                    + '<div class="player-id d-none"></div>'
+                    + '</div>'
+                    + '</div>'
+                    + '</div>'
+                playerView.innerHTML = playerViewHTML;
+
+                playerPick = document.querySelector('.player-pick');
+                playerPickBg = document.querySelector('.player-pick-bg');
+                randomBtnGroup = document.querySelector('.random-btn-group');
+                loadBOT();
+            },
+            error: function (xhr, textStatus, errorThrown) {
+                console.log('Error:', errorThrown);
+            }
+        });
+    }
+
+    //Random 1 player
+    
+    const saveBtn = document.querySelector('.save-btn');
+
+    let random;
+    let imgRandom;
+    let nameRandom;
+    let playerIdRandom;
+    var isPlayerPick = false;
+    let isEventCompleted = true;
+
+    function shufferEvent() {
+        if (isPlayerPick === true) {
+            offRandomBtnReal();
+            isEventCompleted = false;
+            resetPlayerPick();
+            isPlayerPick = false;
+        } else {
+            offRandomBtnReal();
+            isEventCompleted = false;
+            randomPlayer();
+            isPlayerPick = true;
+        }
+    }
+
+
+    function randomPlayer() {
+        var players = document.querySelectorAll('.player');
+
+        function flashElement(element) {
+            element.classList.add('flash');
+            setTimeout(function () {
+                element.classList.remove('flash');
+            }, 100);
+        }
+
+        function getRandomElement(array) {
+            var randomIndex = Math.floor(Math.random() * array.length);
+            return array[randomIndex];
+        }
+
+        var intervalId = setInterval(() => {
+            random = getRandomElement(players);
+            flashElement(random);
+            setTimeout(function () {
+                clearInterval(intervalId);
+            }, 1500);
+        }, 100);
+
+        setTimeout(() => {
+            let count = 0;
+            random.classList.add('flash');
+            const interval = setInterval(() => {
+                if (count < 3) {
+                    if (random.classList.contains('flash')) {
+                        random.classList.remove('flash');
+                    } else {
+                        random.classList.add('flash');
+                        count++;
+                    }
+                } else {
+                    clearInterval(interval);
+                }
+            }, 300);//hết 2100
+        }, 1500);
+
+        setTimeout(() => {
+            displayPlayerPick();
+            playerPick.classList.remove('d-none');
+            setTimeout(() => {
+                playerPick.style.transform = 'scale(2)';
+            }, 100);
+        }, 3600);
+
+        setTimeout(() => {
+            onRandomBtnReal();
+            isEventCompleted = true;
+        }, 5000);//4100
+    }
+
+    //Remove random element and setup to random next time
+    let playerCount = 0;
+    function resetPlayerPick() {
+        playerCount++;
+        playerPickBg.classList.add('d-none');
+        playerPick.classList.add('d-none');
+        playerPick.style.transform = 'scale(1)';
+
+        var playerNext = document.getElementById('randomMatch' + playerCount);
+        if (playerNext.textContent) {
+            playerCount++;
+            playerNext = document.getElementById('randomMatch' + playerCount);
+        }
+        if (playerCount === playerNumber) {
+            const playerExist = document.querySelector('.player');
+            imgRandom = playerExist.querySelector('.player-flag')
+                .querySelector('img').src;
+            nameRandom = playerExist.querySelector('.player-name')
+                .textContent;
+            playerIdRandom = playerExist.querySelector('.player-id')
+                .textContent;
+            playerExist.classList.add('flash');
+            removeElement(playerExist);
+        }
+        playerNext.innerHTML = '<img src=' + imgRandom + ' />'
+            + '<div class="player-name">' + nameRandom + '</div>'
+            + '<div class="player-id d-none">' + playerIdRandom + '</div>';
+
+        //scroll to align-center
+        if (playerCount % 2 === 1) {
+            const elementToScrollTo = document.getElementById('match' + ((playerCount + 1) / 2));
+            const elementRect = elementToScrollTo.getBoundingClientRect();
+            const parentRect = matchList.getBoundingClientRect();
+            const matchesViewRect = matchesView.getBoundingClientRect();
+            let distanceToTop = elementRect.top - parentRect.top - matchesViewRect.height / 2;
+
+            matchesView.scrollTo({
+                top: distanceToTop,
+                behavior: 'smooth'
+            });
+        }
+
+        removeElement(random);
+
+        if (playerCount === (playerNumber - 1)) {
+            setTimeout(() => {
+                randomBtnGroup.classList.add('d-none');
+                saveBtn.classList.remove('d-none');
+                randomBtn.removeEventListener('click', clickHandle);
+                document.removeEventListener('keydown', keydownHandle);
+                resetPlayerPick();
+            }, 3000);
+        }
+    }
+
+    function removeElement(element) {
+        var opacityCount = 0;
+        var opacityInt = setInterval(() => {
+            if (element.style.opacity === '1') {
+                element.style.opacity = '0.2';
+            } else {
+                element.style.opacity = '1';
+            }
+            setTimeout(() => {
+                clearInterval(opacityInt);
+                setTimeout(() => {
+                    if (opacityCount === 0) {
+                        element.remove();
+                        opacityCount++;
+                    }
+                }, 100);
+            }, 2100);
+        }, 300);
+        setTimeout(() => {
+            onRandomBtnReal();
+            isEventCompleted = true;
+        }, 3000);//2300
+    }
+
+    function offRandomBtnReal() {
+        randomBtn.classList.add('d-none');
+        randomBtnVirtual.classList.remove('d-none');
+    }
+
+    function onRandomBtnReal() {
+        randomBtn.classList.remove('d-none');
+        randomBtnVirtual.classList.add('d-none');
+    }
+
+    function displayPlayerPick() {
+        playerPickBg.classList.remove('d-none');
+
+        imgRandom = random.querySelector('.player-flag')
+            .querySelector('img').src;
+        nameRandom = random.querySelector('.player-name')
+            .textContent;
+        playerIdRandom = random.querySelector('.player-id')
+            .textContent;
+
+        playerPick.querySelector('.player-flag')
+            .querySelector('img').src = imgRandom;
+        playerPick.querySelector('.player-name')
+            .textContent = nameRandom;
+
+        playerPick.querySelector('.player-id')
+            .textContent = playerIdRandom;
+    }
+
+    const randomBtn = document.querySelector('.random-btn');
+    const randomBtnVirtual = document.querySelector('.random-btn-virtual');
+    randomBtn.addEventListener('click', clickHandle);
+    function clickHandle(event) {
+        event.preventDefault();
+        shufferEvent();
+    }
+
+    document.addEventListener('keydown', keydownHandle);
+    function keydownHandle(event) {
+        if ((event.key === ' ' || event.keyCode === 32) && isEventCompleted) {
+            event.preventDefault();
+            shufferEvent();
+        }
+    }
+
+    const resetBtn = document.querySelector('.reset-btn');
+    resetBtn.addEventListener('click',reset);
+    function reset() {
+        playerCount = 0;
+        const btnList = document.querySelectorAll('.randomMatch');
+        btnList.forEach(btn => {
+            btn.textContent = '';
+        });
+        loadPlayer();
+    }
+
+    function saveBracket(tourId) {
+        var matchData = [];
+        $('.matchRandom').each(function () {
+            var matchNumber = $(this).find('.match-box').attr('id').replace('match', '');
+            var p1Id = $(this).find('.player-1 .player-id').text();
+            var p2Id = $(this).find('.player-2 .player-id').text();
+            var match = {
+                MatchNumber: matchNumber,
+                P1Id: parseInt(p1Id),
+                P2Id: parseInt(p2Id),
+            };
+            matchData.push(match);
+        });
+        var jsonData = JSON.stringify(matchData);
+        console.log(jsonData);
+        $.ajax({
+            url: 'https://localhost:5000/api/MatchOfTour/SaveMatchesRandom/' + tourId,
+            method: 'POST',
+            contentType: 'application/json',
+            data: jsonData
+            //,success: function (response) {
+            //    window.location.href = '/Tournament/TournamentDetailForManager?tourId=' + tourId;
+            //},
+            //error: function (xhr, textStatus, errorThrown) {
+            //    console.log('Error:', errorThrown);
+            //}
+        });
+        setTimeout(function () {
+            window.location.href = '/Tournament/TournamentDetailForManager?tourId=' + tourId;
+        }, 100);
+    }
+
+    //Handle back btn
+    const confirmPopup = document.querySelector('.confirm-popup');
+
+    //backBtn.addEventListener('click', showPopUpConfirm);
+
+    function showPopUpConfirm() {
+        confirmPopup.classList.remove('d-none');
+    }
+
+    //kiểm tra có BOT thì load vào match
+    function loadBOT() {
+        var players = document.querySelectorAll('.player');
+        var countBOT = 0;
+        var BOTList = [];
+        players.forEach(player => {
+            if (player.querySelector('.player-name').textContent === 'BOT') {
+                countBOT++;
+                var bot = {
+                    id: player.querySelector('.player-id').textContent,
+                    name: 'BOT'
+                };
+                BOTList.push(bot);
+                player.remove();
+            }
+        })
+        var BOTIndex = 0;
+        var BOTNumber = countBOT;
+        if (BOTNumber > 0) {
+            for (var i = 1; i < playerNumber; i += 4) {
+                if (countBOT > 0) {
+                    const playerNext = document.getElementById('randomMatch' + i);
+                    playerNext.innerHTML = '<img src="https://flagsapi.com/VN/shiny/64.png" />'
+                        + '<div class="player-name">BOT</div>'
+                        + '<div class="player-id d-none">' + BOTList[BOTIndex++].id + '</div>';
+                    countBOT--;
+                }
+            }
+        }
+        if (BOTNumber > parseInt(playerNumber / 4)) {
+            for (var i = 3; i < playerNumber; i += 4) {
+                if (countBOT > 0) {
+                    const playerNext = document.getElementById('randomMatch' + i);
+                    playerNext.innerHTML = '<img src="https://flagsapi.com/VN/shiny/64.png" />'
+                        + '<div class="player-name">BOT</div>'
+                        + '<div class="player-id d-none">' + BOTList[BOTIndex++].id + '</div>';
+                    countBOT--;
+                }
+            }
+        }
+    }
+</script>

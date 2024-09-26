@@ -1,0 +1,232 @@
+﻿@{
+    Layout = "~/Views/Shared/_ClubLayout.cshtml";
+}
+@model PoolComVnWebClient.DTO.SoloMatchDTO;
+
+<div class="dashboard-container">
+    <div class="create-tour mt-0">
+        <form asp-action="CreateSoloMatches" asp-controller="Club" method="post" enctype="multipart/form-data" class="create-tour-display">
+            <div class="create-step-one">
+                <div class="display-title">Tạo trận đấu đối kháng</div>
+                <div class="display-content">
+                    <div class="tour-input">
+                        <div class="input-title">
+                            <span class="input-requir">*</span>
+                            <span>Người chơi 1</span>
+                        </div>
+                     
+                        <input type="hidden" asp-for="ClubId" value="@ViewBag.ClubId" />
+                        <div id="playerInputContainer" style="position: relative;">
+                            <input class="input-content" type="text"  id="player1">
+                            <input class="input-content2" type="hidden" name="player1" value="" />
+                            <div id="suggestions-container"  class="player-box" style="z-index: 90;"></div>
+                        </div>
+                    </div>
+                    <div class="tour-input">
+                        <div class="input-title">
+                            <span class="input-requir">*</span>
+                            <span>Người chơi 2</span>
+                        </div>
+                        <div id="playerInputContainer2" style="position: relative;">
+                            <input class="input-content" type="text" id="player2">
+                            <input class="input-content2" type="hidden" name="player2" value="" />
+                            <div id="suggestions-container2" class="player-box"></div>
+                        </div>
+                    </div>
+                    <div class="tour-input">
+                        <div class="input-title">
+                            <span class="input-requir">*</span>
+                            <span>Số trận cần thắng</span>
+                        </div>
+                        <input class="input-content" type="number" asp-for="RaceTo" min="5" max="100">
+                    </div>
+                    <div class="tour-input">
+                        <div class="tour-input-line" style="width:100%;">
+                            <div class="input-title">
+                                <span class="input-requir">*</span>
+                                <span>Kiểu trò chơi</span>
+                            </div>
+                            <select class="input-content" asp-for="GameTypeId">
+                                <option value="0" checked hidden>Chọn kiểu trò chơi</option>
+                                <option value="1">8 bi</option>
+                                <option value="2">9 bi</option>
+                                <option value="3">10 bi</option>
+                                <option value="4">Khác</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="tour-input">
+                        <div class="input-title" style="height: auto; width:80%;">
+                            <span>Mô tả (Sơ lược ngắn gọn về trận đấu. VD: chạm 21, break box, phá luân phiên)</span>
+                        </div>
+                        <input class="input-content" type="text" asp-for="Description" id="" />
+                    </div>
+                    <div class="tour-input">
+                        <div class="input-title">
+                            <span class="input-requir">*</span>
+                            <span>Thời gian bắt đầu</span>
+                        </div>
+                        <input class="input-date" type="datetime-local" asp-for="StartTime" id="">
+                    </div>
+                    <div class="tour-input">
+                        <div class="input-title">
+                            <span class="input-requir">*</span>
+                            <span>Ảnh bìa</span>
+                        </div>
+                        <div class="input-img">
+                            <div class="display-content" style="margin:20px 0;">
+                                <div class="upload-img auto">
+                                    <input type="file" class="imageInput mt-1" name="BannerFile" accept="image/*" />
+                                    <div class="upload-title d-flex align-items-center justify-content-center">
+                                        <div>
+                                            <i class="fa-regular fa-image"></i>
+                                            <p>Bấm vào đây để tải ảnh.</p>
+                                        </div>
+                                    </div>
+                                    <img class="show-image" />
+                                    <!-- lấy tên ảnh -->
+                                    <input id="file-name" class="d-none" />
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="tour-input pb-5">
+                        <button class="submit-btn" type="submit">Tạo trận đấu đối kháng</button>
+                    </div>
+                </div>
+            </div>
+        </form>
+    </div>
+</div>
+
+<script>
+    const backBtn = document.querySelector('.back-btn');
+    if (backBtn !== null) {
+        backBtn.addEventListener('click', () => {
+            window.location.href = document.referrer;
+        });
+    }
+
+    //Image validation
+    const imgInput = document.querySelector('#file-name');
+
+    document.querySelector('.imageInput').addEventListener('change', function (event) {
+        const imageInput = event.target;
+        const previewImage = document.querySelector('.show-image');
+        const selectedFileName = document.querySelector('#file-name');
+        const uploadTile = document.querySelector('.upload-title');
+
+        if (imageInput.files && imageInput.files[0]) {
+            const reader = new FileReader();
+
+            reader.onload = function (e) {
+                previewImage.src = e.target.result;
+                previewImage.style.display = 'block';
+                uploadTile.classList.add('d-none');
+            };
+
+            reader.readAsDataURL(imageInput.files[0]);
+            selectedFileName.value = imageInput.files[0].name;
+        }
+    });
+    var players = @Json.Serialize(ViewBag.Players);
+    var filteredPlayers = [...players];
+
+    document.getElementById('player1').addEventListener('input', function (event) {
+        var inputText = event.target.value.toLowerCase();
+        var suggestions = filteredPlayers.filter(player => player.playerName.toLowerCase().includes(inputText));
+        displaySuggestions(suggestions, 'player1');
+        document.getElementById('suggestions-container').classList.remove('d-none'); 
+        document.getElementById('suggestions-container2').classList.add('d-none');
+    });
+
+    document.getElementById('player2').addEventListener('input', function (event) {
+        var inputText = event.target.value.toLowerCase();
+        var suggestions = filteredPlayers.filter(player => player.playerName.toLowerCase().includes(inputText));
+        displaySuggestions2(suggestions, 'player2');
+        document.getElementById('suggestions-container2').classList.remove('d-none');
+        document.getElementById('suggestions-container').classList.add('d-none');
+    });
+        function displaySuggestions(suggestions, player) {
+        var suggestionsContainer = document.getElementById('suggestions-container');
+        if (suggestionsContainer) {
+            suggestionsContainer.innerHTML = '';
+            suggestions.forEach(function (player) {
+
+                var playerOption = document.createElement("div");
+                playerOption.className = "player-option";
+                
+
+                var playerIdInput = document.createElement("input");
+                playerIdInput.type = "hidden";
+                playerIdInput.value = player.playerId;
+                playerIdInput.className = "player-id";
+
+                var playerImg = document.createElement("div");
+                playerImg.className = "player-img";
+                playerImg.style.backgroundImage = "url('/images/VietNamFlag.png')";
+
+                var playerName = document.createElement("span");
+                playerName.textContent = player.playerName;
+
+                playerOption.appendChild(playerIdInput);
+                playerOption.appendChild(playerImg);
+                playerOption.appendChild(playerName);
+                suggestionsContainer.appendChild(playerOption);
+
+                playerOption.addEventListener('click',()=>{
+                    const parent = playerOption.parentNode.parentNode;
+                    console.log(playerIdInput.value);
+                    const inputContent = parent.querySelector('.input-content');
+                    const inputContentPlayer2 = parent.querySelector('.input-content2');
+                    inputContent.value = playerName.textContent;
+                    inputContentPlayer2.value = playerIdInput.value;
+
+                    suggestionsContainer.classList.add('d-none');
+                })
+            });
+        } else {
+            console.error('Element with ID "suggestions-container" not found.');
+        }
+    }
+    function displaySuggestions2(suggestions, player) {
+        var suggestionsContainer = document.getElementById('suggestions-container2');
+        if (suggestionsContainer) {
+            suggestionsContainer.innerHTML = ''; 
+            suggestions.forEach(function (player) {
+                var playerOption = document.createElement("div");
+                playerOption.className = "player-option";
+
+                var playerIdInput = document.createElement("input");
+                playerIdInput.type = "hidden";
+                playerIdInput.value = player.playerId;
+                playerIdInput.className = "player-id";
+
+                var playerImg = document.createElement("div");
+                playerImg.className = "player-img";
+                playerImg.style.backgroundImage = "url('/images/VietNamFlag.png')";
+
+                var playerName = document.createElement("span");
+                playerName.textContent = player.playerName;
+
+                playerOption.appendChild(playerIdInput);
+                playerOption.appendChild(playerImg);
+                playerOption.appendChild(playerName);
+
+                suggestionsContainer.appendChild(playerOption);
+
+                playerOption.addEventListener('click', () => {
+                    const playerId = player.playerId;
+                    const parent = playerOption.parentNode.parentNode;
+                    const inputContent = parent.querySelector('.input-content');
+                    const inputContentPlayer2 = parent.querySelector('.input-content2');
+                    inputContent.value = playerName.textContent;
+                    inputContentPlayer2.value = playerIdInput.value;
+                    suggestionsContainer.classList.add('d-none');
+                })
+            });
+        } else {
+            console.error('Element with ID "suggestions-container" not found.');
+        }
+    }
+</script>

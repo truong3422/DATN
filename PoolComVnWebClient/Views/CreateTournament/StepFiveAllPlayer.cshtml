@@ -1,0 +1,214 @@
+﻿@using PoolComVnWebClient.DTO
+@{
+    Layout = "~/Views/Shared/_CreateTournamentLayout.cshtml";
+    int? tourId = ViewBag.TourId as int?;
+    int stt = 1;
+}
+@model List<PlayerDTO>
+
+@if (ViewBag.OverPlayer != null && ViewBag.OverPlayer)
+{
+    <div class="over-player d-none">@ViewBag.OverPlayer</div>
+}
+<div class="opened-step d-none">@ViewBag.StepOpen</div>
+<div class="current-step d-none">@ViewBag.CurrentStep</div>
+<div class="tour-id d-none">@tourId</div>
+<div class="container-full">
+    <div class="create-tour d-flex justify-content-end">
+        <div class="create-tour-display col-lg-10">
+            <div class="create-step-two">
+                <div class="display-title d-flex justify-content-between">
+                    <div>Người chơi</div>
+                    <div class="d-flex align-items-center">
+                        <a class="step-two-nav active" id="list-all-player">Danh sách</a>
+                        <a class="step-two-nav" id="all-list" href="@Url.Action("StepFivePlayerList", "CreateTournament", new { tourId = tourId })">Thêm người chơi</a>
+                        <a class="step-two-nav" id="request-list" href="@Url.Action("StepFiveJoinList", "CreateTournament", new { tourId = tourId })">Yêu cầu tham gia</a>
+                    </div>
+                </div>
+                <div class="d-none" id="TourId">
+                    @tourId
+                </div>
+                <div class="display-content">
+                    <div class="d-flex justify-content-between">
+                        <div>
+                            <select class="create-tour-fee" disabled>
+                                <option value="0" hidden checked>Lệ phí</option>
+                                <option value="Đã xong">Đã xong</option>
+                                <option value="Chưa nộp">Chưa nộp</option>
+                            </select>
+                            <button class="club-player" disabled>Thêm vào thành viên</button>
+                            <button class="import-excel" onclick="downloadTemplate()">Tải mẫu</button>
+
+                            <form id="importForm" method="post" enctype="multipart/form-data" class="import-form d-flex"
+                                  action="@Url.Action("ImportPlayers", "CreateTournament", new { id = tourId })">
+                                <div class="import-input">
+                                    <span id="file-name">Chọn tệp để tải lên</span>
+                                    <input class="file-import" type="file" name="ImportPlayers" accept=".xls, .xlsx" />
+                                </div>
+                                <button type="submit">Nhập danh sách</button>
+                            </form>
+                        </div>
+                        @*<div class="player-search d-flex align-items-end">
+                        <i class="fa-solid fa-magnifying-glass"></i>
+                        <input class="" />
+                        </div>*@
+                    </div>
+
+                    <div class="pt-3">
+                        <div class="table-overflow">
+                            <table class="players-table">
+                                <tr>
+                                    <th>STT</th>
+                                    <th>Tên</th>
+                                    <th>Quốc gia</th>
+                                    <th>Số điện thoại</th>
+                                    <th>Email</th>
+                                    <th class="text-center">Hạng</th>
+                                    <th class="player-fee">Lệ phí</th>
+                                </tr>
+                                @if (ViewBag.PlayersCanPlay != null && ViewBag.PlayersCanPlay.Count > 0)
+                                {
+                                    foreach (var player in ViewBag.PlayersCanPlay)
+                                    {
+                                        <tr>
+                                            <td>@stt</td>
+                                            <td>@player.PlayerName</td>
+                                            <td>@player.CountryName</td>
+                                            <td>@player.PhoneNumber</td>
+                                            <td>@player.Email</td>
+                                            <td class="text-center">@player.Level</td>
+                                            <td class="player-fee">
+                                                @* @if (player.IsPayed != null && player.IsPayed == true)
+                                                {
+                                                    <span>Đã nộp</span>
+                                                }
+                                                else
+                                                {
+                                                    <span>Chưa nộp</span>
+                                                } *@
+                                                <span>Đã thanh toán</span>
+                                            </td>
+                                        </tr>
+                                        stt++;
+                                    }
+                                }
+                                else
+                                {
+                                    <tr>
+                                        <td colspan="9" class="no-player">No players available</td>
+                                    </tr>
+                                }
+                            </table>
+                        </div>
+
+                        <div class="tour-input pt-5">
+                            <button class="submit-btn" onclick="changeStep()">Lưu và chuyển sang bước 6</button>
+                        </div>
+                    </div>
+
+                </div>
+
+
+            </div>
+        </div>
+    </div>
+
+    @* <div id="checkbox-popup" class="confirm-popup d-none">
+        <div class="confirm-content">
+            <div class="confirm-title">
+                Chọn ít nhất 2 người chơi để xếp lịch.
+            </div>
+            <div class="d-flex justify-content-around">
+                <div class="save-random" style="width: 200px;">
+                    OK
+                </div>
+            </div>
+        </div>
+    </div> *@
+</div>
+
+<div class="confirm-popup d-none normal">
+    <div class="confirm-content">
+        <div class="confirm-title">
+            Chưa có người chơi nào, hãy thêm người chơi
+        </div>
+        <div class="d-flex justify-content-around">
+            <div class="save-random"  onclick="hiddenPopup()">
+                Đồng ý
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="confirm-popup d-none over">
+    <div class="confirm-content">
+        <div class="confirm-title">
+            Bạn đã thêm quá số lượng người chơi, vui lòng chỉ chọn đủ lượng người chơi
+        </div>
+        <div class="d-flex justify-content-around">
+            <div class="save-random" onclick="hiddenOverPopup()">
+                Đồng ý
+            </div>
+        </div>
+    </div>
+</div>
+
+@Html.Partial("_LoadingPartial")
+<script src="~/lib/jquery/dist/jquery.min.js"></script>
+<script>
+    function hiddenOverPopup() {
+        var confirmPopup = document.querySelector('.over');
+        if (!confirmPopup.classList.contains('d-none')) {
+            confirmPopup.classList.add('d-none');
+        }
+    }
+
+    function hiddenPopup() {
+        var confirmPopup = document.querySelector('.normal');
+        if (!confirmPopup.classList.contains('d-none')) {
+            confirmPopup.classList.add('d-none');
+        }
+    }
+    closeLoad();
+    function downloadTemplate() {
+
+        var hiddenAnchor = document.createElement('a');
+        hiddenAnchor.href = 'https://firebasestorage.googleapis.com/v0/b/poolcomvn-82664.appspot.com/o/Tournaments%2FPlayerTemplate%2FPlayerTemplate.xlsx?alt=media&token=b6b38b05-5643-4bce-a114-6e0f6e348957';
+        hiddenAnchor.target = '_blank';
+        hiddenAnchor.download = 'DanhSachNguoiChoi.xlsx';
+        document.body.appendChild(hiddenAnchor);
+        hiddenAnchor.click();
+        document.body.removeChild(hiddenAnchor);
+    }
+
+    const tourFee = document.querySelector('.create-tour-fee');
+    const addClubPlayer = document.querySelector('.club-player');
+    const successBox = document.querySelector('.success-box');
+    const rowList = document.querySelectorAll('.players-table tr');
+    const containerFull = document.querySelector('.container-full');
+
+    function changeStep(){
+        var tourIdValue = document.getElementById('TourId').textContent.trim();
+        var noPlayer = document.querySelector('.no-player');
+        if (noPlayer !== null){
+            document.querySelector('.normal').classList.remove('d-none');
+        }
+        else{
+            window.location.href = '/CreateTournament/StepSixArrange?tourId=' + parseInt(tourIdValue);
+        }
+    }
+
+
+
+    //Handle show file name
+    document.querySelector('.file-import').addEventListener('change', function (event) {
+        const imageInput = event.target;
+        const selectedFileName = document.querySelector('#file-name');
+        console.log(imageInput.files && imageInput.files[0]);
+
+        if (imageInput.files && imageInput.files[0]) {
+            selectedFileName.textContent = imageInput.files[0].name;
+        }
+    });
+
+</script>

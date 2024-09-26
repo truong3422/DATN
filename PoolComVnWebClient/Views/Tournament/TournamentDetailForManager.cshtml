@@ -1,0 +1,444 @@
+﻿@using PoolComVnWebClient.DTO
+@using PoolComVnWebClient.Common
+@{
+    Layout = "~/Views/Shared/_TournamentLayout.cshtml";
+    TournamentDetailDTO tourDetail = ViewBag.TournamentDetail;
+    int numberOfPlayer = ViewBag.NumberOfPlayer;
+    int tourId = ViewBag.TourId;
+    //bool isCreateManager = false;
+}
+<div class="tour-id d-none">@tourId</div>
+<div class="container-full">
+    <div class="row mx-0">
+        <div class="col-lg-6 d-flex justify-content-center">
+            <div class="tour-info">
+                <div class="overview-text d-flex justify-content-between" style="border-top: none;">
+                    <span>Tổng quan</span>
+                </div>
+                <div class="tour-image d-flex justify-content-center">
+                    <img src="@tourDetail.Flyer" alt="">
+                </div>
+                @*@if (isCreateManager)
+                {
+                    <div class="overview-text">
+                        <span>Ban quản lý</span>
+                    </div>
+                    <div class="manager">
+                        <div class="d-flex justify-content-end">
+                            <div class="add-manager-btn">Thêm quản lý</div>
+                        </div>
+                        <div class="manager-table">
+                            <table>
+                                <tr>
+                                    <th>Tên</th>
+                                    <th class="text-center">Hành động</th>
+                                </tr>
+                                <tr>
+                                    <td class="admin-name">Nam Vũ (Admin)</td>
+                                    <td></td>
+                                </tr>
+                                <tr>
+                                    <td>Phạm Quốc Hưng</td>
+                                    <td>
+                                        <a href="#"><i class="fa-solid fa-trash-can p-2"></i></a>
+                                    </td>
+                                </tr>
+                            </table>
+                        </div>
+                    </div>
+                }
+                <div class="overview-text text-center down-btn">
+                    <i class="fa-solid fa-chevron-down"></i>
+                </div>*@
+                <div class="details-down">
+                    <div class="overview-text">
+                        <span>Chi tiết</span>
+                    </div>
+                    <div class="tour-details px-5 py-4 row">
+                        <div class="col-6">
+                            <div class="info-line">
+                                <div class="info-title">
+                                    Tên giải đấu
+                                </div>
+                                <div class="info-description">
+                                    @tourDetail.TournamentName
+                                </div>
+                            </div>
+                            <div class="info-line">
+                                <div class="info-title">
+                                    Loại trò chơi
+                                </div>
+                                <div class="info-description">
+                                    @tourDetail.GameType
+                                    @*9 ball
+                                    <span>
+                                    ( Xếp cao
+                                    <span>/ Break box </span>
+                                    )
+                                    </span>*@
+                                </div>
+                            </div>
+                            <div class="info-line">
+                                <div class="info-title">
+                                    Số người chơi
+                                </div>
+                                <div class="info-description">
+                                    @numberOfPlayer/@tourDetail.MaxPlayer
+                                </div>
+                            </div>
+                            <div class="info-line">
+                                <div class="info-title">
+                                    Lệ phí tham gia
+                                </div>
+                                <div class="info-description">
+                                    @tourDetail.EntryFee VNĐ
+                                </div>
+                            </div>
+                            <div class="info-line">
+                                <div class="info-title">
+                                    Tổng giải thưởng
+                                </div>
+                                <div class="info-description">
+                                    @tourDetail.TotalPrize VNĐ
+                                </div>
+                            </div>
+                            <div class="info-line">
+                                <div class="info-title">
+                                    Loại giải đấu
+                                </div>
+                                @if (tourDetail.TourTypeId == Constant.DoubleEliminate)
+                                {
+                                    <div class="info-description">
+                                        Đấu loại kép
+                                    </div>
+                                }
+                                else
+                                {
+                                    <div class="info-description">
+                                        Đấu loại đơn
+                                    </div>
+                                }
+                            </div>
+                            <div class="info-line">
+                                <div class="info-title">
+                                    Phạm vi
+                                </div>
+                                @if (tourDetail.Access)
+                                {
+                                    <div class="info-description">
+                                        Công khai
+                                    </div>
+                                }
+                                else
+                                {
+                                    <div class="info-description">
+                                        Riêng tư
+                                    </div>
+                                }
+                            </div>
+                        </div>
+                        <div class="col-6">
+                            <div class="info-line">
+                                <div class="info-title">
+                                    Cuộc đua đến
+                                </div>
+                                <div class="info-description row d-flex justify-content-between">
+                                    <div class="col-5">
+                                        @if (tourDetail.TourTypeId != Constant.SingleEliminate)
+                                        {
+                                            <div class="text-center">
+                                                <b>Nhánh thắng</b>
+                                            </div>
+                                        }
+                                        @foreach (var item in tourDetail.RaceWin)
+                                        {
+                                            <div class="d-flex justify-content-between">
+                                                <span>@item.Round</span>
+                                                <span>@item.GameToWin</span>
+                                            </div>
+                                        }
+                                    </div>
+                                    @if (tourDetail.TourTypeId != Constant.SingleEliminate)
+                                    {
+                                        <div class="col-5">
+                                            <div class="text-center">
+                                                <b>Nhánh thua</b>
+                                            </div>
+                                            @foreach (var item in tourDetail.RaceLose)
+                                            {
+                                                <div class="d-flex justify-content-between">
+                                                    <span>@item.Round</span>
+                                                    <span>@item.GameToWin</span>
+                                                </div>
+                                            }
+                                        </div>
+                                    }
+                                </div>
+                            </div>
+                            <div class="info-line">
+                                <div class="info-title">
+                                    Ngày bắt đầu
+                                </div>
+                                <div class="info-description">
+                                    @tourDetail.StartTime.ToString("dd/MM/yyyy")
+                                </div>
+                            </div>
+                            <div class="info-line">
+                                <div class="info-title">
+                                    Ngày kết thúc
+                                </div>
+                                <div class="info-description">
+                                    @tourDetail.EndTime.ToString("dd/MM/yyyy")
+                                </div>
+                            </div>
+                            <div class="info-line">
+                                <div class="info-title">
+                                    Hạn đăng kí
+                                </div>
+                                <div class="info-description">
+                                    @tourDetail.RegisterDate.ToString("dd/MM/yyyy")
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="overview-text">
+                        <span>Mở rộng</span>
+                    </div>
+                    <div class="tour-details px-5 py-4 row">
+                        <div class="info-line">
+                            <div class="info-description" style="font-size: 14px;">
+                                @tourDetail.Description
+                            </div>
+                        </div>
+                    </div>
+                    <div class="overview-text">
+                        <span>Địa điểm</span>
+                    </div>
+                    <div class="address-info px-5 py-4 d-flex align-items-center">
+                        <a href="" class="address-icon">
+                            <i class="fa-solid fa-map-location-dot"></i>
+                        </a>
+                        <div>
+                            <div class="info-title">
+                                @tourDetail.ClubName
+                            </div>
+                            <div class="info-description">
+                                @tourDetail.Address
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="tour-podium col-lg-6 d-none">
+            <div class="row mx-3 podium-content">
+                <div class="col-4 px-0 d-flex align-items-end">
+                    <div>
+                        <div class="silver-medal d-flex align-items-end justify-content-center">
+                            <img class="medal-img" src="~/images/silver_medal.png" alt="">
+                        </div>
+                        <div class="silver-podium mt-2 p-3 d-flex align-items-center justify-content-center ">
+                            <!-- <img class="tour-flag" src="~/images/VietNamFlag.png" alt="">&nbsp; -->
+                            <!-- <div class="text-center">Quảng Vũ</div> -->
+                            <i class="fa-solid fa-question" style="font-size: 20px;"></i>
+                        </div>
+                    </div>
+                </div>
+                <div class=" col-4 px-0 d-flex align-items-end">
+                    <div>
+                        <div class="gold-medal d-flex align-items-end justify-content-center">
+                            <img class="medal-img" src="~/images/gold_medal.png" alt="">
+                        </div>
+                        <div class="gold-podium mt-2 p-3 d-flex align-items-center justify-content-center ">
+                            <!-- <img class="tour-flag" src="~/images/VietNamFlag.png" alt="">&nbsp; -->
+                            <!-- <div class="text-center">Nam Vũ</div> -->
+                            <i class="fa-solid fa-question" style="font-size: 20px;"></i>
+                        </div>
+                    </div>
+                </div>
+                <div class=" col-4 px-0 d-flex align-items-end">
+                    <div>
+                        <div class="bronze-medal d-flex align-items-end justify-content-center">
+                            <img class="medal-img" src="~/images/bronze_medal.png" alt="">
+                        </div>
+                        <div class="bronze-podium mt-2 p-3 d-flex align-items-center justify-content-center ">
+                            <!-- <img class="tour-flag" src="~/images/VietNamFlag.png" alt="">&nbsp; -->
+                            <!-- <div class="text-center">Phạm Quốc Hưng</div> -->
+                            <i class="fa-solid fa-question" style="font-size: 20px;"></i>
+                        </div>
+                    </div>
+                </div>
+                <div class="podium-bg"></div>
+            </div>
+            <!-- class isPlaying: hidden history-->
+            <div class="overview-player mx-3 p-4">
+                <div class="player-position">Thứ hạng của tôi: #2</div>
+                <table class="player-table ">
+                    <tr>
+                        <th colspan="2">Top</th>
+                        <th>Cơ thủ</th>
+                        <th>Lịch sử đấu</th>
+                    </tr>
+                    <tr>
+                        <td class="player-cup">
+                            <i class="fa-solid fa-trophy" style="color: #ffe600;"></i>
+                        </td>
+                        <td class="player-top">
+                            1
+                        </td>
+                        <td class="player-name">Nam Vũ</td>
+                        <td class="player-history">
+                            <span class="history-match lose-match">
+                                <i class="fa-solid fa-xmark"></i>
+                            </span>
+                            <span class="history-match win-match">
+                                <i class="fa-solid fa-check"></i>
+                            </span>
+                            <span class="history-match win-match">
+                                <i class="fa-solid fa-check"></i>
+                            </span>
+                            <span class="history-match win-match">
+                                <i class="fa-solid fa-check"></i>
+                            </span>
+                            <span class="history-match win-match">
+                                <i class="fa-solid fa-check"></i>
+                            </span>
+                            <span class="history-match win-match">
+                                <i class="fa-solid fa-check"></i>
+                            </span>
+                            <span class="history-match win-match">
+                                <i class="fa-solid fa-check"></i>
+                            </span>
+                        </td>
+                    </tr>
+                    <tr class="">
+                        <!-- <tr class="my-position"> -->
+                        <td class="player-cup">
+                            <i class="fa-solid fa-trophy" style="color: #bbb;"></i>
+                        </td>
+                        <td>2</td>
+                        <td>Quảng Vũ</td>
+                        <td>
+                            <span class="history-match lose-match">
+                                <i class="fa-solid fa-xmark"></i>
+                            </span>
+                            <span class="history-match lose-match">
+                                <i class="fa-solid fa-xmark"></i>
+                            </span>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td class="player-cup">
+                            <i class="fa-solid fa-trophy" style="color: #f1a73f;"></i>
+                        </td>
+                        <td>3</td>
+                        <td>Phạm Quốc Hưng</td>
+                        <td></td>
+                    </tr>
+                    <tr>
+                        <td class="player-cup"></td>
+                        <td>4</td>
+                        <td>Phạm Quốc Hưng</td>
+                        <td></td>
+                    </tr>
+                    <tr>
+                        <td class="player-cup"></td>
+                        <td>5-8</td>
+                        <td>Phạm Quốc Hưng</td>
+                        <td></td>
+                    </tr>
+                    <tr>
+                        <td class="player-cup"></td>
+                        <td>9-16</td>
+                        <td>Phạm Quốc Hưng</td>
+                        <td></td>
+                    </tr>
+                </table>
+            </div>
+        </div>
+        <div class="tour-statistic col-lg-6">
+            <a href="@Url.Action("TournamentBracketForManager", "Tournament", new {tourId = tourId})" class="tour-control-btn statistic-box d-flex justify-content-center align-items-center">
+                <div>
+                    <div class="text-center">
+                        <i class="fa-solid fa-gamepad fa-flip"></i>
+                    </div>
+                    <div>
+                        Bảng điều khiển
+                    </div>
+                </div>
+            </a>
+            <div class="statistic-box">
+                <div class="statistic-header">
+                    Trận đấu
+                </div>
+                <div class="d-flex justify-content-between px-5 py-3">
+                    <div class="col-4">
+                        <div class="statistic-title">Đã xong</div>
+                        <div class="statistic-content">@ViewBag.Statistic.MatchEnd</div>
+                    </div>
+                    <div class="col-4">
+                        <div class="statistic-title">Đang đấu</div>
+                        <div class="statistic-content">@ViewBag.Statistic.MatchPlaying</div>
+                    </div>
+                    <div class="col-4">
+                        <div class="statistic-title">Còn lại</div>
+                        <div class="statistic-content">@ViewBag.Statistic.MatchIncoming</div>
+                    </div>
+                </div>
+                <a href="@Url.Action("TournamentMatchList", "Tournament", new {tourId = tourId})" class="statistic-link">Xem</a>
+            </div>
+            <div class="statistic-box">
+                <div class="statistic-header">
+                    Người chơi
+                </div>
+                <div class="d-flex justify-content-between px-5 py-3">
+                    <div class="col-4">
+                        <div class="statistic-title">Đang chơi</div>
+                        <div class="statistic-content">@ViewBag.Statistic.NormalPlayer</div>
+                    </div>
+                    <div class="col-4">
+                        <div class="statistic-title">Đã loại</div>
+                        <div class="statistic-content">@ViewBag.Statistic.EliminatedPlayer</div>
+                    </div>
+                    <div class="col-4">
+                        <div class="statistic-title">Bỏ giải</div>
+                        <div class="statistic-content">@ViewBag.Statistic.GiveUpPlayer</div>
+                    </div>
+                </div>
+                <a href="@Url.Action("TournamentPlayers", "Tournament", new {tourId = tourId})" class="statistic-link">Xem</a>
+            </div>
+
+            <div class="statistic-box">
+                <div class="statistic-header">
+                    Bàn đấu
+                </div>
+                <div class="d-flex justify-content-between px-5 py-3">
+                    <div class="col-4">
+                        <div class="statistic-title">Đang chơi</div>
+                        <div class="statistic-content">@ViewBag.Statistic.PlayingTable</div>
+                    </div>
+                    <div class="col-4">
+                        <div class="statistic-title">Bàn trống</div>
+                        <div class="statistic-content">@ViewBag.Statistic.EmptyTable</div>
+                    </div>
+                    <div class="col-4">
+                        <div class="statistic-title">Dùng trong giải</div>
+                        <div class="statistic-content">@ViewBag.Statistic.UseInTourTable</div>
+                    </div>
+                   
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+    //Handle down btn
+    //const downBtn = document.querySelector('.down-btn');
+    //const detailsDown = document.querySelector('.details-down');
+
+    //downBtn.addEventListener('click', () => {
+    //    detailsDown.classList.remove('d-none');
+    //    downBtn.classList.add('d-none');
+    //});
+</script>

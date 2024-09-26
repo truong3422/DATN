@@ -1,0 +1,121 @@
+﻿@{
+    Layout = "~/Views/Shared/_BackBtnLayout.cshtml";
+}
+@model PoolComVnWebClient.DTO.NewsDTO;
+<script src="https://cdn.ckeditor.com/ckeditor5/41.1.0/classic/ckeditor.js"></script>
+<div class="container">
+    <div class="add-news">
+        <div class="box-header">Tạo bài viết</div>
+        <form id="news-form" method="post" asp-controller="NewsManage" asp-action="AddNews" enctype="multipart/form-data">
+            <div class="box-body row py-5 px-5">
+                <div class="col-lg-10 px-5 pt-2">
+                    <strong class="mt-1">Tiêu đề</strong>
+                    <input type="text" class="nameInput mt-1" id="news-title" asp-for="Title" placeholder="Tiêu đề bài viết" />
+                    <div class="text-danger nameErr px-2 py-1"></div>
+                </div>
+                <div class="col-lg-10 px-5 pt-2">
+                    <strong class="mt-1">Mô tả chi tiết</strong>
+                    <div class="form-group">
+
+                        <textarea asp-for="Description" class="form-control"></textarea>
+                    </div>
+                    <div class="text-danger descErr px-2 py-1"></div>
+                </div>
+                <div class="col-lg-10 px-5 pt-2">
+                    <strong class="mt-1">Thêm banner</strong>
+                    <input type="file" accept="image/*" id="banner-input" name="BannerFile" />
+                    <div class="text-danger bannerErr px-2 py-1"></div>
+                </div>
+                <div class="col-lg-6 px-5 pt-5 d-flex justify-content-around">
+                    <button type="submit" class="btn btn-success">Tạo mới</button>
+                    <a asp-action="Index" asp-controller="NewsManage" class="btn btn-danger">HỦY</a>
+                </div>
+                <div class="col-lg-6 px-5 pt-5" id="form-message"></div>
+            </div>
+        </form>
+        <script>
+            class MyUploadAdapter {
+                constructor(loader) {
+                    this.loader = loader;
+                }
+
+                upload() {
+                    return this.loader.file
+                        .then(file => new Promise((resolve, reject) => {
+                            this._initRequest();
+                            this._initListeners(resolve, reject, file);
+                            this._sendRequest(file);
+                        }));
+                }
+                abort() {
+                    if (this.xhr) {
+                        this.xhr.abort();
+                    }
+                }
+                _initRequest() {
+                    const xhr = this.xhr = new XMLHttpRequest();
+                    xhr.open('POST', '@Url.Action("UploadImage","NewsManage")', true);
+                    xhr.responseType = 'json';
+                }
+                _initListeners(resolve, reject, file) {
+                    const xhr = this.xhr;
+                    const loader = this.loader;
+                    const genericErrorText = `Couldn't upload file: ${file.name}.`;
+
+                    xhr.addEventListener('error', () => reject(genericErrorText));
+                    xhr.addEventListener('abort', () => reject());
+                    xhr.addEventListener('load', () => {
+                        const response = xhr.response;
+                        if (!response || response.error) {
+                            return reject(response && response.error ? response.error.message : genericErrorText);
+                        }
+                        resolve({
+                            default: response.url
+                        });
+                    });
+                    if (xhr.upload) {
+                        xhr.upload.addEventListener('progress', evt => {
+                            if (evt.lengthComputable) {
+                                loader.uploadTotal = evt.total;
+                                loader.uploaded = evt.loaded;
+                            }
+                        });
+                    }
+                }
+                _sendRequest(file) {
+
+                    const data = new FormData();
+
+                    data.append('upload', file);
+                    this.xhr.send(data);
+                }
+
+            }
+            function MyCustomUploadAdapterPlugin(editor) {
+                editor.plugins.get('FileRepository').createUploadAdapter = (loader) => {
+
+                    return new MyUploadAdapter(loader);
+                };
+            }
+            ClassicEditor
+                .create(document.querySelector('#Description'), {
+                    extraPlugins: [MyCustomUploadAdapterPlugin],
+
+
+                })
+                .catch(error => {
+                    console.log(error);
+                });
+
+        </script>
+    </div>
+</div>
+
+<script>
+    const backBtn = document.querySelector('.back-btn');
+    if (backBtn !== null) {
+        backBtn.addEventListener('click', () => {
+            window.location.href = '/home/index';
+        });
+    }
+</script>

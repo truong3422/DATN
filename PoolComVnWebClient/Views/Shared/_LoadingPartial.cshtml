@@ -1,0 +1,24 @@
+﻿
+<div class="loader-box-bg d-flex justify-content-center align-items-center">
+    <div>
+        <div class="loader-box">
+            <div class="white-ball"></div>
+            <div class="nine-ball"></div>
+        </div>
+        <div class="load-text mt-3">Đang tải ...</div>
+    </div>
+</div>
+<script>
+    const loader = document.querySelector('.loader-box-bg');
+    function openLoad() {
+        if (loader.classList.contains("d-none")){
+            loader.classList.remove("d-none");
+        }
+    }
+
+    function closeLoad() {
+        if (!loader.classList.contains("d-none")){
+            loader.classList.add("d-none");
+        }
+    }
+</script>

@@ -1,0 +1,447 @@
+﻿@{
+    Layout = "~/Views/Shared/_CreateTournamentLayout.cshtml";
+    int? tourId = ViewBag.TourId;
+}
+@model PoolComVnWebClient.DTO.CreateTournamentInputDTO
+
+<div class="error-list">
+    @if (ViewBag.Error != null)
+    {
+        @foreach (var error in ViewBag.Error)
+        {
+            <div class="error-box">
+                <div class="error-content">
+                    <div class="error-des">
+                        @error
+                    </div>
+                    <div class="error-close">
+                        <i class="fa-solid fa-xmark"></i>
+                    </div>
+                </div>
+            </div>
+        }
+    }
+</div>
+
+<script>
+    const errorCloseBtns = document.querySelectorAll('.error-close');
+    errorCloseBtns.forEach(btn =>{
+        btn.addEventListener('click',()=>{
+            const parent = btn.parentNode.parentNode;
+            parent.remove();
+        })
+    })
+</script>
+
+
+
+<div class="container-full">
+    <div class="opened-step d-none">@ViewBag.StepOpen</div>
+    <div class="current-step d-none">@ViewBag.CurrentStep</div>
+    @if (tourId != null)
+    {
+        <div class="tour-id d-none">@tourId</div>
+    }
+    <div class="create-tour d-flex justify-content-end">
+        <form class="create-tour-display col-lg-10" method="post" asp-controller="CreateTournament"
+              asp-action="StepOneCreateTournament" method="post" id="create-form">
+            @if (tourId != null)
+            {
+                <input type="hidden" name="tourId" value="@tourId" />
+            }
+            <div class="create-step-one">
+                <div class="display-title">Tạo giải đấu</div>
+                <div class="display-content">
+                    <div class="tour-input">
+                        <div class="input-title">
+                            <span class="input-requir">*</span>
+                            <span>Tên giải đấu</span>
+                        </div>
+                        <input class="input-content" type="text" asp-for="TournamentName">
+                    </div>
+                    <div class="tour-input">
+                        <div class="input-title">
+                            <span>Mô tả</span>
+                        </div>
+                        <textarea class="input-content" type="text" asp-for="Description"></textarea>
+                    </div>
+                    <div class="tour-input">
+                        <div class="input-title">
+                            <span class="input-requir">*</span>
+                            <span>Thời gian bắt đầu</span>
+                        </div>
+                        <input class="input-date" type="date" asp-for="StartTime">
+                    </div>
+                    <div class="tour-input">
+                        <div class="input-title">
+                            <span class="input-requir">*</span>
+                            <span>Thời gian kết thúc</span>
+                        </div>
+                        <input class="input-date" type="date" asp-for="EndTime">
+                    </div>
+                    @*<div class="tour-input">
+                    <div class="input-title">
+                    <span class="input-requir">*</span>
+                    <span>Địa chỉ</span>
+                    </div>
+                    <input class="input-content" type="text" name="" id="">
+                    </div>*@
+                    <div class="tour-input d-flex">
+                        <div class="tour-input-line">
+                            <div class="input-title">
+                                <span class="input-requir">*</span>
+                                <span>Kiểu người chơi</span>
+                            </div>
+                            <select class="input-content" disabled>
+                                <option value="0" checked>1 vs 1</option>
+                            </select>
+                        </div>
+                        <div class="tour-input-line mx-3">
+                            <div class="input-title">
+                                <span class="input-requir">*</span>
+                                <span>Kiểu trò chơi</span>
+                            </div>
+                            <select class="input-content" asp-for="GameTypeId">
+                                @*<option value="0" checked hidden>Chọn kiểu trò chơi</option>*@
+                                <option value="1">8 bi</option>
+                                <option value="2">9 bi</option>
+                                <option value="3">10 bi</option>
+                                @*<option value="4">Khác</option>*@
+                            </select>
+                        </div>
+                    </div>
+                    <div class="tour-input d-flex">
+                        <div class="tour-input-line">
+                            <div class="input-title">
+                                <span class="input-requir">*</span>
+                                <span>Kiểu đấu</span>
+                            </div>
+                            <select class="input-content tour-type" asp-for="TournamentTypeId">
+                                @*<option checked hidden>Chọn kiểu đấu</option>*@
+                                <option value="1" isManyStage="false">Đấu loại đơn</option>
+                                <option value="2" isManyStage="true">Đấu loại kép</option>
+                            </select>
+
+                        </div>
+                        <div class="tour-input-line mx-3">
+                            <div class="input-title">
+                                <span class="input-requir">*</span>
+                                <span>Kích thước sơ đồ</span>
+                            </div>
+                            <!-- disabled -->
+                            <select class="input-content size-bracket" asp-for="MaxPlayerNumber">
+                                @*<option value="0" checked hidden>Chọn kích thước sơ đồ</option>*@
+                                <option value="2">2</option>
+                                <option value="4">4</option>
+                                <option value="8">8</option>
+                                <option value="16">16</option>
+                                <option value="32">32</option>
+                                <option value="64">64</option>
+                                <option value="128">128</option>
+                                <option value="256">256</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="knockout-number tour-input">
+                        <div class="tour-input-line">
+                            <div class="input-title">
+                                <span class="input-requir">*</span>
+                                <span>Số người vào loại trực tiếp</span>
+                            </div>
+                            <select class="input-content knockout-options" asp-for="KnockoutNumber">
+                                <option value="2">2</option>
+                            </select>
+                            @if (Model != null)
+                            {
+                                <input id="knockoutNumber" class="d-none" value="@Model.KnockoutNumber" />
+                            }
+                        </div>
+                    </div>
+
+                    <div class="race-round row d-none pt-3">
+                        <div class="race-note col-12">(*) Giữ phím Ctrl để chọn/bỏ chọn nhiều ô cùng lúc.</div>
+                        <div class="col-12 px-0">
+                            <button class="add-group">Chọn toàn bộ</button>
+                            <button class="remove-group">Loại bỏ nhóm</button>
+                        </div>
+                        <div class="col-lg-6">
+                            <div class="race-branch">Nhánh thắng:</div>
+                            <div class="race-win">
+                                <div class="tour-input-line row">
+                                    <div class="round-name col-lg-6">Vòng 1</div>
+                                    <div class="col-lg-6">
+                                        <input class="race-number" type="text" name="round1">
+                                    </div>
+                                </div>
+                                <div class="tour-input-line row">
+                                    <div class="round-name col-lg-6">Vòng 1</div>
+                                    <div class="col-lg-6">
+                                        <input class="race-number" type="text" name="round1">
+                                    </div>
+                                </div>
+                                <div class="tour-input-line row">
+                                    <div class="round-name col-lg-6">Vòng 1</div>
+                                    <div class="col-lg-6">
+                                        <input class="race-number" type="text" name="round1">
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="race-lose-display col-lg-6">
+                            <div class="race-branch">Nhánh thua:</div>
+                            <div class="race-lose"></div>
+                        </div>
+                    </div>
+                    <input type="hidden" id="RaceNumberString" name="RaceNumberString" asp-for="RaceNumberString">
+                    <!-- <div class="tour-input">
+                        <div class="input-title">
+                            <span class="input-requir">*</span>
+                            <span>Sắp xếp khởi đầu</span>
+                        </div>
+                        <div class="d-flex arrange-list">
+                            <div class="col-lg-3">
+                                <input class="input-arrange" type="radio" value="" name="arrange" checked>
+                                Hệ thống ngẫu nhiên
+                            </div>
+                            <div class="col-lg-3">
+                                <input class="input-arrange" type="radio" value="" name="arrange">
+                                Người dùng ngẫu nhiên
+                            </div>
+                            <div class="col-lg-3">
+                                <input class="input-arrange" type="radio" value="" name="arrange">
+                                Người dùng tùy chỉnh
+                            </div>
+                        </div>
+                    </div> -->
+                    <div class="tour-input">
+                        <div class="input-title">
+                            <span>Lệ phí tham gia (VNĐ)</span>
+                        </div>
+                        <input class="input-content" type="number" value="0" asp-for="EntryFee" min="0">
+                    </div>
+                    <div class="tour-input">
+                        <div class="input-title">
+                            <span>Tổng giải thưởng (VNĐ)</span>
+                        </div>
+                        <input class="input-content" type="number" value="0" asp-for="PrizeMoney" min="0">
+                    </div>
+                    <div class="tour-input">
+                        <div class="input-title">
+                            <span class="input-requir">*</span>
+                            <span>Hạn đăng kí</span>
+                        </div>
+                        <input class="input-date" type="date" asp-for="RegistrationDeadline">
+                    </div>
+                    <div class="tour-input">
+                        <div class="input-title">
+                            <span class="input-requir">*</span>
+                            <span>Truy cập</span>
+                        </div>
+                        <div class="arrange-list">
+                            @if (Model != null && Model.Access)
+                            {
+                                <div>
+                                    <input class="input-access" type="radio" value="true" name="Access" checked asp-for="Access">
+                                    Công khai - Bất kỳ ai cũng có thể xem và gửi yêu cầu tham gia giải đấu.
+                                </div>
+                                <div>
+                                    <input class="input-access" type="radio" value="false" name="Access" asp-for="Access">
+                                    Riêng tư - Chỉ ai được mời mới có thể tham gia giải đấu này.
+                                </div>
+                            }
+                            else
+                            {
+                                <div>
+                                    <input class="input-access" type="radio" value="true" name="Access" asp-for="Access">
+                                    Công khai - Bất kỳ ai cũng có thể xem và gửi yêu cầu tham gia giải đấu.
+                                </div>
+                                <div>
+                                    <input class="input-access" type="radio" value="false" name="Access" checked asp-for="Access">
+                                    Riêng tư - Chỉ ai được mời mới có thể tham gia giải đấu này.
+                                </div>
+                            }
+                        </div>
+                    </div>
+                    <div class="tour-input">
+                        <div class="submit-btn" onclick="submitForm()" style="width:250px;">Lưu và chuyển sang bước 2</div>
+                    </div>
+                </div>
+            </div>
+        </form>
+    </div>
+</div>
+
+<script>
+    //Handle display filed
+    const tourType = document.querySelector('.tour-type');
+    const sizeBracket = document.querySelector('.size-bracket');
+    const knockoutNumber = document.querySelector('.knockout-number');
+    const knockoutOptions = document.querySelector('.knockout-options');
+    const raceRound = document.querySelector('.race-round');
+    const raceWin = document.querySelector('.race-win');
+    const raceLose = document.querySelector('.race-lose');
+    const removeGroupBtn = document.querySelector('.remove-group');
+    const addGroupBtn = document.querySelector('.add-group');
+    const raceLoseDisplay = document.querySelector('.race-lose-display');
+
+    var isKnockoutOn = false;
+    var isTourTypeSelected = false;
+    var isSizeBracketSelected = false;
+    var selectedOption;
+    var isManyStageValue;
+
+    knockoutOptions.disabled = true;
+
+    tourType.addEventListener('change', checkTourType)
+    checkTourType();
+    function checkTourType() {
+        selectedOption = tourType.options[tourType.selectedIndex];
+        isManyStageValue = selectedOption.getAttribute('isManyStage');
+        knockoutOptions.disabled = !(isManyStageValue === 'true');
+        isKnockoutOn = (isManyStageValue === 'true');
+        isTourTypeSelected = true;
+        if (isManyStageValue === 'false') {
+            knockoutOptions.selectedValue = '2';
+        }
+        raceRoundHandle();
+    }
+
+    sizeBracket.addEventListener('change', checkSizeBracket);
+    checkSizeBracket();
+    function checkSizeBracket() {
+        if (isKnockoutOn === false) {
+            knockoutOptions.disabled = false;
+        }
+        var sizeBracketNum = sizeBracket.value;
+        var knockoutHTML = '';
+
+        if (Math.log2(sizeBracketNum) <= 2) {
+            knockoutHTML += '<option value="2">2</option>'
+        } else {
+            for (var i = 1; i < Math.log2(sizeBracketNum); i++) {
+                knockoutHTML += '<option value="' + (Math.pow(2, i)) + '">' + (Math.pow(2, i)) + '</option>'
+            }
+        }
+        knockoutOptions.innerHTML = knockoutHTML;
+        if (document.getElementById('knockoutNumber')!==null && document.getElementById('knockoutNumber').value != '') {
+            knockoutOptions.querySelector('option[value="' +
+                document.getElementById('knockoutNumber').value + '"]').selected = true;
+        }
+        if (isKnockoutOn === false) {
+            knockoutOptions.disabled = true;
+        }
+        isSizeBracketSelected = true;
+        raceRoundHandle();
+    }
+
+    knockoutOptions.addEventListener('change', raceRoundHandle);
+
+    function raceRoundHandle() {
+        if (isTourTypeSelected === true && isSizeBracketSelected === true) {
+            raceRound.classList.remove('d-none');
+
+            var raceWinHTML = '';
+            var winRoundNumber = Math.log2(sizeBracket.value);
+            if (isManyStageValue === 'true') {
+                winRoundNumber += 1;
+            }
+            for (var i = 0; i < winRoundNumber; i++) {
+                raceWinHTML += '<div class="tour-input-line row">';
+
+                if (i === (winRoundNumber - 1)) {
+                    raceWinHTML += '<div class="round-name col-lg-6">CK</div>';
+                } else {
+                    raceWinHTML += '<div class="round-name col-lg-6">Vòng ' + (i + 1) + '</div>';
+                }
+                raceWinHTML += '<div class="col-lg-6">'
+                    + '<input class="race-number" type="number" value="5" name="round' + (i + 1) + '">'
+                    + '</div>'
+                    + '</div>';
+            }
+            raceWin.innerHTML = raceWinHTML;
+
+            if (isManyStageValue === 'true') {
+                raceLoseDisplay.classList.remove('d-none');
+                var raceLoseHTML = '';
+                var loseRoundNumber = 2 * (Math.log2(sizeBracket.value) - Math.log2(knockoutOptions.value));
+                for (var i = 0; i < loseRoundNumber; i++) {
+                    raceLoseHTML += '<div class="tour-input-line row">'
+                        + '<div class="round-name col-lg-6">Vòng ' + (i + 1) + '</div>'
+                        + '<div class="col-lg-6">'
+                        + '<input class="race-number" type="number" value="5" name="loseRound' + (i + 1) + '">'
+                        + '</div>'
+                        + '</div>';
+                }
+                raceLose.innerHTML = raceLoseHTML;
+            } else {
+                raceLose.innerHTML = '';
+                raceLoseDisplay.classList.add('d-none');
+            }
+            addEventToRaceInput();
+        }
+    }
+
+    function addEventToRaceInput() {
+        const raceInputList = document.querySelectorAll('.race-number');
+        raceInputList.forEach((element) => {
+            element.addEventListener('click', function (event) {
+                if (event.ctrlKey) {
+                    this.classList.toggle('multi');
+                }
+            });
+            element.addEventListener('keyup', () => {
+                if (element.classList.contains('multi')) {
+                    const multiInputList = document.querySelectorAll('.multi');
+                    multiInputList.forEach((multiInput) => {
+                        multiInput.value = element.value;
+                    })
+                }
+            })
+        });
+    }
+
+    removeGroupBtn.addEventListener('click', (e) => {
+        e.preventDefault();
+        const raceInputList = document.querySelectorAll('.race-number');
+        raceInputList.forEach((element) => {
+            element.classList.remove('multi');
+        });
+    })
+
+    addGroupBtn.addEventListener('click', (e) => {
+        e.preventDefault();
+        const raceInputList = document.querySelectorAll('.race-number');
+        raceInputList.forEach((element) => {
+            element.classList.add('multi');
+        });
+    })
+
+    function submitForm() {
+        getAndSetRaceNumberString();
+        document.getElementById('create-form').submit();
+    }
+
+    function getAndSetRaceNumberString() {
+        var raceNumberInputs = document.querySelectorAll('.race-number');
+        var raceNumberValues = {};
+
+        raceNumberInputs.forEach(function (input) {
+            var roundName = input.getAttribute('name');
+            var value = input.value;
+
+            var prefix = roundName.startsWith('round') ? 'W' : 'L';
+            if (prefix == 'W') {
+                raceNumberValues[roundName] = prefix + roundName.slice(5) + '-' + value;
+            }
+            else {
+                raceNumberValues[roundName] = prefix + roundName.slice(9) + '-' + value;
+            }
+        });
+
+        var raceNumberString = Object.values(raceNumberValues).join(',');
+
+        document.getElementById('RaceNumberString').value = raceNumberString;
+    }
+
+    function bindingRace() { }
+</script>

@@ -1,0 +1,89 @@
+﻿@model PoolComVnWebClient.DTO.VerifyAccountDTO
+@{
+    string message = ViewBag.Message;
+}
+<div class="container">
+    <div class="verify-register d-flex justify-content-center">
+        <form class="verify-form" asp-controller="Authentication" asp-action="VerifyAccount" method="post">
+            <div class="verify-title text-center mt-4">
+                Một bước cuối cùng!<br>
+                Chúng tôi cần xác minh tài khoản email của bạn
+            </div>
+            <div class="verify-content text-center mt-3">
+                Vui lòng kiểm tra hộp thư đến của bạn để biết mã xác minh được gửi tới
+                <b>abcd@gmail.com</b>
+            </div>
+            <div class="mt-5 text-center py-2"><b>Nhập mã</b></div>
+            <div class="d-flex justify-content-center">
+                <input class="code-input" maxlength="1">
+                <input class="code-input" maxlength="1">
+                <input class="code-input" maxlength="1">
+                <input class="code-input" maxlength="1">
+                <input class="code-input" maxlength="1">
+                <input class="code-input" maxlength="1">
+            </div>
+            <input type="hidden" id="AccountId" name="AccountId" asp-for="AccountId" value="@ViewBag.AccountId">
+            <input type="hidden" id="VerifyCode" name="VerifyCode" asp-for="VerifyCode">
+            @if (!string.IsNullOrEmpty(message))
+            {
+                <div class="container">
+                    <div class="notification text-center">
+                        @message
+                    </div>
+                </div>
+            }
+            <div class="d-flex justify-content-center mt-5">
+                <input class="submit-btn" type="submit" value="Xác minh" onclick="submitForm()">
+            </div>
+            <div class="text-center my-5">
+                <i>Nếu bạn chưa nhận được mã?<br> Vui lòng kiểm tra thư mục thư rác của bạn.</i>
+            </div>
+        </form>
+    </div>
+</div>
+<script>
+    document.addEventListener("DOMContentLoaded", function () {
+        var codeInputs = document.querySelectorAll('.code-input');
+
+        codeInputs.forEach(function (input, index) {
+            input.addEventListener('input', function () {
+                var value = this.value;
+                if (value.length === 1) {
+                    var nextIndex = index + 1;
+                    if (nextIndex < codeInputs.length) {
+                        codeInputs[nextIndex].focus();
+                    }
+                }
+            });
+
+            input.addEventListener('keydown', function (e) {
+                if (e.key === 'Backspace') {
+                    var value = this.value;
+                    if (value.length === 0) {
+                        var previousIndex = index - 1;
+                        if (previousIndex >= 0) {
+                            codeInputs[previousIndex].focus();
+                        }
+                    }
+                }
+            });
+        });
+    });
+
+    function submitForm() {
+        var form = document.querySelector('.verify-form');
+        var codeInputs = document.querySelectorAll('.code-input');
+
+        var codeValues = [];
+
+        codeInputs.forEach(function (input) {
+            codeValues.push(input.value);
+        });
+
+        var combinedCode = codeValues.join('');
+
+        document.getElementById('VerifyCode').value = combinedCode;
+        console.log(combinedCode);
+        form.submit();
+    }
+</script>

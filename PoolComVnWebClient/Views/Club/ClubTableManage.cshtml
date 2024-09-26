@@ -1,0 +1,350 @@
+﻿@{
+    Layout = "~/Views/Shared/_ClubLayout.cshtml";
+}
+@{
+    var stt = 1;
+}
+@using PoolComVnWebClient.DTO;
+@model TableDTO;
+<div class="dashboard-container table">
+    <div class="news-manage m-2">
+        <div class="manager-content">
+            <div class="d-flex px-0 justify-content-end">
+                <button class="import-excel table m-0" onclick="downloadTemplate()">Tải mẫu</button>
+                <form id="importForm" asp-action="ImportTables" asp-controller="Club" asp-route-clubId="@ViewBag.Club.ClubId" method="post" enctype="multipart/form-data" class="import-form d-flex my-0">
+                    <div class="d-flex">
+                        
+                        <div class="import-input table my-0">
+                            <span id="file-name">Chọn tệp để tải lên</span>
+                            <input class="file-import" type="file" name="ImportTables" accept=".xls, .xlsx" />
+                        </div>
+                    </div>
+                    <button type="submit">Nhập danh sách</button>
+                </form>
+            </div>
+            <div class="d-flex px-0 justify-content-end">
+                <div class="manageSearch d-flex mx-3">
+                    <input class="news-input" placeholder="Nhãn, tên,..." />
+                    <div class="searchBtn px-3 align-items-center">
+                        <i class="fa-solid fa-magnifying-glass"></i>
+                    </div>
+                </div>
+                <div id="add-table" class="addBtn-account d-flex justify-content-center align-items-center m-0">
+                    Thêm bàn
+                </div>
+            </div>
+            <div class="manage-body mt-3 p-0">
+                <table class="">
+                    <tr>
+                        <th class="news-id">#</th>
+                        <th class="text-center">Ảnh</th>
+                        <th class="">Nhãn bàn</th>
+                        <th class="text-center w150">Tên bàn</th>
+                        <th class="text-center">Kích thước</th>
+                        <th class="text-center w150">Giá giờ chơi</th>
+                        <th class="w100 text-center">Hành động</th>
+                    </tr>
+                    @foreach (var table in ViewBag.Table)
+                    {
+                        <tr>
+                            <td>@stt</td>
+                            <td>
+                                <div class="img-frame" style="background-image: url(@table.Image);"></div>
+                            </td>
+                            <td>@table.TagName</td>
+                            <td class="text-center">@table.TableName</td>
+                            <td class="text-center">@table.Size</td>
+                            <td class="text-center">@table.Price VNĐ / giờ</td>
+                            <td class="text-center">
+                                <a class="edit-btn" data-table-id="@table.TableId"><i class="fa-solid fa-pencil p-2"></i></a>
+                                <a asp-action="DeleteTable" asp-controller="Club" asp-route-tableid="@table.TableId"><i class="fa-solid fa-trash-can p-2"></i></a>
+                            </td>
+                        </tr>
+                        stt++;
+                    }
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div id="create-display" class="match-display d-flex justify-content-center align-items-center d-none">
+    <div class="match-detail" style="background: #fff;">
+        <div class="match-header d-flex justify-content-between">
+            <div class="match-title">
+                <span>Thêm bàn</span>
+            </div>
+            <div class="match-close">
+                <i class="fa-solid fa-xmark"></i>
+            </div>
+        </div>
+        <form asp-action="AddTable" asp-controller="Club" method="post" asp-route-clubid="@ViewBag.Club.ClubId" enctype="multipart/form-data" class="table-input" style="overflow-y: auto; height: 80vh;">
+            <div class="input-line">
+                <div class="input-title">Bàn đang có</div>
+                <select name="NameValue" class="input-content" onchange="fillTableInfo()">
+                    <option value="0">Chọn bàn</option>
+                    @foreach (var tableName in ViewBag.TableNames)
+                    {
+                        <option value="@tableName">@tableName</option>
+                    }
+                </select>
+            </div>
+            <div class="input-line">
+                <div class="input-title">Ảnh</div>
+                <div class="upload-img mt-2" style="border: dashed 3px #000; width: 320px;height: 220px;">
+                    <div class="upload-title d-flex align-items-center justify-content-center" style="color: #000;">
+                        <div>
+                            <i class="fa-regular fa-image"></i>
+                            <p>Bấm vào đây để tải ảnh.</p>
+                        </div>
+                    </div>
+                    <div class="m-0 preview-image" style="width: 300px; height: 200px;"></div>
+                    <input type="file" class="imageInput mt-1" name="Image"  accept="image/*" />
+                    <!-- lấy tên ảnh -->
+                    <input id="file-name" class="d-none" />
+                </div>
+            </div>
+            <div class="input-line">
+                <div class="input-title">Nhãn bàn</div>
+                <input asp-for="TagName" class="input-content">
+            </div>
+            <div class="input-line">
+                <div class="input-title">Tên bàn</div>
+                <input asp-for="TableName" name="TableName" class="input-content">
+            </div>
+            <div class="input-line">
+                <div class="input-title">Kích thước (ft)</div>
+                <input asp-for="Size" name="Size" class="input-content">
+            </div>
+            <div class="input-line">
+                <div class="input-title">Giá giờ chơi (VNĐ / giờ)</div>
+                <input asp-for="Price" name="Price" class="input-content">
+            </div>
+            <div class="input-line">
+                <input type="submit" class="create-table" value="Thêm vào danh sách">
+            </div>
+        </form>
+    </div>
+</div>
+
+<div id="edit-display" class="match-display d-flex justify-content-center align-items-center d-none">
+    <div class="match-detail" style="background: #fff;">
+        <div class="match-header d-flex justify-content-between">
+            <div class="match-title">
+                <span>Chi tiết bàn</span>
+            </div>
+            <div class="match-close">
+                <i class="fa-solid fa-xmark"></i>
+            </div>
+        </div>
+        <form asp-action="UpdateTable" asp-controller="Club" method="post" enctype="multipart/form-data" class="table-input" style="overflow-y: auto; height: 80vh;">
+            <div class="input-line">
+                <div class="input-title">Bàn đang có</div>
+                <select name="NameValue2" class="input-content" onchange="fillTableInfo2()">
+                    <option value="0">Chọn bàn</option>
+                    @foreach (var tableName in ViewBag.TableNames)
+                    {
+                        <option value="@tableName">@tableName</option>
+                    }
+                </select>
+            </div>
+            <div class="input-line">
+                <div class="input-title">Ảnh</div>
+                <div class="upload-img mt-2" style="border: dashed 3px #000; width: 320px;height: 220px;">
+                    <div class="m-0 preview-image image-details" style="background-image: url();
+                        width: 300px; height: 200px;"></div>
+                    <input type="file" class="imageInput mt-1" name="Image" accept=" image /*" />
+                    <!-- lấy tên ảnh -->
+                    <input id="file-name" class="d-none" />
+                </div>
+            </div>
+            <input type="hidden" asp-for="TableId" name="TableIdDetails" />
+            <input type="hidden" asp-for="ClubId" name="ClubIdDetails" />
+            <input type="hidden" asp-for="Image" name="ImageDetails" />
+            <input type="hidden" asp-for="IsScheduling" name="IsSchedulingDetails" />
+            <input type="hidden" asp-for="Status" name="StatusDetails" />
+            <input type="hidden" asp-for="IsUseInTour" name="IsUseInTourDetails" />
+            <div class="input-line">
+                <div class="input-title">Nhãn bàn</div>
+                <input asp-for="TagName" name="TagNameDetails" class="input-content">
+            </div>
+            <div class="input-line">
+                <div class="input-title">Tên bàn</div>
+                <input asp-for ="TableName" name="TableNameDetails" class="input-content">
+            </div>
+            <div class="input-line">
+                <div class="input-title">Kích thước (ft)</div>
+                <input asp-for="Size" name="SizeDetails" class="input-content">
+            </div>
+            <div class="input-line">
+                <div class="input-title">Giá giờ chơi (VNĐ / giờ)</div>
+                <input asp-for="Price" name="PriceDetails" class="input-content">
+            </div>
+            <div class="input-line">
+                <input type="submit" class="create-table" value="Lưu chỉnh sửa">
+            </div>
+        </form>
+    </div>
+</div>
+
+<script>
+    const backBtn = document.querySelector('.back-btn');
+    if (backBtn !== null) {
+        backBtn.addEventListener('click', () => {
+            window.location.href = '/home/index';
+        });
+    }
+
+    function downloadTemplate() {
+
+        var hiddenAnchor = document.createElement('a');
+        hiddenAnchor.href = 'https://firebasestorage.googleapis.com/v0/b/poolcomvn-82664.appspot.com/o/Table%2FTableTemplate.xlsx?alt=media&token=450bf442-8f5a-42c8-8ac7-60ab7a1bdfe7';
+        hiddenAnchor.target = '_blank';
+        hiddenAnchor.download = 'DanhSachBan.xlsx';
+        document.body.appendChild(hiddenAnchor);
+        hiddenAnchor.click();
+        document.body.removeChild(hiddenAnchor);
+    }
+    const createDisplay = document.getElementById('create-display');
+    //close popup create table
+    const createPopup = document.querySelector('#create-display .match-close');
+    createPopup.addEventListener('click', () => {
+        createDisplay.classList.add('d-none');
+    })
+
+    //open popup create table
+    const addTable = document.getElementById('add-table');
+    addTable.addEventListener('click', () => {
+        createDisplay.classList.remove('d-none');
+        //Image validation
+        const imgInput = createDisplay.querySelector('#file-name');
+
+        createDisplay.querySelector('.imageInput').addEventListener('change', function (event) {
+            const imageInput = event.target;
+            const previewImage = createDisplay.querySelector('.preview-image');
+            const selectedFileName = createDisplay.querySelector('#file-name');
+            const uploadTile = createDisplay.querySelector('.upload-title');
+
+            if (imageInput.files && imageInput.files[0]) {
+                const reader = new FileReader();
+
+                reader.onload = function (e) {
+                    previewImage.style.backgroundImage = 'url(' + e.target.result + ')';
+                    previewImage.style.display = 'block';
+                    uploadTile.classList.add('d-none');
+                };
+
+                reader.readAsDataURL(imageInput.files[0]);
+                selectedFileName.value = imageInput.files[0].name;
+            }
+        });
+    })
+
+    const editDisplay = document.getElementById('edit-display');
+    //close popup edit table
+    const editPopup = document.querySelector('#edit-display .match-close');
+    editPopup.addEventListener('click', () => {
+        editDisplay.classList.add('d-none');
+    })
+
+    //open popup edit table
+    const editBtns = document.querySelectorAll('.edit-btn');
+    editBtns.forEach(editBtn => {
+        editBtn.addEventListener('click', () => {
+            editDisplay.classList.remove('d-none');
+            //Image validation
+            const imgInput = editDisplay.querySelector('#file-name');
+            const tableId = editBtn.dataset.tableId;
+            console.log(tableId);
+            fetchTableDetails(tableId)
+                .then(data => {
+                    console.log('Table details:', data);
+                    setTableDetailsInForm(data);
+                });
+            editDisplay.querySelector('.imageInput').addEventListener('change', function (event) {
+                const imageInput = event.target;
+                const previewImage = editDisplay.querySelector('.preview-image');
+                const selectedFileName = editDisplay.querySelector('#file-name');
+                const uploadTile = editDisplay.querySelector('.upload-title');
+
+                if (imageInput.files && imageInput.files[0]) {
+                    const reader = new FileReader();
+
+                    reader.onload = function (e) {
+                        previewImage.style.backgroundImage = 'url(' + e.target.result + ')';
+                        previewImage.style.display = 'block';
+                        uploadTile.classList.add('d-none');
+                    };
+
+                    reader.readAsDataURL(imageInput.files[0]);
+                    selectedFileName.value = imageInput.files[0].name;
+                }
+            });
+        })
+    })
+    function fetchTableDetails(tableId) {
+        return fetch(`https://localhost:5000/api/Table/${tableId}`)
+            .then(response => response.json())
+            .catch(error => {
+                console.error('Error fetching table details:', error);
+            });
+    }
+    function setTableDetailsInForm(data) {
+        document.querySelector('input[name="TableNameDetails"]').value = data.tableName;
+        document.querySelector('input[name="SizeDetails"]').value = data.size;
+        document.querySelector('input[name="PriceDetails"]').value = data.price;
+        document.querySelector('input[name="StatusDetails"]').value = data.status;
+        document.querySelector('.image-details').style.backgroundImage = `url(${data.image})`;
+        document.querySelector('input[name="ImageDetails"]').value = data.image;
+        document.querySelector('input[name="IsSchedulingDetails"]').value = data.isScheduling;
+        document.querySelector('input[name="IsUseInTourDetails"]').value = data.isUseInTour;
+        document.querySelector('input[name="TagNameDetails"]').value = data.tagName;
+        document.querySelector('input[name="TableIdDetails"]').value = data.tableId;
+        document.querySelector('input[name="ClubIdDetails"]').value = data.clubId;
+        console.log(data);
+    }
+
+    //Handle show file name
+    document.querySelector('.file-import').addEventListener('change', function (event) {
+        const imageInput = event.target;
+        const selectedFileName = document.querySelector('#file-name');
+        console.log(imageInput.files && imageInput.files[0]);
+
+        if (imageInput.files && imageInput.files[0]) {
+            selectedFileName.textContent = imageInput.files[0].name;
+        }
+    });
+</script>
+<script>
+    function fillTableInfo() {
+        var selectedTable = document.querySelector('[name="NameValue"]').value;
+        console.log(selectedTable);
+        var selectedTableInfo = @Json.Serialize(ViewBag.Table);
+        var tableInfo = selectedTableInfo.find(function (table) {
+            return table.tableName === selectedTable;
+
+        });
+        if (tableInfo) {
+            document.querySelector('input[name="TableName"]').value = tableInfo.tableName;
+            document.querySelector('input[name="Size"]').value = tableInfo.size;
+            document.querySelector('input[name="Price"]').value = tableInfo.price;
+        }
+    }
+</script>
+<script>
+
+    function fillTableInfo2() {
+        var selectedTable = document.querySelector('[name="NameValue2"]').value;
+        console.log(selectedTable);
+        var selectedTableInfo = @Json.Serialize(ViewBag.Table);
+        var tableInfo = selectedTableInfo.find(function (table) {
+            return table.tableName === selectedTable;
+
+        });
+        if (tableInfo) {
+            document.querySelector('input[name="TableNameDetails"]').value = tableInfo.tableName;
+            document.querySelector('input[name="SizeDetails"]').value = tableInfo.size;
+            document.querySelector('input[name="PriceDetails"]').value = tableInfo.price;
+        }
+    }
+</script>

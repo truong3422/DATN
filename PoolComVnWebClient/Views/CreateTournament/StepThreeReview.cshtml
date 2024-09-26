@@ -1,0 +1,213 @@
+﻿@using PoolComVnWebClient.DTO
+@using PoolComVnWebClient.Common
+@{
+    Layout = "~/Views/Shared/_CreateTournamentLayout.cshtml";
+    TournamentDetailDTO tourDetail = ViewBag.TournamentDetail;
+    int numberOfPlayer = ViewBag.NumberOfPlayer;
+    int tourId = ViewBag.TourId;
+}
+<div class="opened-step d-none">@ViewBag.StepOpen</div>
+<div class="current-step d-none">@ViewBag.CurrentStep</div>
+<div class="tour-id d-none">@tourId</div>
+<div class="container-full">
+    <div class="create-tour d-flex justify-content-end">
+        <div class="row mx-0 col-lg-10">
+            <div class="d-flex justify-content-center" style="max-width: 800px;">
+                <div class="tour-info">
+                    <div class="overview-text d-flex justify-content-between" style="border-top: none;">
+                        <span>Tổng quan</span>
+                    </div>
+                    <div class="tour-image d-flex justify-content-center">
+                        <img src="@tourDetail.Flyer" alt="">
+                    </div>
+                    <div class="overview-text">
+                        <span>Chi tiết</span>
+                    </div>
+                    <div class="tour-details px-5 py-4 row">
+                        <div class="col-6">
+                            <div class="info-line">
+                                <div class="info-title">
+                                    Tên giải đấu
+                                </div>
+                                <div class="info-description">
+                                    @tourDetail.TournamentName
+                                </div>
+                            </div>
+                            <div class="info-line">
+                                <div class="info-title">
+                                    Loại trò chơi
+                                </div>
+                                <div class="info-description">
+                                    @tourDetail.GameType
+                                    @*<span>
+                                    ( Xếp cao
+                                    <span>/ Break box </span>
+                                    )
+                                    </span>*@
+                                </div>
+                            </div>
+                            <div class="info-line">
+                                <div class="info-title">
+                                    Số người chơi
+                                </div>
+                                <div class="info-description">
+                                    @numberOfPlayer/@tourDetail.MaxPlayer
+                                </div>
+                            </div>
+                            <div class="info-line">
+                                <div class="info-title">
+                                    Lệ phí tham gia
+                                </div>
+                                <div class="info-description">
+                                    @tourDetail.EntryFee VNĐ
+                                </div>
+                            </div>
+                            <div class="info-line">
+                                <div class="info-title">
+                                    Tổng giải thưởng
+                                </div>
+                                <div class="info-description">
+                                    @tourDetail.TotalPrize VNĐ
+                                </div>
+                            </div>
+                            <div class="info-line">
+                                <div class="info-title">
+                                    Loại giải đấu
+                                </div>
+                                @if (tourDetail.TourTypeId == Constant.DoubleEliminate)
+                                {
+                                    <div class="info-description">
+                                        Đấu loại kép
+                                    </div>
+                                }
+                                else
+                                {
+                                    <div class="info-description">
+                                        Đấu loại đơn
+                                    </div>
+                                }
+                            </div>
+                            <div class="info-line">
+                                <div class="info-title">
+                                    Phạm vi
+                                </div>
+                                @if (tourDetail.Access)
+                                {
+                                    <div class="info-description">
+                                        Công khai
+                                    </div>
+                                }
+                                else
+                                {
+                                    <div class="info-description">
+                                        Riêng tư
+                                    </div>
+                                }
+                            </div>
+                        </div>
+                        <div class="col-6">
+                            <div class="info-line">
+                                <div class="info-title">
+                                    Cuộc đua đến
+                                </div>
+                                <div class="info-description row d-flex justify-content-between">
+                                    <div class="col-5">
+                                        @if (tourDetail.TourTypeId != Constant.SingleEliminate)
+                                        {
+                                            <div class="text-center">
+                                                <b>Nhánh thắng</b>
+                                            </div>
+                                        }
+                                        @foreach (var item in tourDetail.RaceWin)
+                                        {
+                                            <div class="d-flex justify-content-between">
+                                                <span>@item.Round</span>
+                                                <span>@item.GameToWin</span>
+                                            </div>
+                                        }
+                                    </div>
+                                    @if (tourDetail.TourTypeId != Constant.SingleEliminate)
+                                    {
+                                        <div class="col-5">
+                                            <div class="text-center">
+                                                <b>Nhánh thua</b>
+                                            </div>
+                                            @foreach (var item in tourDetail.RaceLose)
+                                            {
+                                                <div class="d-flex justify-content-between">
+                                                    <span>@item.Round</span>
+                                                    <span>@item.GameToWin</span>
+                                                </div>
+                                            }
+                                        </div>
+                                    }
+                                </div>
+                            </div>
+                            <div class="info-line">
+                                <div class="info-title">
+                                    Ngày bắt đầu
+                                </div>
+                                <div class="info-description">
+                                    @tourDetail.StartTime.ToString("dd/MM/yyyy")
+                                </div>
+                            </div>
+                            <div class="info-line">
+                                <div class="info-title">
+                                    Ngày kết thúc
+                                </div>
+                                <div class="info-description">
+                                    @tourDetail.EndTime.ToString("dd/MM/yyyy")
+                                </div>
+                            </div>
+                            <div class="info-line">
+                                <div class="info-title">
+                                    Hạn đăng kí
+                                </div>
+                                <div class="info-description">
+                                    @tourDetail.RegisterDate.ToString("dd/MM/yyyy")
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="overview-text">
+                        <span>Mở rộng</span>
+                    </div>
+                    <div class="tour-details px-5 py-4 row">
+                        <div class="info-line">
+                            <div class="info-description" style="font-size: 14px;">
+                                @tourDetail.Description
+                            </div>
+                        </div>
+                    </div>
+                    <div class="overview-text">
+                        <span>Địa điểm</span>
+                    </div>
+                    <div class="address-info px-5 py-4 d-flex align-items-center">
+                        <a class="address-icon">
+                            <i class="fa-solid fa-map-location-dot"></i>
+                        </a>
+                        <div>
+                            <div class="info-title">
+                                @tourDetail.ClubName
+                            </div>
+                            <div class="info-description">
+                                @tourDetail.Address
+                            </div>
+                        </div>
+                    </div>
+                    <div class="overview-text">
+                        <span>Xác nhận</span>
+                    </div>
+                    <div class="tour-details px-5 py-4 row">
+                        <div class="info-line">
+                            <div class="info-description" style="font-size: 16px; font-style: italic;">
+                                Sau khi tạo giải đấu bạn không thể sửa đổi thông tin trước đó.
+                            </div>
+                            <button class="create-tour-btn" onclick="location.href='@Url.Action("StepFourAddTable", "CreateTournament", new { id = tourId })'">Tạo giải đấu</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

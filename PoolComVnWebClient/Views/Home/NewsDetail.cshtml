@@ -1,0 +1,35 @@
+﻿@using PoolComVnWebClient.DTO
+@using System.Web
+@model NewsDTO
+<div class="container-full">
+    <div class="row news-details m-0">
+        <div class="news-detail col-lg-9 col-12">
+            <div class="news-detail-bg">
+                <div class="d-flex justify-content-center">
+                    <img src="@Model.Flyer" />
+                </div>
+                <div class="news-title px-lg-5 px-0">@Model.Title</div>
+                <div class="news-description px-lg-5 px-0"> @Html.Raw(HttpUtility.HtmlDecode(@Model.Description.Replace("<img ", "<img class='ck-img' ")))</div>
+            </div>
+        </div>
+        <div class="news-other col-lg-3 col-12 pt-lg-0 pt-5">
+            @if (ViewBag.OtherNewsList != null && ViewBag.OtherNewsList.Count > 0)
+            {
+                foreach (var news in ViewBag.OtherNewsList)
+                {
+                    if (news.Status == true && news.NewsId != Model.NewsId)
+                    {
+                        <a href="@Url.Action("NewsDetail", "Home", new { id = news.NewsId })" class="news-item row">
+                            <div class="news-image col-4 p-0" style="background-image: url('@news.Flyer');"></div>
+                            <div class="news-title col-8">@news.Title</div>
+                        </a>
+                    }
+                }
+            }
+            else
+            {
+                <p>No other news available</p>
+            }
+        </div>
+    </div>
+</div>

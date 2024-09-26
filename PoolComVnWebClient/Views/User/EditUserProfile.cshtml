@@ -1,0 +1,199 @@
+﻿@{
+    Layout = "~/Views/Shared/_BackBtnLayout.cshtml";
+}
+@model PoolComVnWebClient.DTO.UserDTO
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+<div class="container-full">
+    <div class="change-info row">
+        <div class="col-10 d-block p-0">
+            <div class="containUser pt-5 px-5">
+                <div class="title">
+                    Thay đổi thông tin
+                </div>
+                <div class="title" style="border:none; font-size: 16px;">
+                    @if (ViewBag.Success != null)
+                    {
+                        <div class="alert alert-success">
+                            @ViewBag.Success
+                        </div>
+                    }
+                    @if (ViewBag.Failure != null)
+                    {
+                        <div class="alert alert-danger">
+                            @ViewBag.Failure
+                        </div>
+                    }
+                </div>
+            </div>
+            <div class="menu-info">
+                <form asp-action="EditUserProfile" asp-controller="User" method="post" enctype="multipart/form-data">
+                    <div class="contentBody">
+                        <div class="py-2">
+                            <p class="fw-bold">Ảnh đại diện</p>
+                            <div class="display-content">
+                                <div class="upload-img">
+                                    <div class="m-0 preview-image" style="background-image: url('@ViewBag.User.Avatar');"></div>
+                                    <input type="file" class="imageInput mt-1" name="BannerFile" accept="image/*" />
+                                    <!-- lấy tên ảnh -->
+                                    <input id="file-name" class="d-none" />
+                                </div>
+                            </div>
+                        </div>
+                        <div class="py-2">
+                            <p class="fw-bold">Tên</p>
+                            <input type="text" class="firstName" asp-for="FullName" value="@ViewBag.User.FullName" required minlength="3" maxlength="30">
+                        </div>
+
+                        <div class="py-2">
+                            <p class="fw-bold">Ngày sinh</p>
+                            <input type="date" asp-for="Dob" value="@ViewBag.User.Dob.ToString("yyyy-MM-dd")" /><br>
+                            @*<input class="hidden-checkbox" type="checkbox">
+                            <span class="hidden-title">Ẩn ngày sinh với mọi người</span>*@
+                        </div>
+
+                        <div class="py-2">
+                            <p class="fw-bold">Số điện thoại</p>
+                            <input type="text" asp-for="PhoneNumber" value="@ViewBag.Account.PhoneNumber" required minlength="9" maxlength="13"><br>
+                            @*<input class="hidden-checkbox" type="checkbox">
+                            <span class="hidden-title">Ẩn số điện thoại với mọi người</span>*@
+                        </div>
+
+                        <div class="py-2">
+                            <p class="fw-bold">Email</p>
+                            <div>@ViewBag.Account.Email</div>
+                        </div>                      
+
+                        <div class="py-2">
+                            <p class="fw-bold">Địa chỉ</p>
+                            <select class="address" id="provinceSelect"
+                                style="width:120px;">
+                                <option value="@ViewBag.Province.Code" selected>@ViewBag.Province.Name</option>
+                            </select>
+                            <select class="address" id="districtSelect" disabled
+                                    style="width:120px;">
+                                <option value="@ViewBag.District.Code" selected>@ViewBag.District.Name</option>
+                            </select>
+                            <select class="address" id="wardSelect" disabled
+                                    style="width:120px;">
+                                <option value="@ViewBag.Ward.Code" selected>@ViewBag.Ward.Name</option>
+                            </select>
+                            <input type="hidden" id="wardInput" name="ward" />
+                        </div>
+
+                        <div class="py-2">
+                            <p class="fw-bold">Địa chỉ cụ thể</p>
+                            <input type="text" asp-for="Address" class="firstName" value="@ViewBag.User.Address" required minlength="3" maxlength="100">
+                        </div>
+                        <input type="hidden" asp-for="AccountEmail" value="@ViewBag.Account.Email" />
+                        <input type="hidden" asp-for="WardCode" value="@ViewBag.User.WardCode" />
+                        <input type="hidden" asp-for="AccountId" value="@ViewBag.User.AccountId" />
+                        <input type="hidden" asp-for="CreatedDate" value="@ViewBag.User.CreatedDate" />
+                        <input type="hidden" asp-for="UserId" value="@ViewBag.User.UserId" />
+                        <input type="hidden" asp-for="Avatar" value="@ViewBag.User.Avatar" />
+                        <input type="hidden" asp-for="UpdatedDate" value="@ViewBag.User.UpdatedDate" />
+                        <input type="hidden" asp-for="Status" value="@ViewBag.User.Status" />
+                        <div class="">
+                            <button type="submit" class="mt-4">Lưu thay đổi</button>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+    const backBtn = document.querySelector('.back-btn');
+    if (backBtn !== null) {
+        backBtn.addEventListener('click', () => {
+            window.location.href = document.referrer;
+        });
+    }
+
+    //Image validation
+    const imgInput = document.querySelector('#file-name');
+    document.querySelector('.imageInput').addEventListener('change', function (event) {
+        const imageInput = event.target;
+        const previewImage = document.querySelector('.preview-image');
+        const selectedFileName = document.querySelector('#file-name');
+        const uploadTile = document.querySelector('.upload-title');
+
+        if (imageInput.files && imageInput.files[0]) {
+            const reader = new FileReader();
+
+            reader.onload = function (e) {
+                previewImage.style.backgroundImage = 'url(' + e.target.result + ')';
+                previewImage.style.display = 'block';
+                uploadTile.classList.add('d-none');
+            };
+
+            reader.readAsDataURL(imageInput.files[0]);
+            selectedFileName.value = imageInput.files[0].name;
+        }
+    });
+
+    $(document).ready(function () {
+        function loadProvinces() {
+            $.ajax({
+                url: 'https://localhost:5000/api/Address/provinces',
+                type: 'GET',
+                success: function (data) {
+                    var provinceSelect = $('#provinceSelect');
+                    provinceSelect.empty().append('<option value="@ViewBag.Province.Code" selected>@ViewBag.Province.Name</option>');
+                    $.each(data, function (index, province) {
+                        provinceSelect.append('<option value="' + province.code + '">' + province.name + '</option>');
+                    });
+                },
+                error: function () {
+                    alert('Đã xảy ra lỗi khi gọi API.');
+                }
+            });
+        }
+        loadProvinces();
+        $('#provinceSelect').change(function () {
+            var provinceCode = $(this).val();
+            if (provinceCode !== "0") {
+                $.ajax({
+                    url: 'https://localhost:5000/api/Address/districts/' + provinceCode,
+                    type: 'GET',
+                    success: function (data) {
+                        var districtSelect = $('#districtSelect');
+                        districtSelect.empty().append('<option value="0" selected hidden>Quận/Huyện</option>');
+                        $.each(data, function (index, district) {
+                            districtSelect.append('<option value="' + district.code + '">' + district.name + '</option>');
+                        });
+                        districtSelect.prop('disabled', false);
+                    },
+                    error: function () {
+                        alert('Đã xảy ra lỗi khi gọi API.');
+                    }
+                });
+            }
+        });
+
+        $('#districtSelect').change(function () {
+            var districtCode = $(this).val();
+            if (districtCode !== "0") {
+                $.ajax({
+                    url: 'https://localhost:5000/api/Address/wards/' + districtCode,
+                    type: 'GET',
+                    success: function (data) {
+                        var wardSelect = $('#wardSelect');
+                        wardSelect.empty().append('<option value="0" selected hidden>Phường/Xã</option>');
+                        $.each(data, function (index, ward) {
+                            wardSelect.append('<option value="' + ward.code + '">' + ward.name + '</option>');
+                        });
+                        wardSelect.prop('disabled', false);
+                    },
+                    error: function () {
+                        alert('Đã xảy ra lỗi khi gọi API.');
+                    }
+                });
+            }
+        });
+    });
+    $('#wardSelect').change(function () {
+        var selectedWard = $(this).val();
+        $('#wardInput').val(selectedWard);
+    });
+</script>

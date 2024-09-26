@@ -1,0 +1,172 @@
+﻿@{
+    string message = ViewBag.Message;
+}
+<div class="container">
+    <div class="login-page d-flex justify-content-center align-items-center">
+        <div class="form-content d-flex col-10 col-lg-8 col-xl-6">
+            <div class="login-form login-change d-flex ">
+                <div class="col-10">
+                    <div class="login-title">Đăng nhập</div>
+                    <form method="post" action="@Url.Action("Login", "Authentication")">
+                        <div class="input-form">
+                            <i class="fa-solid fa-user col-12"></i>
+                            <input class="username-input col-12" name="email" type="text" placeholder="Email">
+                        </div>
+                        <div class="input-form">
+                            <i class="fa-solid fa-key col-12"></i>
+                            <input class="password-input col-12" name="password" type="password" placeholder="Mật khẩu">
+                            <button type="button" class="show-pass" onclick="togglePassword(this)">
+                                <i class="fa-solid fa-eye"></i>
+                            </button>
+                            <button type="button" class="hidden-pass d-none" onclick="togglePassword(this)">
+                                <i class="fa-solid fa-eye-slash"></i>
+                            </button>
+                        </div>
+                        <div class="input-form row">
+                            <div class="col-6 d-flex align-items-center">
+                                <input type="checkbox" />
+                                <span class="mx-2">Nhớ mật khẩu</span>
+                            </div>
+                            <div class="col-6 d-flex justify-content-end">
+                                <a asp-action="ForgotPassword" asp-controller="Authentication">Quên mật khẩu?</a>
+                            </div>
+                        </div>
+                        @if (!string.IsNullOrEmpty(message))
+                        {
+                            <div class="input-form d-flex justify-content-center">
+                                <span class="text-danger">@message</span>
+                            </div>
+                        }
+                        <div class="input-form d-flex justify-content-center">
+                            <input class="submit-btn" type="submit" value="Đăng nhập">
+                        </div>
+                        @*<div class="row justify-content-between">
+                            <div class="pt-2 text-center">or</div>
+                            <div class="col-12 mt-3 d-flex justify-content-center">
+                                <button class="login-other col-3 mx-2">
+                                    <i class="fa-brands fa-google-plus-g"></i>
+                                    <Span>Google</Span>
+                                </button>
+                                <button class="login-other col-3 mx-2">
+                                    <i class="fa-brands fa-facebook-f"></i>
+                                    <span>Facebook</span>
+                                </button>
+                            </div>
+
+                        </div>*@
+                    </form>
+                </div>
+                <button class="exchange-form col-3 d-flex justify-content-center align-items-center"
+                        onclick="rotateForm()">
+                    <i class="exchange-btn fa-solid fa-right-left"></i>
+                </button>
+            </div>
+            <div class="login-form register-change d-none">
+                <div class="col-10">
+                    <div class="login-title">Đăng kí</div>
+                    <form method="post" action="@Url.Action("Register", "Authentication")">
+                        <div class="input-form">
+                            <i class="fa-solid fa-user col-12"></i>
+                            <input class="username-input col-12" type="text" name="rName" placeholder="Tên">
+                        </div>
+                        <div class="input-form">
+                            <i class="fa-solid fa-envelope"></i>
+                            <input class="username-input col-12" type="text" name="rEmail" placeholder="Email">
+                        </div>
+                        <div class="input-form">
+                            <i class="fa-solid fa-key col-12"></i>
+                            <input class="password-input col-12" type="password" name="rPassword" placeholder="Mật khẩu">
+                            <button type="button" class="show-pass" onclick="togglePassword(this)">
+                                <i class="fa-solid fa-eye"></i>
+                            </button>
+                            <button type="button" class="hidden-pass d-none" onclick="togglePassword(this)">
+                                <i class="fa-solid fa-eye-slash"></i>
+                            </button>
+                        </div>
+                        <div class="input-form">
+                            <input class="password-input col-12" type="password" placeholder="Nhập lại mật khẩu">
+                            <button type="button" class="show-pass" onclick="togglePassword(this)">
+                                <i class="fa-solid fa-eye"></i>
+                            </button>
+                            <button type="button" class="hidden-pass d-none" onclick="togglePassword(this)">
+                                <i class="fa-solid fa-eye-slash"></i>
+                            </button>
+                        </div>
+                        <div class="input-form">
+                            <i class="fa-solid fa-briefcase"></i>
+                            <div class="d-flex justify-content-around">
+                                <div class="account-role d-flex align-items-center">
+                                    <input class="mx-2" type="radio" name="AccountRole" value="User" checked>
+                                    Người chơi
+                                </div>
+                                <div class="account-role d-flex align-items-center">
+                                    <input class="mx-2" type="radio" name="AccountRole" value="Business">
+                                    Tổ chức
+                                </div>
+                            </div>
+                        </div>
+                        @*<div class="input-form text-center">
+                            <input type="checkbox" class="mx-2">
+                            <span>Tôi đã đọc và đồng ý với</span>
+                            <a href="#">Chính sách và điều khoản dịch vụ</a>
+                            <span>của website.</span>
+                        </div>*@
+                        <div class="input-form d-flex justify-content-center">
+                            <input class="submit-btn" type="submit" value="Đăng kí">
+                        </div>
+                    </form>
+                </div>
+                <button class="exchange-form col-3 d-flex justify-content-center align-items-center"
+                        onclick="rotateForm()">
+                    <i class="exchange-btn fa-solid fa-right-left"></i>
+                </button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+
+    //Rotate form
+    function rotateForm() {
+        const formContent = document.querySelector('.form-content');
+        const loginForm = document.querySelector('.login-change');
+        const registerForm = document.querySelector('.register-change');
+
+        formContent.style.transition = 'transform 1s ease';
+        formContent.style.transform = formContent.style.transform === 'rotateY(180deg)' ? 'rotateY(0deg)' : 'rotateY(180deg)';
+
+        setTimeout(() => {
+            if (loginForm.classList.contains('d-flex')) {
+                loginForm.classList.remove('d-flex');
+                loginForm.classList.add('d-none');
+                registerForm.classList.remove('d-none');
+                registerForm.classList.add('d-flex');
+            } else {
+                registerForm.classList.remove('d-flex');
+                registerForm.classList.add('d-none');
+                loginForm.classList.remove('d-none');
+                loginForm.classList.add('d-flex');
+            }
+        }, 300);
+    }
+
+    // show/hidden password
+    function togglePassword(e) {
+        const parent = e.closest('.input-form');
+        const showPass = parent.querySelector('.show-pass');
+        const hiddenPass = parent.querySelector('.hidden-pass');
+        const passInput = parent.querySelector('.password-input');
+
+        if (!showPass.classList.contains('d-none')) {
+            showPass.classList.add('d-none');
+            hiddenPass.classList.remove('d-none');
+            passInput.type = 'text';
+        } else {
+            showPass.classList.remove('d-none');
+            hiddenPass.classList.add('d-none');
+            passInput.type = 'password';
+        }
+    }
+
+</script>

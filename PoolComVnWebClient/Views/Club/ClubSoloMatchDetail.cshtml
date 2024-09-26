@@ -1,0 +1,617 @@
+﻿@{
+    Layout = "~/Views/Shared/_BackBtnLayout.cshtml";
+}
+@{
+    var now = DateTime.Now;
+}
+@using PoolComVnWebClient.DTO;
+@model SoloMatchInfoViewModel;
+<div class="container-full mb-lg-0 mb-5" style="margin-top: 80px;">
+    <div class="solo-detail row d-flex justify-content-around mx-0">
+        <div class="match-detail col-10 col-lg-5 p-0 m-5 m-lg-0 mt-lg-2">
+            <div class="match-header d-flex justify-content-between">
+                <div class="match-title">
+                    <span>Chạm <span id="race-to">@Model.RaceTo</span></span>
+                </div>
+                <div class="game-type">@Model.GameTypeName</div>
+            </div>
+            <div style="overflow-y: auto; height: calc(100% - 44px)">
+                <div class="d-flex justify-content-between align-items-center" style="height: 24px;">
+                    <div class="match-time">
+                        <span>@(((DateTime)Model.StartTime).ToString("HH:mm"))</span>
+                        <span> - </span>
+                        @if (Model.EndTime == null)
+                        {
+                            <span>Đang đánh</span>
+                        }
+                        else
+                        {
+                            <span>@(((DateTime)Model.EndTime).ToString("HH:mm"))</span>
+                        }
+                        <span> @(((DateTime)Model.StartTime).ToString("dd/MM/yyyy"))</span>
+                    </div>
+                    @if (Model.StartTime > now)
+                    {
+                        <div class="match-complete">Chưa bắt đầu</div>
+                    }
+                    else if (Model.EndTime == null)
+                    {
+                        <div class="match-complete">Đang đánh</div>
+                    }
+                    else
+                    {
+                        <div class="match-complete">Đã xong</div>
+                    }
+                </div>
+                <div class="d-flex justify-content-between align-items-center">
+                    <div class="match-rule">
+                        <i>@Model.Description</i>
+                    </div>
+                </div>
+                <!-- Thêm status để xử lí: 1:đang chơi, 2:kết thúc -->
+                <div class="solo-match-status d-none">@Model.Status</div>
+                <div style="padding: 20px 50px; height: calc(100% - 56px);">
+                    <div class="first-player">
+                        <div class="details-player first d-flex justify-content-between">
+                            <span class="d-flex align-items-center">
+                                <img src="https://flagsapi.com/VN/shiny/64.png" alt="">
+                                <span id="name1" class="px-2">@Model.player1</span>
+                            </span>
+                            <span class="score-number first">@ViewBag.Score1.Score</span>
+                            <input type="text" class="save-vari d-none" value="@ViewBag.Score1.Score">
+                        </div>
+                        <div class="control-box d-flex justify-content-end">
+                            <button id="first-down-btn" class="control-btn down">-</button>
+                            <button class="control-btn up">+</button>
+                        </div>
+                    </div>
+                    <div class="match-statistic">
+                        <div class="statistic-content">
+                            <div class="title">Chuỗi thắng liên tiếp:</div>
+                            <span id="first-streak" class="streak">0</span>
+                        </div>
+                        <div class="statistic-content">
+                            <span class="title">Tỉ lệ ván thắng:</span>
+                            <div class="percent">
+                                <div class="percent-number text-center first"></div>
+                                <div class="total">
+                                    <div class="percent first"></div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="second-player">
+                        <!--khi load trận nào đã xong thêm class win đã thắng, thua nếu lose -->
+                        <div class="details-player second d-flex justify-content-between mt-5">
+                            <span class="d-flex align-items-center">
+                                <img src="https://flagsapi.com/VN/shiny/64.png" alt="">
+                                <span id="name2" class="px-2">@Model.player2</span>
+                            </span>
+                            <span class="score-number second">@ViewBag.Score2.Score</span>
+                            <input type="text" class="save-vari d-none" value="@ViewBag.Score2.Score">
+                        </div>
+                        <div class="control-box d-flex justify-content-end">
+                            <button id="second-down-btn" class="control-btn down">-</button>
+                            <button class="control-btn up">+</button>
+                        </div>
+                    </div>
+                    <div class="match-statistic pb-3">
+                        <div class="statistic-content">
+                            <div class="title">Chuỗi thắng liên tiếp:</div>
+                            <span id="second-streak" class="streak">0</span>
+                        </div>
+                        <div class="statistic-content">
+                            <span class="title">Tỉ lệ ván thắng:</span>
+                            <div class="percent">
+                                <div class="percent-number text-center second"></div>
+                                <div class="total">
+                                    <div class="percent second"></div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="d-flex justify-content-center">
+                        <div id="save-btn" class="start-btn disable" style="margin-top: 20px; width: 80%;">Lưu thay đổi</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="match-detail col-10 col-lg-6 p-0 mt-2">
+            <div class="match-header d-flex justify-content-between">
+                <div class="match-title">
+                    <span>Bảng điểm</span>
+                </div>
+            </div>
+            <div class="details-body" style="height: calc(100% - 44px)">
+                <div id="game-win-1" class="d-none">@ViewBag.Score1.GameWin</div>
+                <div id="game-win-2" class="d-none">@ViewBag.Score2.GameWin</div>
+                <div id="game-win"></div>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="confirm-popup d-none">
+    <div class="confirm-content">
+        <div class="confirm-title">
+            Kết thúc trận đấu.
+        </div>
+        <div class="d-flex justify-content-around">
+            <div class="exit-btn" style="width: 200px;">
+                Hủy
+            </div>
+            <div class="save-random" style="width: 200px;">
+                Kết thúc
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+    const backBtn = document.querySelector('.back-btn');
+    if (backBtn !== null) {
+        backBtn.addEventListener('click', () => {
+            window.location.href = document.referrer;
+        });
+    }
+
+    const controlBtns = document.querySelectorAll('.control-btn');
+    const ractTo = document.getElementById('race-to');
+    const popup = document.querySelector('.confirm-popup');
+    const firstDown = document.getElementById('first-down-btn');
+    const secondDown = document.getElementById('second-down-btn');
+    const saveBtn = document.querySelector('.start-btn');
+    var raceToNumber = parseInt(ractTo.textContent);
+    var totalScoreNumber = 0;
+
+    controlBtns.forEach(controlBtn => {
+        controlBtn.addEventListener('click', () => {
+            const parent = controlBtn.parentNode.parentNode;
+            var score = parent.querySelector('.score-number');
+            var saveVari = parent.querySelector('.save-vari').value;
+            var scoreNumber = score.textContent;
+            var playerTag = 0;
+
+            if (parent.classList.contains('first-player')) {
+                playerTag = 1;
+            } else {
+                playerTag = 2;
+            }
+
+            if (controlBtn.classList.contains('up')) {
+                if (parseInt(scoreNumber) < (raceToNumber - 1)) {
+                    score.textContent = parseInt(scoreNumber) + 1;
+                    updateScore();
+                    updateMark(2, playerTag);
+                    onOffDownBtn();
+                }
+                if (parseInt(scoreNumber) + 1 === raceToNumber) {
+                    popup.classList.remove('d-none');
+                    popup.querySelector('.exit-btn').addEventListener('click', () => {
+                        popup.classList.add('d-none');
+                        popup.querySelector('.save-random').removeEventListener('click', finishMatch);
+                    })
+                    popup.querySelector('.save-random').addEventListener('click', finishMatch);
+                    function finishMatch() {
+                        controlBtns.forEach(btn => {
+                            btn.classList.add('d-none');
+                        })
+                        popup.classList.add('d-none');
+                        score.textContent = parseInt(scoreNumber) + 1;
+                        updateScore();
+                        updateMark(2, playerTag);
+                        countMaxRun();
+                        updateScoreEachTable();
+                        if (playerTag === 1) {
+
+                            var gameWin1Element = document.getElementById('game-win-1');
+                            var gameWin1Value = gameWin1Element ? gameWin1Element.textContent : '';
+                            var playerInsolomatchDTO = {
+                                playerSoloMatchId: @ViewBag.Score1.PlayerSoloMatchId,
+                                soloMatchId: @ViewBag.Score1.SoloMatchId,
+                                playerId: @ViewBag.Score1.PlayerId,
+                                score: @Model.RaceTo,
+                                gameWin: gameWin1Value,
+                                isWinner: true
+                            };
+                            console.log(playerInsolomatchDTO);
+                            var xhr = new XMLHttpRequest();
+                            var url = "https://localhost:5000/api/SoloMatch/FinishMatch";
+                            xhr.open("POST", url, true);
+                            xhr.setRequestHeader("Content-Type", "application/json");
+
+                            xhr.onreadystatechange = function () {
+                                if (xhr.readyState === 4 && xhr.status === 200) {
+                                    console.log("Dữ liệu đã được gửi thành công!");
+                                }
+                            };
+
+                            xhr.send(JSON.stringify(playerInsolomatchDTO));
+
+                        }
+                        if (playerTag === 2) {
+
+                            var gameWin2Element = document.getElementById('game-win-2');
+                            var gameWin2Value = gameWin2Element ? gameWin2Element.textContent : '';
+                            var playerInsolomatchDTO = {
+                                playerSoloMatchId: @ViewBag.Score2.PlayerSoloMatchId,
+                                soloMatchId: @ViewBag.Score2.SoloMatchId,
+                                playerId: @ViewBag.Score2.PlayerId,
+                                score: @Model.RaceTo,
+                                gameWin: gameWin2Value,
+                                isWinner: true
+                            };
+                            console.log(playerInsolomatchDTO);
+                            var xhr = new XMLHttpRequest();
+                            var url = "https://localhost:5000/api/SoloMatch/FinishMatch";
+                            xhr.open("POST", url, true);
+                            xhr.setRequestHeader("Content-Type", "application/json");
+
+                            xhr.onreadystatechange = function () {
+                                if (xhr.readyState === 4 && xhr.status === 200) {
+                                    console.log("Dữ liệu đã được gửi thành công!");
+                                }
+                            };
+
+                            xhr.send(JSON.stringify(playerInsolomatchDTO));
+
+                        }
+                        parent.querySelector('.details-player').classList.add('win');
+                        document.querySelectorAll('.details-player').forEach(player => {
+                            if (!player.classList.contains('win')) {
+                                player.classList.add('lose');
+                            }
+                        })
+                        removeEmptyScoreTable();
+                        saveBtn.classList.add('d-none');
+                    }
+                }
+            } else if (controlBtn.classList.contains('down') && parseInt(scoreNumber) > 0) {
+                score.textContent = parseInt(scoreNumber) - 1;
+                updateMark(1, playerTag);
+                updateScore();
+                onOffDownBtn();
+            }
+            countMaxRun();
+            updateScoreEachTable();
+        })
+    })
+
+    updateScore();
+    function updateScore() {
+        const firstScore = document.querySelector('.score-number.first');
+        const secondScore = document.querySelector('.score-number.second');
+        const firstPercent = document.querySelector('.percent.first');
+        const secondPercent = document.querySelector('.percent.second');
+        const firstPercentNum = document.querySelector('.percent-number.first');
+        const secondPercentNum = document.querySelector('.percent-number.second');
+
+        var firstScoreNumber = parseInt(firstScore.textContent);
+        var secondScoreNumber = parseInt(secondScore.textContent);
+        totalScoreNumber = firstScoreNumber + secondScoreNumber;
+        var firstPercentCal = 0;
+        var secondPercentCal = 0;
+        if (totalScoreNumber !== 0) {
+            firstPercentCal = (firstScoreNumber / totalScoreNumber * 100).toFixed(2);
+            secondPercentCal = (100 - firstPercentCal).toFixed(2);
+        }
+
+        firstPercentNum.textContent = firstPercentCal + '%';
+        secondPercentNum.textContent = secondPercentCal + '%';
+        firstPercent.style.width = firstPercentCal * 2 + 'px';
+        secondPercent.style.width = secondPercentCal * 2 + 'px';
+    }
+    function onOffDownBtn() {
+        if (totalScoreNumber > 0) {
+            const setBox = document.getElementById('set-' + totalScoreNumber);
+            const firstMark = setBox.querySelector('.first-mark');
+            const secondMark = setBox.querySelector('.second-mark');
+
+            if (firstMark.querySelector('i') !== null) {
+                firstDown.classList.remove('disable');
+            } else {
+                firstDown.classList.add('disable');
+            }
+
+            if (secondMark.querySelector('i') !== null) {
+                secondDown.classList.remove('disable');
+            } else {
+                secondDown.classList.add('disable');
+            }
+        } else {
+            firstDown.classList.add('disable');
+            secondDown.classList.add('disable');
+        }
+    }
+
+    function updateMark(controlTag, playerTag) {
+        if (totalScoreNumber > 0) {
+            const setBox = document.getElementById('set-' + totalScoreNumber);
+            if (controlTag === 1) {
+                if (playerTag === 1) {
+                    setBox.querySelector('.first-mark').innerHTML =
+                        '<span>&nbsp;</span>';
+                    var splitString1 = document.getElementById('game-win-1').textContent.split(',');
+                    gameWin1 = splitString1.length > 1 ? splitString1[0] : '';
+                    for (var i = 1; i < splitString1.length; i++) {
+                        if (parseInt(splitString1[i]) < totalScoreNumber) {
+                            gameWin1 += ',' + splitString1[i];
+                        }
+                    }
+                    document.getElementById('game-win-1').textContent = gameWin1;
+                } else if (playerTag === 2) {
+                    setBox.querySelector('.second-mark').innerHTML =
+                        '<span>&nbsp;</span>';
+                    var splitString2 = document.getElementById('game-win-2').textContent.split(',');
+                    gameWin2 = splitString2.length > 1 ? splitString2[0] : '';
+                    for (var i = 1; i < splitString2.length; i++) {
+                        if (parseInt(splitString2[i]) < totalScoreNumber) {
+                            gameWin2 += ',' + splitString2[i];
+                        }
+                    }
+                    document.getElementById('game-win-2').textContent = gameWin2;
+
+                }
+            } else {
+                if (playerTag === 1) {
+                    setBox.querySelector('.first-mark').innerHTML =
+                        '<span><i class="fa-solid fa-xmark">';
+                    if (gameWin1 == '') {
+                        gameWin1 = totalScoreNumber;
+                    } else {
+                        gameWin1 += ',' + totalScoreNumber;
+                    }
+                    document.getElementById('game-win-1').textContent = gameWin1;
+                } else if (playerTag === 2) {
+                    setBox.querySelector('.second-mark').innerHTML =
+                        '<span><i class="fa-solid fa-xmark">';
+                    if (gameWin2 == '') {
+                        gameWin2 = totalScoreNumber;
+                    } else {
+                        gameWin2 += ',' + totalScoreNumber;
+                    }
+                    document.getElementById('game-win-2').textContent = gameWin2;
+                }
+            }
+            checkGameWinChange();
+        }
+    }
+
+
+    const firstStreak = document.getElementById('first-streak');
+    const secondStreak = document.getElementById('second-streak');
+
+    function countMaxRun() {
+        const detailScoreList = document.querySelectorAll('.detail-score');
+        var firstMaxRun = 0;
+        var secondMaxRun = 0;
+        var firstRunCount = 1;
+        var secondRunCount = 1;
+
+        if (gameWin1 !== '') {
+            if (('' + gameWin1).includes(',')) {
+                splitString1 = gameWin1.split(',');
+                for (var i = 0; i < splitString1.length; i++) {
+                    if (parseInt(splitString1[i]) + 1 == parseInt(splitString1[i + 1])) {
+                        firstRunCount += 1;
+                    } else {
+                        if (firstMaxRun < firstRunCount) {
+                            firstMaxRun = firstRunCount;
+                        }
+                        firstRunCount = 1;
+                    }
+                }
+            } else firstMaxRun = 1;
+        }
+
+        if (gameWin2 !== '') {
+            if (('' + gameWin2).includes(',')) {
+                splitString2 = gameWin2.split(',');
+                for (var i = 0; i < splitString2.length; i++) {
+                    if (parseInt(splitString2[i]) + 1 == parseInt(splitString2[i + 1])) {
+                        secondRunCount += 1;
+                    } else {
+                        if (secondMaxRun < secondRunCount) {
+                            secondMaxRun = secondRunCount;
+                        }
+                        secondRunCount = 1;
+                    }
+                }
+            } else secondMaxRun = 1;
+        }
+
+        firstStreak.textContent = firstMaxRun;
+        secondStreak.textContent = secondMaxRun;
+    }
+
+    function removeEmptyScoreTable() {
+        const detailScoreList = document.querySelectorAll('.detail-score');
+        if (document.querySelector('.details-player').classList.contains('win')
+            || document.querySelector('.details-player').classList.contains('lose')) {
+            var maxSetNumber = 0;
+            for (var i = (detailScoreList.length - 1); i > totalScoreNumber; i--) {
+                if (i % 10 === 1) {
+                    const setBox = document.getElementById('set-' + i);
+                    const firstMark = setBox.querySelector('.first-mark');
+                    const secondMark = setBox.querySelector('.second-mark');
+
+                    if (firstMark.querySelector('i') === null
+                        && secondMark.querySelector('i') === null) {
+                        setBox.parentNode.remove();
+                    }
+                    maxSetNumber = i;
+                }
+            }
+
+            for (var i = totalScoreNumber + 1; i < maxSetNumber; i++) {
+                const setBox = document.getElementById('set-' + i);
+                console.log(i);
+                setBox.innerHTML = '<div class="round-score board-line"><span>&nbsp;</span></div>'
+                    + '<div class="board-line first-mark"><span>&nbsp;</i></span></div>'
+                    + '<div class="second-mark"><span>&nbsp;</span></div>';
+            }
+        }
+    }
+    function updateScoreEachTable() {
+        const scoreBoardList = document.querySelectorAll('.score-board');
+        var countWinFisrtLine;
+        var countWinSecondLine;
+        scoreBoardList.forEach(scoreBoard => {
+            countWinFisrtLine = 0;
+            countWinSecondLine = 0;
+            const firstTotal = scoreBoard.querySelector('.first-total-score');
+            const secondTotal = scoreBoard.querySelector('.second-total-score');
+            const detailScoreList = scoreBoard.querySelectorAll('.detail-score');
+            detailScoreList.forEach(detailScore => {
+                if (detailScore.querySelector('.first-mark').querySelector('i') !== null) {
+                    countWinFisrtLine++;
+                } else if (detailScore.querySelector('.second-mark').querySelector('i') !== null) {
+                    countWinSecondLine++;
+                }
+            })
+            firstTotal.textContent = countWinFisrtLine;
+            secondTotal.textContent = countWinSecondLine;
+        })
+    }
+
+    saveBtn.addEventListener('click', () => {
+        document.querySelectorAll('.score-number').forEach(score => {
+            const parent = score.parentNode;
+            parent.querySelector('.save-vari').value = score.textContent;
+            saveBtn.classList.add('disable');
+        })
+    })
+
+    bindingGameWin();
+    //binding game win
+    function bindingGameWin() {
+        const gameWinBox = document.getElementById('game-win');
+        var name1 = document.getElementById('name1').textContent;
+        var name2 = document.getElementById('name2').textContent;
+        var race = raceToNumber;
+        gameWin1OpenPopup = document.getElementById('game-win-1').textContent;
+        gameWin2OpenPopup = document.getElementById('game-win-2').textContent;
+        gameWin1 = gameWin1OpenPopup;
+        gameWin2 = gameWin2OpenPopup;
+        var setInLine = 10;
+        var totalSet = race * 2 - 1;
+
+        var countSet = 0;
+        var lineHTML = '';
+        for (var i = 0; i <= (Math.floor(totalSet / setInLine)); i++) {
+            lineHTML += '<div class="score-board d-flex align-items-end">'
+                + '<div class="name-board">'
+                + '<div class="board-line"><span>' + name1 + '</span></div>'
+                + '<div><span>' + name2 + '</span></div>'
+                + '</div>'
+                + '<div class="general-score">'
+                + '<div class="board-line px-2"><span>Điểm</span></div>'
+                + '<div class="text-center board-line"><span class="first-total-score">0</span></div>'
+                + '<div class="text-center"><span class="second-total-score">0</span></div>'
+                + '</div>';
+            for (var j = 0; j < setInLine; j++) {
+                countSet++;
+                var countTemp = countSet;
+                if (countSet > totalSet) {
+                    countTemp = '&nbsp;';
+                }
+                lineHTML += '<div id="set-' + countSet + '" class="detail-score">'
+                    + '<div class="round-score board-line"><span>' + countTemp + '</span></div>'
+                    + '<div class="board-line first-mark"><span>&nbsp;</i></span></div>'
+                    + '<div class="second-mark"><span>&nbsp;</span></div>'
+                    + '</div>';
+            }
+            lineHTML += '</div>';
+        }
+
+        gameWinBox.innerHTML = lineHTML;
+
+        gameWin1.split(',').forEach(set => {
+            document.getElementById('set-' + set)
+                .querySelector('.first-mark').innerHTML =
+                '<span><i class="fa-solid fa-xmark">';
+        })
+        gameWin2.split(',').forEach(set => {
+            document.getElementById('set-' + set)
+                .querySelector('.second-mark').innerHTML =
+                '<span><i class="fa-solid fa-xmark">';
+        })
+        updateScore();
+        onOffDownBtn();
+        countMaxRun();
+        updateScoreEachTable();
+        checkStatusSoloMatch();
+    }
+
+    function checkGameWinChange() {
+        if (gameWin1 == gameWin1OpenPopup && gameWin2 == gameWin2OpenPopup) {
+            saveBtn.classList.add('disable');
+        } else {
+            saveBtn.classList.remove('disable');
+        }
+    }
+
+    function checkStatusSoloMatch() {
+        var statusSoloMatch = document.querySelector('.solo-match-status').textContent;
+        if (statusSoloMatch == '1') {
+            controlBtns.forEach(btn => {
+                btn.classList.add('d-none');
+            })
+
+            var point1 = document.querySelector('.score-number.first');
+            var point2 = document.querySelector('.score-number.second');
+            if (parseInt(point1.textContent) > parseInt(point2.textContent)) {
+                point1.closest('.details-player').classList.add('win');
+                point2.closest('.details-player').classList.add('lose');
+            } else {
+                point1.closest('.details-player').classList.add('lose');
+                point2.closest('.details-player').classList.add('win');
+            }
+            removeEmptyScoreTable();
+            saveBtn.classList.add('d-none');
+        }
+    }
+</script>
+<script>
+    document.getElementById("save-btn").addEventListener("click", function () {
+        var isWinnerValue = "@ViewBag.Score1.IsWinner" ? true : null;
+        var isWinnerValue2 = "@ViewBag.Score2.IsWinner" ? true : null;
+        var gameWin2Element = document.getElementById('game-win-2');
+        var gameWin2Value = gameWin2Element ? gameWin2Element.textContent : '';
+        var gameWin1Element = document.getElementById('game-win-1');
+        var gameWin1Value = gameWin1Element ? gameWin1Element.textContent : '';
+        var playerInsolomatchDTO = {
+            playerSoloMatchId: @ViewBag.Score1.PlayerSoloMatchId,
+            soloMatchId: @ViewBag.Score1.SoloMatchId,
+            playerId: @ViewBag.Score1.PlayerId,
+            score: parseInt(document.querySelector('.score-number.first').innerText),
+            gameWin: gameWin1Value,
+            isWinner: isWinnerValue
+        };
+        var playerInsolomatchDTO2 = {
+            playerSoloMatchId: @ViewBag.Score2.PlayerSoloMatchId,
+            soloMatchId: @ViewBag.Score2.SoloMatchId,
+            playerId: @ViewBag.Score2.PlayerId,
+            score: parseInt(document.querySelector('.score-number.second').innerText),
+            gameWin: gameWin2Value,
+            isWinner: isWinnerValue2
+        };
+        var dataToSend = {
+            scores: [playerInsolomatchDTO, playerInsolomatchDTO2]
+        };
+
+        console.log(dataToSend);
+        var xhr = new XMLHttpRequest();
+        var url = "https://localhost:5000/api/SoloMatch/UpdateScoreForSoloMatch";
+
+        xhr.open("POST", url, true);
+        xhr.setRequestHeader("Content-Type", "application/json");
+
+        xhr.onreadystatechange = function () {
+            if (xhr.readyState === 4 && xhr.status === 200) {
+                console.log("Dữ liệu đã được gửi thành công!");
+            }
+        };
+
+        xhr.send(JSON.stringify(dataToSend));
+    });
+</script>

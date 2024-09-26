@@ -1,0 +1,270 @@
+﻿@{
+    Layout = "~/Views/Shared/_CreateTournamentLayout.cshtml";
+}
+
+<div class="container-full">
+    <div class="create-tour d-flex justify-content-end">
+        <div class="create-tour-display col-lg-10">
+            <div class="create-step-two">
+                <div class="display-title d-flex justify-content-between">
+                    <div>Người chơi</div>
+                    <div class="d-flex align-items-center">
+                        <div class="step-two-nav" id="all-list">Danh sách (16)</div>
+                        <div class="step-two-nav" id="request-list">Yêu cầu tham gia (3)</div>
+                        <div class="step-two-nav active" id="member-list">Thành viên (120)</div>
+                        <div class="step-two-nav" id="system-list">Toàn hệ thống (500)</div>
+                    </div>
+                </div>
+
+                <!-- Thành viên thân thiết -->
+                <div class="display-content">
+                    <div class="d-flex justify-content-between">
+                        <div>
+                            <button class="club-player" disabled>Thêm vào danh sách</button>
+                        </div>
+                        <div class="player-search d-flex align-items-end">
+                            <i class="fa-solid fa-magnifying-glass"></i>
+                            <input class="" />
+                        </div>
+                    </div>
+
+                    <div class="pt-3">
+                        <div class="table-overflow">
+                            <table class="players-table">
+                                <tr>
+                                    <th>
+                                        <input class="all-checkbox" type="checkbox">
+                                    </th>
+                                    <th>#</th>
+                                    <th>Tên</th>
+                                    <th>Quốc gia</th>
+                                    <th>Email</th>
+                                    <th>Số điện thoại</th>
+                                    <th class="text-center">Hạng</th>
+                                    <th class="text-center">Ngày tham gia</th>
+                                    <th class="text-center">Mời tham gia</th>
+                                </tr>
+                                <tr>
+                                    <td>
+                                        <input class="one-checkbox" type="checkbox">
+                                    </td>
+                                    <td>1</td>
+                                    <td class="tb-name">
+                                        <img src="Image/VietNamFlag.png" alt="">
+                                        Nam Vũ
+                                    </td>
+                                    <td>Việt Nam</td>
+                                    <td>Vhnam2221@gmail.com</td>
+                                    <td>0923456789</td>
+                                    <td class="text-center">H</td>
+                                    <td class="text-center">03/03/2024</td>
+                                    <td class="text-center">
+                                        <div class="invited">Đã mời</div>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>
+                                        <input class="one-checkbox" type="checkbox">
+                                    </td>
+                                    <td>1</td>
+                                    <td class="tb-name">
+                                        <img src="Image/VietNamFlag.png" alt="">
+                                        Nam Vũ
+                                    </td>
+                                    <td>Việt Nam</td>
+                                    <td>Vhnam2221@gmail.com</td>
+                                    <td>0923456789</td>
+                                    <td class="text-center">H</td>
+                                    <td class="text-center">03/03/2024</td>
+                                    <td class="text-center">
+                                        <a href="#"><i class="fa-solid fa-envelope"></i></a>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>
+                                        <input class="one-checkbox" type="checkbox">
+                                    </td>
+                                    <td>1</td>
+                                    <td class="tb-name">
+                                        <img src="Image/VietNamFlag.png" alt="">
+                                        Nam Vũ
+                                    </td>
+                                    <td>Việt Nam</td>
+                                    <td>Vhnam2221@gmail.com</td>
+                                    <td>0923456789</td>
+                                    <td class="text-center">H</td>
+                                    <td class="text-center">03/03/2024</td>
+                                    <td class="text-center">
+                                        <a href="#"><i class="fa-solid fa-envelope"></i></a>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>
+                                        <input class="one-checkbox" type="checkbox">
+                                    </td>
+                                    <td>1</td>
+                                    <td class="tb-name">
+                                        <img src="Image/VietNamFlag.png" alt="">
+                                        Nam Vũ
+                                    </td>
+                                    <td>Việt Nam</td>
+                                    <td>Vhnam2221@gmail.com</td>
+                                    <td>0923456789</td>
+                                    <td class="text-center">H</td>
+                                    <td class="text-center">03/03/2024</td>
+                                    <td class="text-center">
+                                        <a href="#"><i class="fa-solid fa-envelope"></i></a>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>
+                                        <input class="one-checkbox" type="checkbox">
+                                    </td>
+                                    <td>1</td>
+                                    <td class="tb-name">
+                                        <img src="Image/VietNamFlag.png" alt="">
+                                        Nam Vũ
+                                    </td>
+                                    <td>Việt Nam</td>
+                                    <td>Vhnam2221@gmail.com</td>
+                                    <td>0923456789</td>
+                                    <td class="text-center">H</td>
+                                    <td class="text-center">03/03/2024</td>
+                                    <td class="text-center">
+                                        <a href="#"><i class="fa-solid fa-envelope"></i></a>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>
+                                        <input class="one-checkbox" type="checkbox">
+                                    </td>
+                                    <td>1</td>
+                                    <td class="tb-name">
+                                        <img src="Image/VietNamFlag.png" alt="">
+                                        Nam Vũ
+                                    </td>
+                                    <td>Việt Nam</td>
+                                    <td>Vhnam2221@gmail.com</td>
+                                    <td>0923456789</td>
+                                    <td class="text-center">H</td>
+                                    <td class="text-center">03/03/2024</td>
+                                    <td class="text-center">
+                                        <a href="#"><i class="fa-solid fa-envelope"></i></a>
+                                    </td>
+                                </tr>
+                            </table>
+                        </div>
+                    </div>
+
+                    <div class="tour-input pt-5">
+                        <button class="submit-btn" type="submit">Lưu và chuyển sang bước 3</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+    //Handle entry checkbox
+    const allCheckboxBtn = document.querySelector('.all-checkbox');
+    const checkboxList = document.querySelectorAll('.one-checkbox');
+    const addClubPlayer = document.querySelector('.club-player');
+    const successBox = document.querySelector('.success-box');
+    const rowList = document.querySelectorAll('.players-table tr');
+    const containerFull = document.querySelector('.container-full');
+
+
+    allCheckboxBtn.addEventListener('change', () => {
+        if (allCheckboxBtn.checked) {
+            checkboxList.forEach(cb => {
+                cb.checked = true;
+                cb.classList.add('group');
+            })
+        } else {
+            checkboxList.forEach(cb => {
+                cb.checked = false;
+                cb.classList.remove('group');
+            })
+        }
+        setDisable();
+    });
+
+    checkboxList.forEach(cb => {
+        cb.addEventListener('click', (e) => {
+            e.stopPropagation();
+            if (cb.checked === true) {
+                cb.classList.add('group');
+                addClubPlayer.disabled = false;
+                const groupList = document.querySelectorAll('.one-checkbox.group');
+                if (groupList.length === checkboxList.length) {
+                    allCheckboxBtn.checked = true;
+                }
+            } else {
+                cb.classList.remove('group');
+                setDisable();
+                const groupList = document.querySelectorAll('.one-checkbox.group');
+                allCheckboxBtn.checked = false;
+            }
+        })
+    });
+
+    rowList.forEach(row => {
+        row.addEventListener('click', () => {
+            const cb = row.querySelector('.one-checkbox');
+            if (cb !== null) {
+                cb.checked = !cb.checked;
+                if (cb.checked === true) {
+                    cb.classList.add('group');
+                    addClubPlayer.disabled = false;
+                    const groupList = document.querySelectorAll('.one-checkbox.group');
+                    if (groupList.length === checkboxList.length) {
+                        allCheckboxBtn.checked = true;
+                    }
+                } else {
+                    cb.classList.remove('group');
+                    setDisable();
+                    const groupList = document.querySelectorAll('.one-checkbox.group');
+                    allCheckboxBtn.checked = false;
+                }
+            }
+        })
+    })
+
+    function setDisable() {
+        const groupList = document.querySelectorAll('.one-checkbox.group');
+        if (groupList.length > 0) {
+            addClubPlayer.disabled = false;
+        } else {
+            addClubPlayer.disabled = true;
+        }
+    }
+
+    addClubPlayer.addEventListener('click', displaySuccessBox);
+
+    function displaySuccessBox() {
+        this.disabled = true;
+        if (addClubPlayer.disabled === true) {
+            const groupList = document.querySelectorAll('.one-checkbox.group');
+            groupList.forEach(cb => {
+                cb.checked = false;
+                cb.classList.remove('group');
+            });
+            allCheckboxBtn.checked = false;
+        }
+
+        const successBox = document.createElement('div');
+        successBox.className = 'success-box d-none';
+        successBox.textContent = 'Thành công';
+        containerFull.appendChild(successBox);
+
+        successBox.classList.remove('d-none');
+        setTimeout(() => {
+            successBox.style.right = '50px';
+            setTimeout(() => {
+                successBox.remove();
+            }, 1500);
+        }, 100);
+    }
+
+</script>

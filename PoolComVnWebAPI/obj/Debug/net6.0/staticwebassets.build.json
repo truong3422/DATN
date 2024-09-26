@@ -1,0 +1,11 @@
+{
+  "Version": 1,
+  "Hash": "54WRbT2QAFV6UoqC9SGFeWSzf/sQS8x9jo0tSi+1E1o=",
+  "Source": "PoolComVnWebAPI",
+  "BasePath": "_content/PoolComVnWebAPI",
+  "Mode": "Default",
+  "ManifestType": "Build",
+  "ReferencedProjectsConfiguration": [],
+  "DiscoveryPatterns": [],
+  "Assets": []
+}

@@ -1,0 +1,307 @@
+is_global = true
+build_property.TargetFramework = net6.0
+build_property.TargetPlatformMinVersion = 
+build_property.UsingMicrosoftNETSdkWeb = true
+build_property.ProjectTypeGuids = 
+build_property.InvariantGlobalization = 
+build_property.PlatformNeutralAssembly = 
+build_property.EnforceExtendedAnalyzerRules = 
+build_property._SupportedPlatformList = Linux,macOS,Windows
+build_property.RootNamespace = PoolComVnWebClient
+build_property.RootNamespace = PoolComVnWebClient
+build_property.ProjectDir = E:\DATN\PoolComVnWebApplication\PoolComVnWebClient\
+build_property.EnableComHosting = 
+build_property.EnableGeneratedComInterfaceComImportInterop = 
+build_property.RazorLangVersion = 6.0
+build_property.SupportLocalizedComponentNames = 
+build_property.GenerateRazorMetadataSourceChecksumAttributes = 
+build_property.MSBuildProjectDirectory = E:\DATN\PoolComVnWebApplication\PoolComVnWebClient
+build_property._RazorSourceGeneratorDebug = 
+
+[E:/DATN/PoolComVnWebApplication/PoolComVnWebClient/Views/Authentication/ChangePassword.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcQXV0aGVudGljYXRpb25cQ2hhbmdlUGFzc3dvcmQuY3NodG1s
+build_metadata.AdditionalFiles.CssScope = 
+
+[E:/DATN/PoolComVnWebApplication/PoolComVnWebClient/Views/Authentication/ForgotPassword.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcQXV0aGVudGljYXRpb25cRm9yZ290UGFzc3dvcmQuY3NodG1s
+build_metadata.AdditionalFiles.CssScope = 
+
+[E:/DATN/PoolComVnWebApplication/PoolComVnWebClient/Views/Authentication/Login.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcQXV0aGVudGljYXRpb25cTG9naW4uY3NodG1s
+build_metadata.AdditionalFiles.CssScope = 
+
+[E:/DATN/PoolComVnWebApplication/PoolComVnWebClient/Views/Authentication/VerifyRegister.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcQXV0aGVudGljYXRpb25cVmVyaWZ5UmVnaXN0ZXIuY3NodG1s
+build_metadata.AdditionalFiles.CssScope = 
+
+[E:/DATN/PoolComVnWebApplication/PoolComVnWebClient/Views/Club/AddPost.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcQ2x1YlxBZGRQb3N0LmNzaHRtbA==
+build_metadata.AdditionalFiles.CssScope = 
+
+[E:/DATN/PoolComVnWebApplication/PoolComVnWebClient/Views/Club/ClubDetails.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcQ2x1YlxDbHViRGV0YWlscy5jc2h0bWw=
+build_metadata.AdditionalFiles.CssScope = 
+
+[E:/DATN/PoolComVnWebApplication/PoolComVnWebClient/Views/Club/ClubPostDetails.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcQ2x1YlxDbHViUG9zdERldGFpbHMuY3NodG1s
+build_metadata.AdditionalFiles.CssScope = 
+
+[E:/DATN/PoolComVnWebApplication/PoolComVnWebClient/Views/Club/ClubSoloMatch.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcQ2x1YlxDbHViU29sb01hdGNoLmNzaHRtbA==
+build_metadata.AdditionalFiles.CssScope = 
+
+[E:/DATN/PoolComVnWebApplication/PoolComVnWebClient/Views/Club/ClubSoloMatchDetail.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcQ2x1YlxDbHViU29sb01hdGNoRGV0YWlsLmNzaHRtbA==
+build_metadata.AdditionalFiles.CssScope = 
+
+[E:/DATN/PoolComVnWebApplication/PoolComVnWebClient/Views/Club/ClubTable.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcQ2x1YlxDbHViVGFibGUuY3NodG1s
+build_metadata.AdditionalFiles.CssScope = 
+
+[E:/DATN/PoolComVnWebApplication/PoolComVnWebClient/Views/Club/ClubTableManage.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcQ2x1YlxDbHViVGFibGVNYW5hZ2UuY3NodG1s
+build_metadata.AdditionalFiles.CssScope = 
+
+[E:/DATN/PoolComVnWebApplication/PoolComVnWebClient/Views/Club/ClubTournament.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcQ2x1YlxDbHViVG91cm5hbWVudC5jc2h0bWw=
+build_metadata.AdditionalFiles.CssScope = 
+
+[E:/DATN/PoolComVnWebApplication/PoolComVnWebClient/Views/Club/CreateClub.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcQ2x1YlxDcmVhdGVDbHViLmNzaHRtbA==
+build_metadata.AdditionalFiles.CssScope = 
+
+[E:/DATN/PoolComVnWebApplication/PoolComVnWebClient/Views/Club/CreateSoloMatch.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcQ2x1YlxDcmVhdGVTb2xvTWF0Y2guY3NodG1s
+build_metadata.AdditionalFiles.CssScope = 
+
+[E:/DATN/PoolComVnWebApplication/PoolComVnWebClient/Views/Club/Index.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcQ2x1YlxJbmRleC5jc2h0bWw=
+build_metadata.AdditionalFiles.CssScope = 
+
+[E:/DATN/PoolComVnWebApplication/PoolComVnWebClient/Views/CreateTournament/StepFiveAllPlayer.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcQ3JlYXRlVG91cm5hbWVudFxTdGVwRml2ZUFsbFBsYXllci5jc2h0bWw=
+build_metadata.AdditionalFiles.CssScope = 
+
+[E:/DATN/PoolComVnWebApplication/PoolComVnWebClient/Views/CreateTournament/StepFiveJoinList.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcQ3JlYXRlVG91cm5hbWVudFxTdGVwRml2ZUpvaW5MaXN0LmNzaHRtbA==
+build_metadata.AdditionalFiles.CssScope = 
+
+[E:/DATN/PoolComVnWebApplication/PoolComVnWebClient/Views/CreateTournament/StepFiveMember.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcQ3JlYXRlVG91cm5hbWVudFxTdGVwRml2ZU1lbWJlci5jc2h0bWw=
+build_metadata.AdditionalFiles.CssScope = 
+
+[E:/DATN/PoolComVnWebApplication/PoolComVnWebClient/Views/CreateTournament/StepFivePlayerList.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcQ3JlYXRlVG91cm5hbWVudFxTdGVwRml2ZVBsYXllckxpc3QuY3NodG1s
+build_metadata.AdditionalFiles.CssScope = 
+
+[E:/DATN/PoolComVnWebApplication/PoolComVnWebClient/Views/CreateTournament/StepFivePlayerSystem.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcQ3JlYXRlVG91cm5hbWVudFxTdGVwRml2ZVBsYXllclN5c3RlbS5jc2h0bWw=
+build_metadata.AdditionalFiles.CssScope = 
+
+[E:/DATN/PoolComVnWebApplication/PoolComVnWebClient/Views/CreateTournament/StepFourAddTable.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcQ3JlYXRlVG91cm5hbWVudFxTdGVwRm91ckFkZFRhYmxlLmNzaHRtbA==
+build_metadata.AdditionalFiles.CssScope = 
+
+[E:/DATN/PoolComVnWebApplication/PoolComVnWebClient/Views/CreateTournament/StepOneCreateTournament.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcQ3JlYXRlVG91cm5hbWVudFxTdGVwT25lQ3JlYXRlVG91cm5hbWVudC5jc2h0bWw=
+build_metadata.AdditionalFiles.CssScope = 
+
+[E:/DATN/PoolComVnWebApplication/PoolComVnWebClient/Views/CreateTournament/StepSixArrange.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcQ3JlYXRlVG91cm5hbWVudFxTdGVwU2l4QXJyYW5nZS5jc2h0bWw=
+build_metadata.AdditionalFiles.CssScope = 
+
+[E:/DATN/PoolComVnWebApplication/PoolComVnWebClient/Views/CreateTournament/StepSixSingleArrange.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcQ3JlYXRlVG91cm5hbWVudFxTdGVwU2l4U2luZ2xlQXJyYW5nZS5jc2h0bWw=
+build_metadata.AdditionalFiles.CssScope = 
+
+[E:/DATN/PoolComVnWebApplication/PoolComVnWebClient/Views/CreateTournament/StepThreeReview.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcQ3JlYXRlVG91cm5hbWVudFxTdGVwVGhyZWVSZXZpZXcuY3NodG1s
+build_metadata.AdditionalFiles.CssScope = 
+
+[E:/DATN/PoolComVnWebApplication/PoolComVnWebClient/Views/CreateTournament/StepTwoAddBanner.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcQ3JlYXRlVG91cm5hbWVudFxTdGVwVHdvQWRkQmFubmVyLmNzaHRtbA==
+build_metadata.AdditionalFiles.CssScope = 
+
+[E:/DATN/PoolComVnWebApplication/PoolComVnWebClient/Views/CreateTournament/SystemRandom.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcQ3JlYXRlVG91cm5hbWVudFxTeXN0ZW1SYW5kb20uY3NodG1s
+build_metadata.AdditionalFiles.CssScope = 
+
+[E:/DATN/PoolComVnWebApplication/PoolComVnWebClient/Views/CreateTournament/SystemSingleRandom.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcQ3JlYXRlVG91cm5hbWVudFxTeXN0ZW1TaW5nbGVSYW5kb20uY3NodG1s
+build_metadata.AdditionalFiles.CssScope = 
+
+[E:/DATN/PoolComVnWebApplication/PoolComVnWebClient/Views/CreateTournament/UserCustom.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcQ3JlYXRlVG91cm5hbWVudFxVc2VyQ3VzdG9tLmNzaHRtbA==
+build_metadata.AdditionalFiles.CssScope = 
+
+[E:/DATN/PoolComVnWebApplication/PoolComVnWebClient/Views/CreateTournament/UserRandom.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcQ3JlYXRlVG91cm5hbWVudFxVc2VyUmFuZG9tLmNzaHRtbA==
+build_metadata.AdditionalFiles.CssScope = 
+
+[E:/DATN/PoolComVnWebApplication/PoolComVnWebClient/Views/Error/InternalServerError.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcRXJyb3JcSW50ZXJuYWxTZXJ2ZXJFcnJvci5jc2h0bWw=
+build_metadata.AdditionalFiles.CssScope = 
+
+[E:/DATN/PoolComVnWebApplication/PoolComVnWebClient/Views/Error/NotAccess.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcRXJyb3JcTm90QWNjZXNzLmNzaHRtbA==
+build_metadata.AdditionalFiles.CssScope = 
+
+[E:/DATN/PoolComVnWebApplication/PoolComVnWebClient/Views/Error/NotFound.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcRXJyb3JcTm90Rm91bmQuY3NodG1s
+build_metadata.AdditionalFiles.CssScope = 
+
+[E:/DATN/PoolComVnWebApplication/PoolComVnWebClient/Views/Error/Unauthorized.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcRXJyb3JcVW5hdXRob3JpemVkLmNzaHRtbA==
+build_metadata.AdditionalFiles.CssScope = 
+
+[E:/DATN/PoolComVnWebApplication/PoolComVnWebClient/Views/Home/Club.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcSG9tZVxDbHViLmNzaHRtbA==
+build_metadata.AdditionalFiles.CssScope = 
+
+[E:/DATN/PoolComVnWebApplication/PoolComVnWebClient/Views/Home/Contact.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcSG9tZVxDb250YWN0LmNzaHRtbA==
+build_metadata.AdditionalFiles.CssScope = 
+
+[E:/DATN/PoolComVnWebApplication/PoolComVnWebClient/Views/Home/GameRules.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcSG9tZVxHYW1lUnVsZXMuY3NodG1s
+build_metadata.AdditionalFiles.CssScope = 
+
+[E:/DATN/PoolComVnWebApplication/PoolComVnWebClient/Views/Home/Index.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcSG9tZVxJbmRleC5jc2h0bWw=
+build_metadata.AdditionalFiles.CssScope = 
+
+[E:/DATN/PoolComVnWebApplication/PoolComVnWebClient/Views/Home/NewsDetail.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcSG9tZVxOZXdzRGV0YWlsLmNzaHRtbA==
+build_metadata.AdditionalFiles.CssScope = 
+
+[E:/DATN/PoolComVnWebApplication/PoolComVnWebClient/Views/Home/Privacy.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcSG9tZVxQcml2YWN5LmNzaHRtbA==
+build_metadata.AdditionalFiles.CssScope = 
+
+[E:/DATN/PoolComVnWebApplication/PoolComVnWebClient/Views/Manager/ClubAccount.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcTWFuYWdlclxDbHViQWNjb3VudC5jc2h0bWw=
+build_metadata.AdditionalFiles.CssScope = 
+
+[E:/DATN/PoolComVnWebApplication/PoolComVnWebClient/Views/Manager/CreateManageAccount.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcTWFuYWdlclxDcmVhdGVNYW5hZ2VBY2NvdW50LmNzaHRtbA==
+build_metadata.AdditionalFiles.CssScope = 
+
+[E:/DATN/PoolComVnWebApplication/PoolComVnWebClient/Views/Manager/Index.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcTWFuYWdlclxJbmRleC5jc2h0bWw=
+build_metadata.AdditionalFiles.CssScope = 
+
+[E:/DATN/PoolComVnWebApplication/PoolComVnWebClient/Views/Manager/UserNormalAccount.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcTWFuYWdlclxVc2VyTm9ybWFsQWNjb3VudC5jc2h0bWw=
+build_metadata.AdditionalFiles.CssScope = 
+
+[E:/DATN/PoolComVnWebApplication/PoolComVnWebClient/Views/NewsManage/AddNews.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcTmV3c01hbmFnZVxBZGROZXdzLmNzaHRtbA==
+build_metadata.AdditionalFiles.CssScope = 
+
+[E:/DATN/PoolComVnWebApplication/PoolComVnWebClient/Views/NewsManage/Index.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcTmV3c01hbmFnZVxJbmRleC5jc2h0bWw=
+build_metadata.AdditionalFiles.CssScope = 
+
+[E:/DATN/PoolComVnWebApplication/PoolComVnWebClient/Views/NewsManage/NewsDetails.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcTmV3c01hbmFnZVxOZXdzRGV0YWlscy5jc2h0bWw=
+build_metadata.AdditionalFiles.CssScope = 
+
+[E:/DATN/PoolComVnWebApplication/PoolComVnWebClient/Views/Shared/Error.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcU2hhcmVkXEVycm9yLmNzaHRtbA==
+build_metadata.AdditionalFiles.CssScope = 
+
+[E:/DATN/PoolComVnWebApplication/PoolComVnWebClient/Views/Shared/_BackBtnLayout.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcU2hhcmVkXF9CYWNrQnRuTGF5b3V0LmNzaHRtbA==
+build_metadata.AdditionalFiles.CssScope = 
+
+[E:/DATN/PoolComVnWebApplication/PoolComVnWebClient/Views/Shared/_ClubLayout.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcU2hhcmVkXF9DbHViTGF5b3V0LmNzaHRtbA==
+build_metadata.AdditionalFiles.CssScope = 
+
+[E:/DATN/PoolComVnWebApplication/PoolComVnWebClient/Views/Shared/_ConfirmPartial.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcU2hhcmVkXF9Db25maXJtUGFydGlhbC5jc2h0bWw=
+build_metadata.AdditionalFiles.CssScope = 
+
+[E:/DATN/PoolComVnWebApplication/PoolComVnWebClient/Views/Shared/_CreateTournamentLayout.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcU2hhcmVkXF9DcmVhdGVUb3VybmFtZW50TGF5b3V0LmNzaHRtbA==
+build_metadata.AdditionalFiles.CssScope = 
+
+[E:/DATN/PoolComVnWebApplication/PoolComVnWebClient/Views/Shared/_LoadingPartial.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcU2hhcmVkXF9Mb2FkaW5nUGFydGlhbC5jc2h0bWw=
+build_metadata.AdditionalFiles.CssScope = 
+
+[E:/DATN/PoolComVnWebApplication/PoolComVnWebClient/Views/Shared/_TournamentLayout.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcU2hhcmVkXF9Ub3VybmFtZW50TGF5b3V0LmNzaHRtbA==
+build_metadata.AdditionalFiles.CssScope = 
+
+[E:/DATN/PoolComVnWebApplication/PoolComVnWebClient/Views/Shared/_ValidationScriptsPartial.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcU2hhcmVkXF9WYWxpZGF0aW9uU2NyaXB0c1BhcnRpYWwuY3NodG1s
+build_metadata.AdditionalFiles.CssScope = 
+
+[E:/DATN/PoolComVnWebApplication/PoolComVnWebClient/Views/Tournament/TournamentBracket.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcVG91cm5hbWVudFxUb3VybmFtZW50QnJhY2tldC5jc2h0bWw=
+build_metadata.AdditionalFiles.CssScope = 
+
+[E:/DATN/PoolComVnWebApplication/PoolComVnWebClient/Views/Tournament/TournamentBracketForManager.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcVG91cm5hbWVudFxUb3VybmFtZW50QnJhY2tldEZvck1hbmFnZXIuY3NodG1s
+build_metadata.AdditionalFiles.CssScope = 
+
+[E:/DATN/PoolComVnWebApplication/PoolComVnWebClient/Views/Tournament/TournamentDetail.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcVG91cm5hbWVudFxUb3VybmFtZW50RGV0YWlsLmNzaHRtbA==
+build_metadata.AdditionalFiles.CssScope = 
+
+[E:/DATN/PoolComVnWebApplication/PoolComVnWebClient/Views/Tournament/TournamentDetailForManager.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcVG91cm5hbWVudFxUb3VybmFtZW50RGV0YWlsRm9yTWFuYWdlci5jc2h0bWw=
+build_metadata.AdditionalFiles.CssScope = 
+
+[E:/DATN/PoolComVnWebApplication/PoolComVnWebClient/Views/Tournament/TournamentList.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcVG91cm5hbWVudFxUb3VybmFtZW50TGlzdC5jc2h0bWw=
+build_metadata.AdditionalFiles.CssScope = 
+
+[E:/DATN/PoolComVnWebApplication/PoolComVnWebClient/Views/Tournament/TournamentMatchList.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcVG91cm5hbWVudFxUb3VybmFtZW50TWF0Y2hMaXN0LmNzaHRtbA==
+build_metadata.AdditionalFiles.CssScope = 
+
+[E:/DATN/PoolComVnWebApplication/PoolComVnWebClient/Views/Tournament/TournamentPlayers.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcVG91cm5hbWVudFxUb3VybmFtZW50UGxheWVycy5jc2h0bWw=
+build_metadata.AdditionalFiles.CssScope = 
+
+[E:/DATN/PoolComVnWebApplication/PoolComVnWebClient/Views/Tournament/TournamentSingleBracket.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcVG91cm5hbWVudFxUb3VybmFtZW50U2luZ2xlQnJhY2tldC5jc2h0bWw=
+build_metadata.AdditionalFiles.CssScope = 
+
+[E:/DATN/PoolComVnWebApplication/PoolComVnWebClient/Views/Tournament/TournamentSingleBracketForManager.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcVG91cm5hbWVudFxUb3VybmFtZW50U2luZ2xlQnJhY2tldEZvck1hbmFnZXIuY3NodG1s
+build_metadata.AdditionalFiles.CssScope = 
+
+[E:/DATN/PoolComVnWebApplication/PoolComVnWebClient/Views/Tournament/TournamentUpcoming.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcVG91cm5hbWVudFxUb3VybmFtZW50VXBjb21pbmcuY3NodG1s
+build_metadata.AdditionalFiles.CssScope = 
+
+[E:/DATN/PoolComVnWebApplication/PoolComVnWebClient/Views/User/CreateUser.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcVXNlclxDcmVhdGVVc2VyLmNzaHRtbA==
+build_metadata.AdditionalFiles.CssScope = 
+
+[E:/DATN/PoolComVnWebApplication/PoolComVnWebClient/Views/User/EditUserProfile.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcVXNlclxFZGl0VXNlclByb2ZpbGUuY3NodG1s
+build_metadata.AdditionalFiles.CssScope = 
+
+[E:/DATN/PoolComVnWebApplication/PoolComVnWebClient/Views/User/Index.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcVXNlclxJbmRleC5jc2h0bWw=
+build_metadata.AdditionalFiles.CssScope = 
+
+[E:/DATN/PoolComVnWebApplication/PoolComVnWebClient/Views/User/UserList.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcVXNlclxVc2VyTGlzdC5jc2h0bWw=
+build_metadata.AdditionalFiles.CssScope = 
+
+[E:/DATN/PoolComVnWebApplication/PoolComVnWebClient/Views/_ViewImports.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcX1ZpZXdJbXBvcnRzLmNzaHRtbA==
+build_metadata.AdditionalFiles.CssScope = 
+
+[E:/DATN/PoolComVnWebApplication/PoolComVnWebClient/Views/_ViewStart.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcX1ZpZXdTdGFydC5jc2h0bWw=
+build_metadata.AdditionalFiles.CssScope = 
+
+[E:/DATN/PoolComVnWebApplication/PoolComVnWebClient/Views/Shared/_Layout.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcU2hhcmVkXF9MYXlvdXQuY3NodG1s
+build_metadata.AdditionalFiles.CssScope = b-h5eig703wr

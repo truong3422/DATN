@@ -1,0 +1,294 @@
+﻿@using PoolComVnWebClient.DTO
+@{
+    Layout = "~/Views/Shared/_CreateTournamentLayout.cshtml";
+    int SoThuTu = 1;
+    int tourId = ViewBag.TourId;
+    string confirmMessage = "Bạn sẽ không thể thêm người chơi nếu chuyển sang bước 6. Chắc chắn muốn tiếp tục";
+}
+@model List<TableDTO>
+<div class="opened-step d-none">@ViewBag.StepOpen</div>
+<div class="current-step d-none">@ViewBag.CurrentStep</div>
+<div class="tour-id d-none">@tourId</div>
+<div class="container-full">
+    <div class="create-tour d-flex justify-content-end">
+        <div class="create-tour-display col-lg-10">
+            <div class="create-step-two">
+                <div class="display-title d-flex justify-content-between">
+                    <div>Danh sách bàn đấu</div>
+                </div>
+                <!-- Danh sách tất cả -->
+                <div class="display-content">
+                    <div class="d-flex justify-content-between">
+                        @*<div>
+                        <button class="club-player" disabled>Xóa khỏi giải đấu</button>
+                        <!-- Forward to addTable page of club -->
+                        <button class="club-player">Thêm bàn</button>
+                        </div>*@
+                        <div class="player-search d-flex align-items-end">
+                            <i class="fa-solid fa-magnifying-glass"></i>
+                            <input class="" />
+                        </div>
+                    </div>
+
+                    <div class="pt-3">
+                        <div class="table-overflow">
+                            <table class="players-table">
+                                <tr>
+                                    <th>
+                                        <input class="all-checkbox" type="checkbox">
+                                    </th>
+                                    <th>#</th>
+                                    <th>Nhãn</th>
+                                    <th class="text-center">Ảnh</th>
+                                    <th class="text-center">Kích thước</th>
+                                    <th>Tên bàn</th>
+                                    <th>Hành động</th>
+                                </tr>
+                                @foreach (var table in Model)
+                                {
+                                    <tr>
+                                        <td>
+                                            <input hidden id="selectedTablesInput" name="selectedTables" />
+                                            <input type="checkbox" class="individual-checkbox one-checkbox" value="@table.TableId"
+                                                   data-tableid="@table.TableId"
+                                                   data-tagname="@table.TagName"
+                                                   data-image="@table.Image"
+                                                   data-size="@table.Size"
+                                                   data-table-name="@table.TableName" />
+                                        </td>
+
+                                        <td>@SoThuTu</td>
+                                        <td>@table.TagName</td>
+                                        <td class="d-flex justify-content-center">
+                                            <img src="@table.Image" alt="">
+                                        </td>
+                                        <td class="text-center">@table.Size</td>
+                                        <td>@table.TableName</td>
+                                        <td>
+                                            <a class="edit-button" href="#"><i class="fa-solid fa-pencil p-2"></i></a>
+                                            <a href="#"><i class="fa-solid fa-trash-can p-2"></i></a>
+                                        </td>
+                                    </tr>
+                                    SoThuTu++;
+                                }
+                            </table>
+                        </div>
+                    </div>
+                    <div class="tour-input pt-5">
+                        <button class="submit-btn" onclick="submitForm()">Lưu và chuyển sang bước 5</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="player-edit d-flex justify-content-center align-items-center d-none">
+    <div class="edit-form">
+        <div class="edit-header d-flex justify-content-between">
+            <div class="edit-title">Thông tin bàn</div>
+            <div class="edit-close">
+                <i class="fa-solid fa-xmark"></i>
+            </div>
+        </div>
+        <div class="form-overflow">
+            <div class="input-line">
+                <div class="input-title">Tên bàn</div>
+                <div>
+                    <input type="text" value="Bàn 1">
+                </div>
+            </div>
+            <div class="input-line">
+                <div class="input-title">Bàn chú ý</div>
+                <div>
+                    <select>
+                        <option value="Có">Có</option>
+                        <option value="Không">Không</option>
+                    </select>
+                </div>
+            </div>
+            <div class="input-line d-flex justify-content-around">
+                <button>Hủy</button>
+                <button>Lưu</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<div class="confirm-popup d-none">
+    <div class="confirm-content">
+        <div class="confirm-title">
+            Bạn phải chọn ít nhất một bàn để bắt đầu giải đấu
+        </div>
+        <div class="d-flex justify-content-around">
+            <div class="save-random" onclick="hiddenPopup()">
+                Đồng ý
+            </div>
+        </div>
+    </div>
+</div>
+@*@Html.PartialAsync("_ConfirmationModal", confirmMessage)*@
+<script src="~/lib/jquery/dist/jquery.min.js"></script>
+<script>
+    function hiddenPopup() {
+        var confirmPopup = document.querySelector('.confirm-popup');
+        if (!confirmPopup.classList.contains('d-none')) {
+            confirmPopup.classList.add('d-none');
+        }
+    }
+    function submitForm() {
+        //showModalAndExecuteAction().then(function (result) {
+
+        //});
+        //if (result) {
+        var selectedTableIds = [];
+
+        var checkboxes = document.querySelectorAll('.individual-checkbox:checked');
+        if (checkboxes.length > 0) {
+            checkboxes.forEach(function (checkbox) {
+                var tableId = checkbox.getAttribute('data-tableid');
+
+                selectedTableIds.push(parseInt(tableId));
+            });
+
+
+            $.ajax({
+                url: 'https://localhost:5000/api/Table/AddTableToTournament',
+                type: 'POST',
+                contentType: 'application/json',
+                data: JSON.stringify(selectedTableIds),
+                success: function (data) {
+                    var tourId = $(".tour-id").text().trim();
+                    var redirectUrl = '/CreateTournament/StepFivePlayerList?tourId=' + tourId;
+                    window.location.href = redirectUrl;
+                },
+                error: function (xhr, status, error) {
+                    // Xử lý lỗi
+                    console.error(xhr.responseText);
+                }
+            });
+        } else {
+            // Không có checkbox nào được chọn
+            document.querySelector('.confirm-popup').classList.remove('d-none');
+        }
+        
+    }
+
+    //Handle entry checkbox
+    const allCheckboxBtn = document.querySelector('.all-checkbox');
+    const checkboxList = document.querySelectorAll('.one-checkbox');
+    //const addClubPlayer = document.querySelector('.club-player');
+    const successBox = document.querySelector('.success-box');
+    const rowList = document.querySelectorAll('.players-table tr');
+    const containerFull = document.querySelector('.container-full');
+
+
+    allCheckboxBtn.addEventListener('change', () => {
+        if (allCheckboxBtn.checked) {
+            checkboxList.forEach(cb => {
+                cb.checked = true;
+                cb.classList.add('group');
+            })
+        } else {
+            checkboxList.forEach(cb => {
+                cb.checked = false;
+                cb.classList.remove('group');
+            })
+        }
+        setDisable();
+    });
+
+    checkboxList.forEach(cb => {
+        cb.addEventListener('click', (e) => {
+            e.stopPropagation();
+            if (cb.checked === true) {
+                cb.classList.add('group');
+                // addClubPlayer.disabled = false;
+                const groupList = document.querySelectorAll('.one-checkbox.group');
+                if (groupList.length === checkboxList.length) {
+                    allCheckboxBtn.checked = true;
+                }
+            } else {
+                cb.classList.remove('group');
+                setDisable();
+                const groupList = document.querySelectorAll('.one-checkbox.group');
+                allCheckboxBtn.checked = false;
+            }
+        })
+    });
+
+    // rowList.forEach(row => {
+    //     row.addEventListener('click', () => {
+    //         const cb = row.querySelector('.one-checkbox');
+    //         if (cb !== null) {
+    //             cb.checked = !cb.checked;
+    //             if (cb.checked === true) {
+    //                 cb.classList.add('group');
+    //                 addClubPlayer.disabled = false;
+    //                 const groupList = document.querySelectorAll('.one-checkbox.group');
+    //                 if (groupList.length === checkboxList.length) {
+    //                     allCheckboxBtn.checked = true;
+    //                 }
+    //             } else {
+    //                 cb.classList.remove('group');
+    //                 setDisable();
+    //                 const groupList = document.querySelectorAll('.one-checkbox.group');
+    //                 allCheckboxBtn.checked = false;
+    //             }
+    //         }
+    //     })
+    // })
+
+    // function setDisable() {
+    //     const groupList = document.querySelectorAll('.one-checkbox.group');
+    //     if (groupList.length > 0) {
+    //         addClubPlayer.disabled = false;
+    //     } else {
+    //         addClubPlayer.disabled = true;
+    //     }
+    // }
+
+    //addClubPlayer.addEventListener('click', displaySuccessBox);
+
+    // function displaySuccessBox() {
+    //     this.disabled = true;
+    //     if (addClubPlayer.disabled === true) {
+    //         const groupList = document.querySelectorAll('.one-checkbox.group');
+    //         groupList.forEach(cb => {
+    //             cb.checked = false;
+    //             cb.classList.remove('group');
+    //         });
+    //         allCheckboxBtn.checked = false;
+    //     }
+
+    //     const successBox = document.createElement('div');
+    //     successBox.className = 'success-box d-none';
+    //     successBox.textContent = 'Thành công';
+    //     containerFull.appendChild(successBox);
+
+    //     successBox.classList.remove('d-none');
+    //     setTimeout(() => {
+    //         successBox.style.right = '50px';
+    //         setTimeout(() => {
+    //             successBox.remove();
+    //         }, 1500);
+    //     }, 100);
+    // }
+
+    //close player-edit
+    const closeBtn = document.querySelector('.edit-close');
+    const playerEdit = document.querySelector('.player-edit');
+    closeBtn.addEventListener('click', () => {
+        playerEdit.classList.add('d-none');
+    })
+
+    //edit button
+    const editBtns = document.querySelectorAll('.edit-button');
+    editBtns.forEach(btn => {
+        btn.addEventListener('click', (e) => {
+            e.stopPropagation();
+            playerEdit.classList.remove('d-none');
+        })
+    })
+
+</script>

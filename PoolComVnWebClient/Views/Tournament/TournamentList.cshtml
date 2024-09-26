@@ -1,0 +1,261 @@
+﻿@using PoolComVnWebClient.Common
+@using PoolComVnWebClient.DTO
+@model PaginatedList<PoolComVnWebClient.DTO.TournamentOutputDTO>
+<div class="container">
+    <div class="tournament">
+        <div class="tour-nav d-flex">
+            <button class="normal-tour active">Nghiệp dư</button>
+            <!-- <button class="special-tour mx-2">Đáng chú ý</button> -->
+        </div>
+
+        <div class="normal-body">
+            <div class="d-flex justify-content-between mt-4 row">
+                <div class="tour-circle d-flex justify-content-lg-start justify-content-end
+                    pt-lg-0 pt-3 align-items-center col-lg-6 col-12 order-2 order-lg-1">
+                    <div class="schedule-circle"></div>
+                    <span>Lên lịch</span>
+                    <div class="start-circle"></div>
+                    <span>Đang chơi</span>
+                    <div class="finish-circle"></div>
+                    <span>Kết thúc</span>
+                </div>
+                <div class="d-flex justify-content-end col-lg-6 col-12 order-1 order-lg-2">
+                    <!-- Phần tìm kiếm -->
+                    <div class="tour-search d-flex justify-content-end align-items-center">
+                        <i class="search-btn fa-solid fa-magnifying-glass"></i>
+                        <form method="get" action="/Tournament/TournamentList" class="search-form">
+                            <input class="search-input px-2" type="text" name="searchQuery" placeholder="Giải đấu, địa chỉ,..." value="@ViewBag.SearchQuery" />
+                            <button type="submit"></button>
+                        </form>
+                    </div>
+
+                    <div class="tour-filter d-flex align-items-center">
+                        <div class="filter-btn">
+                            <span>Bộ lọc</span>
+                            <i class="fa-solid fa-filter px-2"></i>
+                        </div>
+                        <form method="get" action="/Tournament/TournamentList" class="filter-body d-none">
+                            <div class="row">
+                                <div class="d-flex justify-content-center col-4">
+                                    <select name="gameType" class="tour-type">
+                                        <option selected hidden>Thể loại</option>
+                                        <option>8 bi</option>
+                                        <option>9 bi</option>
+                                        <option>10 bi</option>
+                                    </select>
+                                </div>
+                            </div>
+
+                            <div class="pt-5">
+                                <div class="start-date d-flex align-items-center">
+                                    <div class="d-flex justify-content-center col-4">
+                                        <span>Từ ngày</span>
+                                    </div>
+                                    <div class="d-flex justify-content-center col-4">
+                                        <input type="date" name="startDate" />
+                                    </div>
+                                </div>
+                                <div class="end-date pt-3 d-flex align-items-center">
+                                    <div class="d-flex justify-content-center col-4">
+                                        <span>Đến ngày</span>
+                                    </div>
+                                    <div class="d-flex justify-content-center col-4">
+                                        <input type="date" name="endDate" />
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="pt-5 row">
+                                <div class="d-flex justify-content-center col-6">
+                                    <button type="button" class="reset-btn">Đặt lại</button>
+                                </div>
+                                <div class="d-flex justify-content-center col-6">
+                                    <button type="submit" class="submit-btn">Tìm kiếm</button>
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+            <div class="mt-5 d-flex row">
+                @foreach (var tour in Model.Items)
+                {
+                    <div class="tour-item col-md-6 col-lg-4">
+                        <a href="/Tournament/TournamentDetail?tourId=@tour.TournamentId" class="item-body">
+                            @if (tour.Status == Constant.TournamentIncoming ||
+                                    tour.Status == Constant.CreateTourStepOne ||
+                                    tour.Status == Constant.CreateTourStepTwo ||
+                                    tour.Status == Constant.CreateTourStepThree ||
+                                    tour.Status == Constant.CreateTourStepFour ||
+                                    tour.Status == Constant.CreateTourStepFive ||
+                                    tour.Status == Constant.CreateTourStepSix)
+                            {
+                                <div class="tour-status schedule-status"></div>
+                            }
+                            @if (tour.Status == Constant.TournamentInProgress)
+                            {
+                                <div class="tour-status start-status"></div>
+                            }
+                            @if (tour.Status == Constant.TournamentComplete)
+                            {
+                                <div class="tour-status finish-status"></div>
+                            }
+                            <div class="tour-image" style="background-image: url(@tour.Flyer);"></div>
+                            <div>
+                                <div class="tour-type d-flex justify-content-center align-items-center">
+                                    @tour.GameType
+                                </div>
+                            </div>
+                            <div class="tour-title">
+                                @tour.TournamentName
+                            </div>
+                            <div class="tour-club d-flex align-items-center">
+                                <img class="tour-club-image" src="@tour.ClubAvt" alt="">
+                                <span class="px-2">@tour.ClubName</span>
+                            </div>
+                            <div class="tour-description">
+                                @tour.Description
+                            </div>
+                            <div class="tour-time">
+                                <i class="fa-solid fa-calendar-days"></i>
+                                <span>@tour.StartTime.ToString("MM/dd/yyyy")</span>
+                                -
+                                <span>@tour.EndTime.ToString("MM/dd/yyyy")</span>
+                            </div>
+
+                            <div class="tour-position">
+                                <i class="fa-solid fa-location-dot"></i>
+                                <span>@tour.Address</span>
+                            </div>
+                        </a>
+                    </div>
+                }
+            </div>
+        </div>
+
+        @{
+            // Định nghĩa ngưỡng cần hiển thị dấu "..."
+            int threshold = 1;
+
+            // Tính toán danh sách phân trang cần hiển thị
+            List<int> displayedPages = new List<int>();
+            bool showLeadingDots = false;
+            bool showTrailingDots = false;
+
+            for (int pageNum = 1; pageNum <= Model.TotalPages; pageNum++)
+            {
+                if (pageNum == 1 || pageNum == Model.TotalPages || Math.Abs(pageNum - Model.PageIndex) <= threshold)
+                {
+                    displayedPages.Add(pageNum);
+                }
+                else if (pageNum < Model.PageIndex - threshold && !showLeadingDots)
+                {
+                    displayedPages.Add(-1); // Placeholder for leading dots
+                    showLeadingDots = true;
+                }
+                else if (pageNum > Model.PageIndex + threshold && !showTrailingDots)
+                {
+                    displayedPages.Add(-1); // Placeholder for trailing dots
+                    showTrailingDots = true;
+                }
+            }
+
+            // Hàm JavaScript để chuyển đến trang
+            string goToPageFunction = "goToPage";
+
+            // Định dạng mã HTML cho phân trang
+            <div class="pagination d-flex justify-content-center align-items-center m-0">
+                <div class="pagination-content d-flex justify-content-center align-items-center m-0">
+                    <div class="pagination-btn-big" onclick="prevPage()">Trước</div>
+                    @foreach (int pageNum in displayedPages)
+                    {
+                        if (pageNum == -1)
+                        {
+                            <div class="pagination-more">...</div>
+                        }
+                        else
+                        {
+                            <div class="pagination-btn @(pageNum == Model.PageIndex ? "active" : "")" onclick="@($"{goToPageFunction}({pageNum}, '{@ViewBag.SearchQuery}', '{@ViewBag.GameType}', '{@ViewBag.StartDate}', '{@ViewBag.EndDate}')")">@pageNum</div>
+                        }
+                    }
+                    <div class="pagination-btn-big" onclick="nextPage()">Sau</div>
+                </div>
+            </div>
+        }
+
+    </div>
+</div>
+
+<script>
+    //tour-nav exchange button
+    const normalTourButton = document.querySelector('.normal-tour');
+    const normalBody = document.querySelector('.normal-body');
+    normalTourButton.addEventListener('click', () => {
+        normalTourButton.classList.add('active');
+        window.scroll({
+            top: 120,
+            behavior: 'smooth'
+        });
+        normalBody.classList.remove('d-none');
+    });
+
+    const filterBtn = document.querySelector('.filter-btn');
+    const filterBody = document.querySelector('.filter-body');
+    filterBtn.addEventListener('click', () => {
+        if (filterBody.classList.contains('d-none')) {
+            filterBody.classList.remove('d-none');
+            filterBody.classList.add('d-block');
+        } else {
+            filterBody.classList.add('d-none');
+            filterBody.classList.remove('d-block');
+        }
+    })
+
+    const filterForm = document.querySelector('.filter-body');
+    const resetBtn = document.querySelector('.reset-btn');
+    resetBtn.addEventListener('click', () => {
+        filterForm.reset();
+    })
+
+    function prevPage() {
+        var currentPage = @Model.PageIndex;
+        var searchQuery = '@ViewBag.SearchQuery';
+        var gameType = $('#gameType').val();
+        var startDate = $('#startDate').val();
+        var endDate = $('#endDate').val();
+        if (currentPage > 1) {
+            goToPage(currentPage - 1, searchQuery, gameType, startDate, endDate);
+        }
+    }
+
+    function nextPage() {
+        var currentPage = @Model.PageIndex;
+        var totalPages = @Model.TotalPages;
+        var searchQuery = '@ViewBag.SearchQuery';
+        var gameType = $('#gameType').val();
+        var startDate = $('#startDate').val();
+        var endDate = $('#endDate').val();
+        if (currentPage < totalPages) {
+            goToPage(currentPage + 1, searchQuery, gameType, startDate, endDate);
+        }
+    }
+
+    function goToPage(pageNum, searchQuery, gameType, startDate, endDate) {
+        var url = '@Url.Action("TournamentList", "Tournament")';
+        url += '?page=' + pageNum;
+        if (searchQuery) {
+            url += '&searchQuery=' + searchQuery;
+        }
+        if (gameType) {
+            url += '&gameType=' + gameType;
+        }
+        if (startDate) {
+            url += '&startDate=' + startDate;
+        }
+        if (endDate) {
+            url += '&endDate=' + endDate;
+        }
+        window.location.href = url;
+    }
+
+</script>            

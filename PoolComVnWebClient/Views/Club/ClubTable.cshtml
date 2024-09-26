@@ -1,0 +1,66 @@
+﻿@inject Microsoft.AspNetCore.Http.IHttpContextAccessor HttpContextAccessor
+@{
+    Layout = "~/Views/Shared/_ClubLayout.cshtml";
+}
+@{
+    string email = HttpContextAccessor.HttpContext.Request.Cookies["Email"];
+
+}
+<div class="dashboard-container table">
+    @if (ViewBag.AccountEmail == email)
+    {
+        <div class="manage-table">
+            <a asp-action="ClubTableManage" asp-controller="Club" class="manage-btn">
+            Danh sách chi tiết
+        </a>
+    </div>
+    }
+    <div class="overview-table row px-0 d-flex justify-content-center">
+        @if (ViewBag.Table == null)
+        {
+            <div>Câu lạc bộ chưa có bàn nào.</div>
+        }
+        else
+        {
+            foreach (var table in ViewBag.Table)
+            {
+                <div class="table-box">
+                    <div class="table-content align-items-center">
+                        <div class="table-image" style="background-image: url('@table.Image');"></div>
+                        <div class="table-info">
+                            <div class="info-line">
+                                <div class="info-title">Tên bàn</div>
+                                <div class="info-description">@table.TableName</div>
+                            </div>
+                            <div class="info-line">
+                                <div class="info-title">Kích thước</div>
+                                <div class="info-description">@table.Size</div>
+                            </div>
+                            <div class="info-line">
+                                <div class="info-title">Số lượng bàn</div>
+                                <div class="info-description">@table.Quantity</div>
+                            </div>
+                            <div class="info-line">
+                                <div class="info-title">Giá giờ chơi</div>
+                                <div class="info-description">@table.Price VNĐ / giờ</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            }
+        }
+    </div>
+</div>
+
+<script>
+    const backBtn = document.querySelector('.back-btn');
+    if (backBtn !== null) {
+        backBtn.addEventListener('click', () => {
+            window.location.href = '/home/index';
+        });
+    }
+
+    const clubNavBtn = document.querySelector('.club-table');
+    clubNavBtn.classList.add('active');
+</script>
+

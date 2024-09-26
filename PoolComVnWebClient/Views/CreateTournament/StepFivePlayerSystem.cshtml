@@ -1,0 +1,353 @@
+﻿@using PoolComVnWebClient.DTO
+@{
+    Layout = "~/Views/Shared/_CreateTournamentLayout.cshtml";
+}
+
+@model List<PlayerDTO>
+
+<div class="container-full">
+    <div class="create-tour d-flex justify-content-end">
+        <div class="create-tour-display col-lg-10">
+            <div class="create-step-two">
+                <div class="display-title d-flex justify-content-between">
+                    <div>Người chơi</div>
+                    <div class="d-flex align-items-center">
+                        <a class="step-two-nav " id="all-list" asp-controller="CreateTournament" asp-action="StepTwoPlayerList">Danh sách (16)</a>
+                        <a class="step-two-nav" id="request-list" asp-controller="CreateTournament" asp-action="StepTwoJoinList">Yêu cầu tham gia (3)</a>
+                        <a class="step-two-nav active" id="system-list" asp-controller="CreateTournament" asp-action="StepTwoPlayerSystem">Toàn hệ thống (500)</a>
+                    </div>
+                </div>
+
+                <!-- Yêu cầu tham gia -->
+                <div class="display-content">
+                    <div class="d-flex justify-content-between">
+                        <div>
+                            <button class="list-player">Thêm vào danh sách</button>
+                            <button class="club-player" disabled>Thêm vào thành viên</button>
+                        </div>
+                        <div class="player-search d-flex align-items-end">
+                            <i class="fa-solid fa-magnifying-glass"></i>
+                            <input class="" />
+                        </div>
+                    </div>
+
+                    <div class="pt-3">
+                        <div class="table-overflow">
+                            <table class="players-table">
+                                <tr>
+                                    <th>
+                                        <input class="all-checkbox" type="checkbox">
+                                    </th>
+                                    <th>STT</th>
+                                    <th>Tên</th>
+                                    <th>Quốc gia</th>
+                                    <th>Số điện thoại</th>
+                                    <th class="text-center">Hạng</th>
+                                    <th class="player-fee"></th>
+                                    <th class="text-center">Mời tham gia</th>
+                                </tr>
+                                @{
+                                    int counter = 1;
+                                }
+                                @foreach (var player in Model)
+                                {
+                                    <tr>
+                                        <td>
+                                            <input class="one-checkbox" type="checkbox">
+                                        </td>
+                                        <td>@counter</td>
+                                        <td class="tb-name">
+                                            @player.PlayerName
+                                        </td>
+                                        <td>@player.CountryName</td>
+                                        <td>@player.PhoneNumber</td>
+                                        <td class="text-center">@player.Level</td>
+                                        @* <td>
+                                    <div class="is-member">Thành viên</div>
+                                    </td> *@
+                                        <td class="text-center">
+                                            <a href="#"><i class="fa-solid fa-envelope"></i></a>
+                                        </td>
+                                    </tr>
+                                    counter++;
+                                }
+                            </table>
+                        </div>
+
+                        <div class="tour-input pt-5">
+                            <button class="submit-btn" type="submit">Lưu và chuyển sang bước 3</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+@* <div class="player-edit d-flex justify-content-center align-items-center d-none">
+    <div class="edit-form">
+        <div class="edit-header d-flex justify-content-between">
+            <div class="edit-title">Thông tin người chơi</div>
+            <div class="edit-close">
+                <i class="fa-solid fa-xmark"></i>
+            </div>
+        </div>
+        <div class="form-overflow">
+            <div class="input-line">
+                <div class="input-title">Tên</div>
+                <div>
+                    <input type="text" value="Nam Vũ">
+                </div>
+            </div>
+            <div class="input-line">
+                <div class="input-title">Quốc gia</div>
+                <div>
+                    <input type="text">
+                </div>
+            </div>
+            <div class="input-line">
+                <div class="input-title">Email</div>
+                <div>
+                    <input type="text">
+                </div>
+            </div>
+            <div class="input-line">
+                <div class="input-title">Số điện thoại</div>
+                <div>
+                    <input type="text">
+                </div>
+            </div>
+            <div class="input-line">
+                <div class="input-title">Hạng</div>
+                <div>
+                    <input type="text">
+                </div>
+            </div>
+            <div class="input-line">
+                <div class="input-title">Lệ phí</div>
+                <select>
+                    <option value="Đã xong">Đã xong</option>
+                    <option value="Chưa nộp">Chưa nộp</option>
+                </select>
+            </div>
+            <div class="input-line d-flex justify-content-around">
+                <button>Hủy</button>
+                <button>Lưu</button>
+            </div>
+        </div>
+    </div>
+</div> *@
+<script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
+<script type="text/javascript">
+    // $(document).ready(function () {
+    //     const playersTable = $('.players-table');
+    //     const apiUrl = 'https://localhost:5000/api/Player';
+
+    //     // Function to fetch and display player data
+    //     function loadPlayers() {
+    //         $.ajax({
+    //             url: apiUrl,
+    //             type: 'GET',
+    //             dataType: 'json',
+    //             success: function (data) {
+    //                 // Clear existing table rows
+    //                 //playersTable.find('tbody').empty();
+
+    //                 // Populate table with player data
+    //                 $.each(data, function (index, player) {
+    //                     var row = $('<tr>');
+    //                     row.append($('<td>').html('<input class="one-checkbox" type="checkbox">'));
+    //                     row.append($('<td>').text(index + 1));
+    //                     row.append($('<td>').text(player.playerName));
+    //                     row.append($('<td>').text(player.countryName));
+    //                     row.append($('<td>').text(player.phoneNumber));
+    //                     row.append($('<td>').text(player.level));
+    //                     row.append($('<td>').html('<a href="#" class="invite-link" data-playerid="' + player.PlayerId + '">Mời tham gia</a>'));
+    //                     row.append($('<td>').html('<a class="edit-button" href="#"><i class="fa-solid fa-pencil p-2"></i></a>'));
+    //                     row.append($('<td>').html('<a href="#" class="fa-solid fa-xmark p-2"></a>'));
+    //                     playersTable.find('tbody').append(row);
+    //                 });
+    //             },
+    //             error: function (error) {
+    //                 console.log('Error loading players: ' + JSON.stringify(error));
+    //             }
+    //         });
+    //     }
+
+    //     // Call the function to initially load players
+    //     loadPlayers();
+
+    //Handle entry checkbox
+    const allCheckboxBtn = document.querySelector('.all-checkbox');
+    const checkboxList = document.querySelectorAll('.one-checkbox');
+    const addClubPlayer = document.querySelector('.club-player');
+    const addListPlayer = document.querySelector('.list-player');
+    const containerFull = document.querySelector('.container-full');
+    const rowList = document.querySelectorAll('.players-table tr');
+
+
+    allCheckboxBtn.addEventListener('change', () => {
+        if (allCheckboxBtn.checked) {
+            checkboxList.forEach(cb => {
+                cb.checked = true;
+                cb.classList.add('group');
+            })
+        } else {
+            checkboxList.forEach(cb => {
+                cb.checked = false;
+                cb.classList.remove('group');
+            })
+        }
+        setDisable();
+    });
+
+    checkboxList.forEach(cb => {
+        cb.addEventListener('click', (e) => {
+            e.stopPropagation();
+            if (cb.checked === true) {
+                cb.classList.add('group');
+                addClubPlayer.disabled = false;
+                addListPlayer.disabled = false;
+                const groupList = document.querySelectorAll('.one-checkbox.group');
+                if (groupList.length === checkboxList.length) {
+                    allCheckboxBtn.checked = true;
+                }
+            } else {
+                cb.classList.remove('group');
+                setDisable();
+                const groupList = document.querySelectorAll('.one-checkbox.group');
+                allCheckboxBtn.checked = false;
+            }
+        })
+    });
+
+    rowList.forEach(row => {
+        row.addEventListener('click', () => {
+            const cb = row.querySelector('.one-checkbox');
+            if (cb !== null) {
+                cb.checked = !cb.checked;
+                if (cb.checked === true) {
+                    cb.classList.add('group');
+                    addClubPlayer.disabled = false;
+                    addListPlayer.disabled = false;
+                    const groupList = document.querySelectorAll('.one-checkbox.group');
+                    if (groupList.length === checkboxList.length) {
+                        allCheckboxBtn.checked = true;
+                    }
+                } else {
+                    cb.classList.remove('group');
+                    setDisable();
+                    const groupList = document.querySelectorAll('.one-checkbox.group');
+                    allCheckboxBtn.checked = false;
+                }
+            }
+        })
+    })
+
+    function setDisable() {
+        const groupList = document.querySelectorAll('.one-checkbox.group');
+        if (groupList.length > 0) {
+            addClubPlayer.disabled = false;
+            addListPlayer.disabled = false;
+        } else {
+            addClubPlayer.disabled = true;
+            addListPlayer.disabled = true;
+        }
+    }
+
+    addClubPlayer.addEventListener('click', displaySuccessBox);
+    addListPlayer.addEventListener('click', displaySuccessBox);
+
+    function displaySuccessBox() {
+        this.disabled = true;
+        if (addClubPlayer.disabled === true && addListPlayer.disabled === true) {
+            const groupList = document.querySelectorAll('.one-checkbox.group');
+            groupList.forEach(cb => {
+                cb.checked = false;
+                cb.classList.remove('group');
+            });
+            allCheckboxBtn.checked = false;
+        }
+
+        const successBox = document.createElement('div');
+        successBox.className = 'success-box d-none';
+        successBox.textContent = 'Thành công';
+        containerFull.appendChild(successBox);
+
+        successBox.classList.remove('d-none');
+        setTimeout(() => {
+            successBox.style.right = '50px';
+            setTimeout(() => {
+                successBox.remove();
+            }, 1500);
+        }, 100);
+    }
+
+    // Function to handle the invitation action
+    playersTable.on('click', '.invite-link', function (e) {
+        e.preventDefault();
+        const playerId = $(this).data('playerid');
+        invitePlayer(playerId);
+    });
+
+    // function invitePlayer(playerId) {
+    //     // Update the URL to the correct endpoint for inviting players
+    //     const invitationUrl = 'https://localhost:5000/api/Invite/' + playerId;
+
+    //     // Assuming you want to use a POST request to invite the player
+    //     $.ajax({
+    //         url: invitationUrl,
+    //         type: 'POST',
+    //         dataType: 'json',
+    //         success: function (response) {
+    //             // Handle the success response
+    //             console.log('Invitation sent successfully:', response);
+    //         },
+    //         error: function (error) {
+    //             // Handle the error response
+    //             console.log('Error sending invitation:', JSON.stringify(error));
+    //         }
+    //     });
+    // }
+
+    const playersTable = $('.players-table');
+
+    function moveSelectedPlayers() {
+        const selectedPlayers = [];
+
+        // Iterate over selected checkboxes and collect player data
+        $('.one-checkbox:checked').each(function () {
+            const row = $(this).closest('tr');
+            const playerName = row.find('.tb-name').text();
+            const countryName = row.find('td:eq(2)').text();
+            const phoneNumber = row.find('td:eq(3)').text();
+            const level = row.find('td:eq(4)').text();
+
+            selectedPlayers.push({
+                PlayerName: playerName,
+                CountryName: countryName,
+                PhoneNumber: phoneNumber,
+                Level: level
+            });
+        });
+
+        // Send AJAX request to update the table in StepTwoPlayerList.cshtml
+        $.ajax({
+            url: 'https://localhost:5000/api/Player/MoveSelectedPlayers',
+            type: 'POST',
+            contentType: 'application/json',
+            data: JSON.stringify({ selectedPlayers: selectedPlayers }),
+            success: function (data) {
+                console.log('Players moved successfully:', data);
+            },
+            error: function (error) {
+                console.error('Error moving players:', error);
+            }
+        });
+    }
+
+    // Handle the button click event to move selected players
+    $('.list-player').on('click', function () {
+        moveSelectedPlayers();
+    });
+
+</script>

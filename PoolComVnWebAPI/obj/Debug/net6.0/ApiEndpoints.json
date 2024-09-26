@@ -1,0 +1,2434 @@
+[
+  {
+    "ContainingType": "PoolComVnWebAPI.Controllers.AccountController",
+    "Method": "Get",
+    "RelativePath": "api/Account",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [],
+    "ReturnTypes": [
+      {
+        "Type": "System.Collections.Generic.IEnumerable\u00601[[PoolComVnWebAPI.DTO.AccountDTO, PoolComVnWebAPI, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
+        "MediaTypes": [
+          "text/plain",
+          "application/json",
+          "text/json"
+        ],
+        "StatusCode": 200
+      }
+    ]
+  },
+  {
+    "ContainingType": "PoolComVnWebAPI.Controllers.AccountController",
+    "Method": "Post",
+    "RelativePath": "api/Account",
+    "HttpMethod": "POST",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "accountDTO",
+        "Type": "PoolComVnWebAPI.DTO.AccountDTO",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "PoolComVnWebAPI.Controllers.AccountController",
+    "Method": "GetByUsername",
+    "RelativePath": "api/Account/ByUsername/{username}",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "username",
+        "Type": "System.String",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": [
+      {
+        "Type": "PoolComVnWebAPI.DTO.AccountDTO",
+        "MediaTypes": [
+          "text/plain",
+          "application/json",
+          "text/json"
+        ],
+        "StatusCode": 200
+      }
+    ]
+  },
+  {
+    "ContainingType": "PoolComVnWebAPI.Controllers.AccountController",
+    "Method": "ChangeBusinessManagerStatus",
+    "RelativePath": "api/Account/ChangeBusinessManagerStatus/{id}",
+    "HttpMethod": "POST",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "id",
+        "Type": "System.Int32",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "PoolComVnWebAPI.Controllers.AccountController",
+    "Method": "CreateBusinessManagerAccount",
+    "RelativePath": "api/Account/CreateBusinessManagerAccount",
+    "HttpMethod": "POST",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "businessManagerDTO",
+        "Type": "PoolComVnWebAPI.DTO.CreateManageAccountDTO",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "PoolComVnWebAPI.Controllers.AccountController",
+    "Method": "CreateUser",
+    "RelativePath": "api/Account/CreateUser",
+    "HttpMethod": "POST",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "userDTO",
+        "Type": "PoolComVnWebAPI.DTO.UserDTO",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "PoolComVnWebAPI.Controllers.AccountController",
+    "Method": "GetAccountByEmail",
+    "RelativePath": "api/Account/GetAccountByEmail/{email}",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "email",
+        "Type": "System.String",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": [
+      {
+        "Type": "PoolComVnWebAPI.DTO.AccountDTO",
+        "MediaTypes": [
+          "text/plain",
+          "application/json",
+          "text/json"
+        ],
+        "StatusCode": 200
+      }
+    ]
+  },
+  {
+    "ContainingType": "PoolComVnWebAPI.Controllers.AccountController",
+    "Method": "GetAccountById",
+    "RelativePath": "api/Account/GetAccountById/{accountId}",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "accountId",
+        "Type": "System.Int32",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": [
+      {
+        "Type": "PoolComVnWebAPI.DTO.AccountDTO",
+        "MediaTypes": [
+          "text/plain",
+          "application/json",
+          "text/json"
+        ],
+        "StatusCode": 200
+      }
+    ]
+  },
+  {
+    "ContainingType": "PoolComVnWebAPI.Controllers.AccountController",
+    "Method": "GetManagerAccounts",
+    "RelativePath": "api/Account/GetManagerAccounts",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [],
+    "ReturnTypes": [
+      {
+        "Type": "System.Collections.Generic.IEnumerable\u00601[[PoolComVnWebAPI.DTO.AccountDTO, PoolComVnWebAPI, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
+        "MediaTypes": [
+          "text/plain",
+          "application/json",
+          "text/json"
+        ],
+        "StatusCode": 200
+      }
+    ]
+  },
+  {
+    "ContainingType": "PoolComVnWebAPI.Controllers.AccountController",
+    "Method": "GetUserByAccountId",
+    "RelativePath": "api/Account/GetUserByAccount",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "accountId",
+        "Type": "System.Int32",
+        "IsRequired": false
+      }
+    ],
+    "ReturnTypes": [
+      {
+        "Type": "PoolComVnWebAPI.DTO.UserDTO",
+        "MediaTypes": [
+          "text/plain",
+          "application/json",
+          "text/json"
+        ],
+        "StatusCode": 200
+      }
+    ]
+  },
+  {
+    "ContainingType": "PoolComVnWebAPI.Controllers.AccountController",
+    "Method": "Put",
+    "RelativePath": "api/Account/Update/{id}",
+    "HttpMethod": "PUT",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "id",
+        "Type": "System.Int32",
+        "IsRequired": true
+      },
+      {
+        "Name": "updatedAccountDTO",
+        "Type": "PoolComVnWebAPI.DTO.AccountDTO",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "PoolComVnWebAPI.Controllers.AddressController",
+    "Method": "GetDistrictsByProvinceCode",
+    "RelativePath": "api/Address/districts/{provinceCode}",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "provinceCode",
+        "Type": "System.String",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "PoolComVnWebAPI.Controllers.AddressController",
+    "Method": "GetDistrictsByProvinceName",
+    "RelativePath": "api/Address/districts/byProvinceName/{provinceName}",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "provinceName",
+        "Type": "System.String",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "PoolComVnWebAPI.Controllers.AddressController",
+    "Method": "GetDistrictByDistrictCode",
+    "RelativePath": "api/Address/GetdistrictsByDistrictCode/{districtCode}",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "districtCode",
+        "Type": "System.String",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "PoolComVnWebAPI.Controllers.AddressController",
+    "Method": "GetProvinceByProvinceCode",
+    "RelativePath": "api/Address/getProvincesByProvinceCode/{provinceCode}",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "ProvinceCode",
+        "Type": "System.String",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "PoolComVnWebAPI.Controllers.AddressController",
+    "Method": "GetWardByWardCode",
+    "RelativePath": "api/Address/getwardsBywardCode/{wardCode}",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "wardCode",
+        "Type": "System.String",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "PoolComVnWebAPI.Controllers.AddressController",
+    "Method": "GetAllProvinces",
+    "RelativePath": "api/Address/provinces",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "PoolComVnWebAPI.Controllers.AddressController",
+    "Method": "GetWardsByDistrictCode",
+    "RelativePath": "api/Address/wards/{districtCode}",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "districtCode",
+        "Type": "System.String",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "PoolComVnWebAPI.Controllers.AddressController",
+    "Method": "GetWardsByDistrictName",
+    "RelativePath": "api/Address/wards/byDistrictName/{districtName}",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "districtName",
+        "Type": "System.String",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "PoolComVnWebAPI.Controllers.AuthenticationController",
+    "Method": "ChangePassword",
+    "RelativePath": "api/Authentication/ChangePassword",
+    "HttpMethod": "POST",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "changePasswordDTO",
+        "Type": "PoolComVnWebAPI.DTO.ChangePasswordDTO",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "PoolComVnWebAPI.Controllers.AuthenticationController",
+    "Method": "ForgorPassword",
+    "RelativePath": "api/Authentication/ForgotPassword",
+    "HttpMethod": "POST",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "email",
+        "Type": "System.String",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "PoolComVnWebAPI.Controllers.AuthenticationController",
+    "Method": "GetIdByEmail",
+    "RelativePath": "api/Authentication/GetIdByEmail",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "email",
+        "Type": "System.String",
+        "IsRequired": false
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "PoolComVnWebAPI.Controllers.AuthenticationController",
+    "Method": "Login",
+    "RelativePath": "api/Authentication/login",
+    "HttpMethod": "POST",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "loginDTO",
+        "Type": "PoolComVnWebAPI.DTO.LoginDTO",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "PoolComVnWebAPI.Controllers.AuthenticationController",
+    "Method": "Register",
+    "RelativePath": "api/Authentication/register",
+    "HttpMethod": "POST",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "registerDto",
+        "Type": "PoolComVnWebAPI.DTO.RegisterDTO",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "PoolComVnWebAPI.Controllers.AuthenticationController",
+    "Method": "SendEmailContact",
+    "RelativePath": "api/Authentication/SendEmailContact",
+    "HttpMethod": "POST",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "contactDTO",
+        "Type": "PoolComVnWebAPI.DTO.ContactDTO",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "PoolComVnWebAPI.Controllers.AuthenticationController",
+    "Method": "SendVerifyCode",
+    "RelativePath": "api/Authentication/SendVerifyCode",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "accountId",
+        "Type": "System.Int32",
+        "IsRequired": false
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "PoolComVnWebAPI.Controllers.AuthenticationController",
+    "Method": "Authorize",
+    "RelativePath": "api/Authentication/testAuthorize",
+    "HttpMethod": "POST",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "PoolComVnWebAPI.Controllers.AuthenticationController",
+    "Method": "VerifyAccount",
+    "RelativePath": "api/Authentication/VerifyAccount",
+    "HttpMethod": "POST",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "verifyAccountDTO",
+        "Type": "PoolComVnWebAPI.DTO.VerifyAccountDTO",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "PoolComVnWebAPI.Controllers.AuthorizationController",
+    "Method": "CheckAuthorization",
+    "RelativePath": "api/Authorization/CheckAuthorization",
+    "HttpMethod": "POST",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "rolesAccess",
+        "Type": "System.Collections.Generic.List\u00601[[System.Int32, System.Private.CoreLib, Version=6.0.0.0, Culture=neutral, PublicKeyToken=7cec85d7bea7798e]]",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "PoolComVnWebAPI.Controllers.AuthorizationController",
+    "Method": "CheckPermission",
+    "RelativePath": "api/Authorization/CheckPermission",
+    "HttpMethod": "POST",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "rolesAccess",
+        "Type": "System.Collections.Generic.List\u00601[[System.Int32, System.Private.CoreLib, Version=6.0.0.0, Culture=neutral, PublicKeyToken=7cec85d7bea7798e]]",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "PoolComVnWebAPI.Controllers.AuthorizationController",
+    "Method": "CheckPermissionToTour",
+    "RelativePath": "api/Authorization/CheckPermissionToTour",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "tourId",
+        "Type": "System.Int32",
+        "IsRequired": false
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "PoolComVnWebAPI.Controllers.ClubController",
+    "Method": "Get",
+    "RelativePath": "api/Club",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [],
+    "ReturnTypes": [
+      {
+        "Type": "System.Collections.Generic.IEnumerable\u00601[[PoolComVnWebAPI.DTO.ClubDTO, PoolComVnWebAPI, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
+        "MediaTypes": [
+          "text/plain",
+          "application/json",
+          "text/json"
+        ],
+        "StatusCode": 200
+      }
+    ]
+  },
+  {
+    "ContainingType": "PoolComVnWebAPI.Controllers.ClubController",
+    "Method": "Get",
+    "RelativePath": "api/Club/{id}",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "id",
+        "Type": "System.Int32",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": [
+      {
+        "Type": "PoolComVnWebAPI.DTO.ClubDTO",
+        "MediaTypes": [
+          "text/plain",
+          "application/json",
+          "text/json"
+        ],
+        "StatusCode": 200
+      }
+    ]
+  },
+  {
+    "ContainingType": "PoolComVnWebAPI.Controllers.ClubController",
+    "Method": "Delete",
+    "RelativePath": "api/Club/{id}",
+    "HttpMethod": "DELETE",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "id",
+        "Type": "System.Int32",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "PoolComVnWebAPI.Controllers.ClubController",
+    "Method": "Post",
+    "RelativePath": "api/Club/Add",
+    "HttpMethod": "POST",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "clubDTO",
+        "Type": "PoolComVnWebAPI.DTO.ClubDTO",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "PoolComVnWebAPI.Controllers.ClubController",
+    "Method": "ChangeClubStatus",
+    "RelativePath": "api/Club/ChangeStatus/{clubId}",
+    "HttpMethod": "POST",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "clubId",
+        "Type": "System.Int32",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "PoolComVnWebAPI.Controllers.ClubController",
+    "Method": "GetClubByAccountId",
+    "RelativePath": "api/Club/GetClubByAccountId",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "accountID",
+        "Type": "System.Int32",
+        "IsRequired": false
+      }
+    ],
+    "ReturnTypes": [
+      {
+        "Type": "PoolComVnWebAPI.DTO.ClubDTO",
+        "MediaTypes": [
+          "text/plain",
+          "application/json",
+          "text/json"
+        ],
+        "StatusCode": 200
+      }
+    ]
+  },
+  {
+    "ContainingType": "PoolComVnWebAPI.Controllers.ClubController",
+    "Method": "GetClubId",
+    "RelativePath": "api/Club/GetClubId",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "PoolComVnWebAPI.Controllers.ClubController",
+    "Method": "GetClubsByLocation",
+    "RelativePath": "api/Club/GetClubsByLocation",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "provinceCode",
+        "Type": "System.String",
+        "IsRequired": false
+      },
+      {
+        "Name": "districtCode",
+        "Type": "System.String",
+        "IsRequired": false
+      },
+      {
+        "Name": "wardCode",
+        "Type": "System.String",
+        "IsRequired": false
+      }
+    ],
+    "ReturnTypes": [
+      {
+        "Type": "System.Collections.Generic.IEnumerable\u00601[[PoolComVnWebAPI.DTO.ClubDTO, PoolComVnWebAPI, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
+        "MediaTypes": [
+          "text/plain",
+          "application/json",
+          "text/json"
+        ],
+        "StatusCode": 200
+      }
+    ]
+  },
+  {
+    "ContainingType": "PoolComVnWebAPI.Controllers.ClubController",
+    "Method": "Get2",
+    "RelativePath": "api/Club/Matches",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [],
+    "ReturnTypes": [
+      {
+        "Type": "System.Collections.Generic.IEnumerable\u00601[[PoolComVnWebAPI.DTO.MatchesDTO, PoolComVnWebAPI, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
+        "MediaTypes": [
+          "text/plain",
+          "application/json",
+          "text/json"
+        ],
+        "StatusCode": 200
+      }
+    ]
+  },
+  {
+    "ContainingType": "PoolComVnWebAPI.Controllers.ClubController",
+    "Method": "SearchClubs",
+    "RelativePath": "api/Club/Search",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "searchQuery",
+        "Type": "System.String",
+        "IsRequired": false
+      }
+    ],
+    "ReturnTypes": [
+      {
+        "Type": "System.Collections.Generic.IEnumerable\u00601[[PoolComVnWebAPI.DTO.ClubDTO, PoolComVnWebAPI, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
+        "MediaTypes": [
+          "text/plain",
+          "application/json",
+          "text/json"
+        ],
+        "StatusCode": 200
+      }
+    ]
+  },
+  {
+    "ContainingType": "PoolComVnWebAPI.Controllers.ClubController",
+    "Method": "UpdateCLub",
+    "RelativePath": "api/Club/UpdateClub",
+    "HttpMethod": "POST",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "updatedClubDto",
+        "Type": "PoolComVnWebAPI.DTO.ClubDTO",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "PoolComVnWebAPI.Controllers.ClubPostController",
+    "Method": "Get",
+    "RelativePath": "api/ClubPost",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [],
+    "ReturnTypes": [
+      {
+        "Type": "System.Collections.Generic.IEnumerable\u00601[[PoolComVnWebAPI.DTO.ClubPostDTO, PoolComVnWebAPI, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
+        "MediaTypes": [
+          "text/plain",
+          "application/json",
+          "text/json"
+        ],
+        "StatusCode": 200
+      }
+    ]
+  },
+  {
+    "ContainingType": "PoolComVnWebAPI.Controllers.ClubPostController",
+    "Method": "Get",
+    "RelativePath": "api/ClubPost/{id}",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "id",
+        "Type": "System.Int32",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": [
+      {
+        "Type": "PoolComVnWebAPI.DTO.ClubPostDTO",
+        "MediaTypes": [
+          "text/plain",
+          "application/json",
+          "text/json"
+        ],
+        "StatusCode": 200
+      }
+    ]
+  },
+  {
+    "ContainingType": "PoolComVnWebAPI.Controllers.ClubPostController",
+    "Method": "Post",
+    "RelativePath": "api/ClubPost/Add",
+    "HttpMethod": "POST",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "clubPostDTO",
+        "Type": "PoolComVnWebAPI.DTO.ClubPostDTO",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "PoolComVnWebAPI.Controllers.ClubPostController",
+    "Method": "ChangeStatus",
+    "RelativePath": "api/ClubPost/ChangeStatus",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "id",
+        "Type": "System.Int32",
+        "IsRequired": false
+      }
+    ],
+    "ReturnTypes": [
+      {
+        "Type": "PoolComVnWebAPI.DTO.ClubPostDTO",
+        "MediaTypes": [
+          "text/plain",
+          "application/json",
+          "text/json"
+        ],
+        "StatusCode": 200
+      }
+    ]
+  },
+  {
+    "ContainingType": "PoolComVnWebAPI.Controllers.ClubPostController",
+    "Method": "GetByClubId",
+    "RelativePath": "api/ClubPost/GetByClubId/{clubId}",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "clubId",
+        "Type": "System.Int32",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "PoolComVnWebAPI.Controllers.ClubPostController",
+    "Method": "SearchByTitleAndClubId",
+    "RelativePath": "api/ClubPost/SearchByTitleAndClubId",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "title",
+        "Type": "System.String",
+        "IsRequired": false
+      },
+      {
+        "Name": "clubId",
+        "Type": "System.Int32",
+        "IsRequired": false
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "PoolComVnWebAPI.Controllers.ClubPostController",
+    "Method": "Put",
+    "RelativePath": "api/ClubPost/Update/{id}",
+    "HttpMethod": "POST",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "clubPostDTO",
+        "Type": "PoolComVnWebAPI.DTO.ClubPostDTO",
+        "IsRequired": true
+      },
+      {
+        "Name": "id",
+        "Type": "",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "PoolComVnWebAPI.Controllers.ContactController",
+    "Method": "Post",
+    "RelativePath": "api/Contact/Add",
+    "HttpMethod": "POST",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "contactDTO",
+        "Type": "PoolComVnWebAPI.DTO.ContactDTO",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "PoolComVnWebAPI.Controllers.CreateTournamentController",
+    "Method": "CheckStep",
+    "RelativePath": "api/CreateTournament/CheckStep",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "tourId",
+        "Type": "System.Int32",
+        "IsRequired": false
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "PoolComVnWebAPI.Controllers.CreateTournamentController",
+    "Method": "CreateTourStOne",
+    "RelativePath": "api/CreateTournament/CreateTourStOne",
+    "HttpMethod": "POST",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "inputDto",
+        "Type": "PoolComVnWebAPI.DTO.CreateTourStepOneDTO",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "PoolComVnWebAPI.Controllers.CreateTournamentController",
+    "Method": "CreateTourStTwo",
+    "RelativePath": "api/CreateTournament/CreateTourStTwo",
+    "HttpMethod": "POST",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "BannerDTO",
+        "Type": "PoolComVnWebAPI.DTO.CreateTourStepTwoDTO",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "PoolComVnWebAPI.Controllers.CreateTournamentController",
+    "Method": "UpdateBracketStepSix",
+    "RelativePath": "api/CreateTournament/UpdateBracketStepSix",
+    "HttpMethod": "POST",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "updateStepSixTournamentDTO",
+        "Type": "PoolComVnWebAPI.DTO.UpdateStepSixTournamentDTO",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "PoolComVnWebAPI.Controllers.CreateTournamentController",
+    "Method": "UpdateStep",
+    "RelativePath": "api/CreateTournament/UpdateStep",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "tourId",
+        "Type": "System.Int32",
+        "IsRequired": false
+      },
+      {
+        "Name": "step",
+        "Type": "System.Byte",
+        "IsRequired": false
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "PoolComVnWebAPI.Controllers.CreateTournamentController",
+    "Method": "UpdateTournament",
+    "RelativePath": "api/CreateTournament/UpdateTournament",
+    "HttpMethod": "POST",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "tournamentDTO",
+        "Type": "PoolComVnWebAPI.DTO.TournamentDTO",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "PoolComVnWebAPI.Controllers.MatchOfTourController",
+    "Method": "CloseMatch",
+    "RelativePath": "api/MatchOfTour/CloseMatch",
+    "HttpMethod": "POST",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "saveMatchDTO",
+        "Type": "PoolComVnWebAPI.DTO.SaveMatchDTO",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "PoolComVnWebAPI.Controllers.MatchOfTourController",
+    "Method": "GetMatchForBracket",
+    "RelativePath": "api/MatchOfTour/GetMatchForBracket",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "tourId",
+        "Type": "System.Int32",
+        "IsRequired": false
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "PoolComVnWebAPI.Controllers.MatchOfTourController",
+    "Method": "GetMatchForControl",
+    "RelativePath": "api/MatchOfTour/GetMatchForControl",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "matchId",
+        "Type": "System.Int32",
+        "IsRequired": false
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "PoolComVnWebAPI.Controllers.MatchOfTourController",
+    "Method": "GetMatchForSchedule",
+    "RelativePath": "api/MatchOfTour/GetMatchForSchedule",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "matchId",
+        "Type": "System.Int32",
+        "IsRequired": false
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "PoolComVnWebAPI.Controllers.MatchOfTourController",
+    "Method": "RandomMatch",
+    "RelativePath": "api/MatchOfTour/RandomMatch",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "tourId",
+        "Type": "System.Int32",
+        "IsRequired": false
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "PoolComVnWebAPI.Controllers.MatchOfTourController",
+    "Method": "SaveMatch",
+    "RelativePath": "api/MatchOfTour/SaveMatch",
+    "HttpMethod": "POST",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "saveMatchDTO",
+        "Type": "PoolComVnWebAPI.DTO.SaveMatchDTO",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "PoolComVnWebAPI.Controllers.MatchOfTourController",
+    "Method": "SaveMatchesRandom",
+    "RelativePath": "api/MatchOfTour/SaveMatchesRandom/{tourId}",
+    "HttpMethod": "POST",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "tourId",
+        "Type": "System.Int32",
+        "IsRequired": true
+      },
+      {
+        "Name": "lstMatch",
+        "Type": "System.Collections.Generic.List\u00601[[PoolComVnWebAPI.DTO.MatchOfTournamentOutputDTO, PoolComVnWebAPI, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "PoolComVnWebAPI.Controllers.MatchOfTourController",
+    "Method": "ScheduleMatch",
+    "RelativePath": "api/MatchOfTour/ScheduleMatch",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "scheduleMatchDTO",
+        "Type": "PoolComVnWebAPI.DTO.ScheduleMatchDTO",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "PoolComVnWebAPI.Controllers.MatchOfTourController",
+    "Method": "StartMatch",
+    "RelativePath": "api/MatchOfTour/StartMatch",
+    "HttpMethod": "POST",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "scheduleMatchDTO",
+        "Type": "PoolComVnWebAPI.DTO.ScheduleMatchDTO",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "PoolComVnWebAPI.Controllers.NewsController",
+    "Method": "Get",
+    "RelativePath": "api/News",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [],
+    "ReturnTypes": [
+      {
+        "Type": "System.Collections.Generic.IEnumerable\u00601[[PoolComVnWebAPI.DTO.NewsDTO, PoolComVnWebAPI, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
+        "MediaTypes": [
+          "text/plain",
+          "application/json",
+          "text/json"
+        ],
+        "StatusCode": 200
+      }
+    ]
+  },
+  {
+    "ContainingType": "PoolComVnWebAPI.Controllers.NewsController",
+    "Method": "Get",
+    "RelativePath": "api/News/{id}",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "id",
+        "Type": "System.Int32",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": [
+      {
+        "Type": "PoolComVnWebAPI.DTO.NewsDTO",
+        "MediaTypes": [
+          "text/plain",
+          "application/json",
+          "text/json"
+        ],
+        "StatusCode": 200
+      }
+    ]
+  },
+  {
+    "ContainingType": "PoolComVnWebAPI.Controllers.NewsController",
+    "Method": "Post",
+    "RelativePath": "api/News/Add",
+    "HttpMethod": "POST",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "newsDTO",
+        "Type": "PoolComVnWebAPI.DTO.NewsDTO",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "PoolComVnWebAPI.Controllers.NewsController",
+    "Method": "ChangeStatus",
+    "RelativePath": "api/News/ChangeStatus",
+    "HttpMethod": "POST",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "id",
+        "Type": "System.Int32",
+        "IsRequired": false
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "PoolComVnWebAPI.Controllers.NewsController",
+    "Method": "GetLatestNews",
+    "RelativePath": "api/News/GetLatestNews",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [],
+    "ReturnTypes": [
+      {
+        "Type": "System.Collections.Generic.IEnumerable\u00601[[PoolComVnWebAPI.DTO.NewsDTO, PoolComVnWebAPI, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
+        "MediaTypes": [
+          "text/plain",
+          "application/json",
+          "text/json"
+        ],
+        "StatusCode": 200
+      }
+    ]
+  },
+  {
+    "ContainingType": "PoolComVnWebAPI.Controllers.NewsController",
+    "Method": "Search",
+    "RelativePath": "api/News/Search",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "searchQuery",
+        "Type": "System.String",
+        "IsRequired": false
+      }
+    ],
+    "ReturnTypes": [
+      {
+        "Type": "System.Collections.Generic.IEnumerable\u00601[[PoolComVnWebAPI.DTO.NewsDTO, PoolComVnWebAPI, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
+        "MediaTypes": [
+          "text/plain",
+          "application/json",
+          "text/json"
+        ],
+        "StatusCode": 200
+      }
+    ]
+  },
+  {
+    "ContainingType": "PoolComVnWebAPI.Controllers.NewsController",
+    "Method": "Put",
+    "RelativePath": "api/News/Update",
+    "HttpMethod": "POST",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "updatedNewsDTO",
+        "Type": "PoolComVnWebAPI.DTO.NewsDTO",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "PoolComVnWebAPI.Controllers.PlayerController",
+    "Method": "Get",
+    "RelativePath": "api/Player",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [],
+    "ReturnTypes": [
+      {
+        "Type": "System.Collections.Generic.IEnumerable\u00601[[PoolComVnWebAPI.DTO.PlayerDTO, PoolComVnWebAPI, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
+        "MediaTypes": [
+          "text/plain",
+          "application/json",
+          "text/json"
+        ],
+        "StatusCode": 200
+      }
+    ]
+  },
+  {
+    "ContainingType": "PoolComVnWebAPI.Controllers.PlayerController",
+    "Method": "AcceptPlayer",
+    "RelativePath": "api/Player/AcceptPlayer",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "playerId",
+        "Type": "System.Int32",
+        "IsRequired": false
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "PoolComVnWebAPI.Controllers.PlayerController",
+    "Method": "AddPlayer",
+    "RelativePath": "api/Player/AddPlayer",
+    "HttpMethod": "POST",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "playerDto",
+        "Type": "PoolComVnWebAPI.DTO.PlayerDTO",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "PoolComVnWebAPI.Controllers.PlayerController",
+    "Method": "AddPlayerToSoloMatch",
+    "RelativePath": "api/Player/AddPlayerToSoloMatch",
+    "HttpMethod": "POST",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "playerInSoloMatchDTO",
+        "Type": "PoolComVnWebAPI.DTO.PlayerInSoloMatchDTO",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "PoolComVnWebAPI.Controllers.PlayerController",
+    "Method": "AddPlayerToTournament",
+    "RelativePath": "api/Player/AddPlayerToTournament",
+    "HttpMethod": "POST",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "playerDtos",
+        "Type": "System.Collections.Generic.List\u00601[[PoolComVnWebAPI.DTO.PlayerDTO, PoolComVnWebAPI, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "PoolComVnWebAPI.Controllers.PlayerController",
+    "Method": "Delete",
+    "RelativePath": "api/Player/Delete/{id}",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "id",
+        "Type": "System.Int32",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "PoolComVnWebAPI.Controllers.PlayerController",
+    "Method": "GenerateBotInTour",
+    "RelativePath": "api/Player/GenerateBotInTour",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "tourId",
+        "Type": "System.Int32",
+        "IsRequired": false
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "PoolComVnWebAPI.Controllers.PlayerController",
+    "Method": "GetByName",
+    "RelativePath": "api/Player/GetByName/{name}",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "name",
+        "Type": "System.String",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": [
+      {
+        "Type": "PoolComVnWebAPI.DTO.PlayerDTO",
+        "MediaTypes": [
+          "text/plain",
+          "application/json",
+          "text/json"
+        ],
+        "StatusCode": 200
+      }
+    ]
+  },
+  {
+    "ContainingType": "PoolComVnWebAPI.Controllers.PlayerController",
+    "Method": "GetNumberPlayerByTourId",
+    "RelativePath": "api/Player/GetNumberPlayerByTourId",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "tourId",
+        "Type": "System.Int32",
+        "IsRequired": false
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "PoolComVnWebAPI.Controllers.PlayerController",
+    "Method": "GetNumberPlayerExBotByTourId",
+    "RelativePath": "api/Player/GetNumberPlayerExBotByTourId",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "tourId",
+        "Type": "System.Int32",
+        "IsRequired": false
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "PoolComVnWebAPI.Controllers.PlayerController",
+    "Method": "GetPlayerByTourId",
+    "RelativePath": "api/Player/GetPlayerByTourId",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "tourId",
+        "Type": "System.Int32",
+        "IsRequired": false
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "PoolComVnWebAPI.Controllers.PlayerController",
+    "Method": "GetPlayerCanPlay",
+    "RelativePath": "api/Player/GetPlayerCanPlay",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "tourId",
+        "Type": "System.Int32",
+        "IsRequired": false
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "PoolComVnWebAPI.Controllers.PlayerController",
+    "Method": "GetPlayerExBotByTourId",
+    "RelativePath": "api/Player/GetPlayerExBotByTourId",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "tourId",
+        "Type": "System.Int32",
+        "IsRequired": false
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "PoolComVnWebAPI.Controllers.PlayerController",
+    "Method": "GetPlayerInTournament",
+    "RelativePath": "api/Player/GetPlayerInTournament",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "userEmail",
+        "Type": "System.String",
+        "IsRequired": false
+      },
+      {
+        "Name": "tourId",
+        "Type": "System.Int32",
+        "IsRequired": false
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "PoolComVnWebAPI.Controllers.PlayerController",
+    "Method": "GetPlayerRequestJoinByTourId",
+    "RelativePath": "api/Player/GetPlayerRequestJoinByTourId",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "tourId",
+        "Type": "System.Int32",
+        "IsRequired": false
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "PoolComVnWebAPI.Controllers.PlayerController",
+    "Method": "PlayerJoinTournament",
+    "RelativePath": "api/Player/PlayerJoinTournament",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "userEmail",
+        "Type": "System.String",
+        "IsRequired": false
+      },
+      {
+        "Name": "playerName",
+        "Type": "System.String",
+        "IsRequired": false
+      },
+      {
+        "Name": "tourId",
+        "Type": "System.Int32",
+        "IsRequired": false
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "PoolComVnWebAPI.Controllers.PlayerController",
+    "Method": "PlayerOutTournament",
+    "RelativePath": "api/Player/PlayerOutTournament",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "userEmail",
+        "Type": "System.String",
+        "IsRequired": false
+      },
+      {
+        "Name": "tourId",
+        "Type": "System.Int32",
+        "IsRequired": false
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "PoolComVnWebAPI.Controllers.PlayerController",
+    "Method": "RejectPlayer",
+    "RelativePath": "api/Player/RejectPlayer",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "playerId",
+        "Type": "System.Int32",
+        "IsRequired": false
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "PoolComVnWebAPI.Controllers.PlayerController",
+    "Method": "Put",
+    "RelativePath": "api/Player/Update/{id}",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "id",
+        "Type": "System.Int32",
+        "IsRequired": true
+      },
+      {
+        "Name": "updatedPlayerDto",
+        "Type": "PoolComVnWebAPI.DTO.PlayerDTO",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "PoolComVnWebAPI.Controllers.SoloMatchController",
+    "Method": "AddSoloMatch",
+    "RelativePath": "api/SoloMatch",
+    "HttpMethod": "POST",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "soloMatchDTO",
+        "Type": "PoolComVnWebAPI.DTO.SoloMatchDTO",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "PoolComVnWebAPI.Controllers.SoloMatchController",
+    "Method": "GetSoloMatch",
+    "RelativePath": "api/SoloMatch/{solomatchId}",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "solomatchId",
+        "Type": "System.Int32",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": [
+      {
+        "Type": "PoolComVnWebAPI.DTO.SoloMatchDTO",
+        "MediaTypes": [
+          "text/plain",
+          "application/json",
+          "text/json"
+        ],
+        "StatusCode": 200
+      }
+    ]
+  },
+  {
+    "ContainingType": "PoolComVnWebAPI.Controllers.SoloMatchController",
+    "Method": "GetAllSoloMatchByClubID",
+    "RelativePath": "api/SoloMatch/ByClub/{clubID}",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "clubID",
+        "Type": "System.Int32",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": [
+      {
+        "Type": "System.Collections.Generic.List\u00601[[PoolComVnWebAPI.DTO.SoloMatchDTO, PoolComVnWebAPI, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
+        "MediaTypes": [
+          "text/plain",
+          "application/json",
+          "text/json"
+        ],
+        "StatusCode": 200
+      }
+    ]
+  },
+  {
+    "ContainingType": "PoolComVnWebAPI.Controllers.SoloMatchController",
+    "Method": "FinishMatch",
+    "RelativePath": "api/SoloMatch/FinishMatch",
+    "HttpMethod": "POST",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "playerInSoloMatchDTO",
+        "Type": "PoolComVnWebAPI.DTO.PlayerInSoloMatchDTO",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "PoolComVnWebAPI.Controllers.SoloMatchController",
+    "Method": "GetPlayer",
+    "RelativePath": "api/SoloMatch/GetPlayerForSoloMatch/{soloMatchId}",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "soloMatchId",
+        "Type": "System.Int32",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": [
+      {
+        "Type": "System.Collections.Generic.List\u00601[[PoolComVnWebAPI.DTO.PlayerDTO, PoolComVnWebAPI, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
+        "MediaTypes": [
+          "text/plain",
+          "application/json",
+          "text/json"
+        ],
+        "StatusCode": 200
+      }
+    ]
+  },
+  {
+    "ContainingType": "PoolComVnWebAPI.Controllers.SoloMatchController",
+    "Method": "GetScorePLayerForMatch",
+    "RelativePath": "api/SoloMatch/GetScorePLayerForMatch/{soloMatchId}/{playerId}",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "soloMatchId",
+        "Type": "System.Int32",
+        "IsRequired": true
+      },
+      {
+        "Name": "playerId",
+        "Type": "System.Int32",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": [
+      {
+        "Type": "PoolComVnWebAPI.DTO.PlayerInSoloMatchDTO",
+        "MediaTypes": [
+          "text/plain",
+          "application/json",
+          "text/json"
+        ],
+        "StatusCode": 200
+      }
+    ]
+  },
+  {
+    "ContainingType": "PoolComVnWebAPI.Controllers.SoloMatchController",
+    "Method": "UpdateScoreForSoloMatch",
+    "RelativePath": "api/SoloMatch/UpdateScoreForSoloMatch",
+    "HttpMethod": "POST",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "updateScoreDTO",
+        "Type": "PoolComVnWebAPI.DTO.UpdateScoreDTO",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "PoolComVnWebAPI.Controllers.TableController",
+    "Method": "GetAllTables",
+    "RelativePath": "api/Table",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "PoolComVnWebAPI.Controllers.TableController",
+    "Method": "GetTableById",
+    "RelativePath": "api/Table/{id}",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "id",
+        "Type": "System.Int32",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "PoolComVnWebAPI.Controllers.TableController",
+    "Method": "AddListTable",
+    "RelativePath": "api/Table/AddListTable",
+    "HttpMethod": "POST",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "tables",
+        "Type": "System.Collections.Generic.List\u00601[[PoolComVnWebAPI.DTO.TableDTO, PoolComVnWebAPI, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "PoolComVnWebAPI.Controllers.TableController",
+    "Method": "AddTable",
+    "RelativePath": "api/Table/AddNewTable",
+    "HttpMethod": "POST",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "tableDTO",
+        "Type": "PoolComVnWebAPI.DTO.TableDTO",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "PoolComVnWebAPI.Controllers.TableController",
+    "Method": "AddTableToTournament",
+    "RelativePath": "api/Table/AddTableToTournament",
+    "HttpMethod": "POST",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "lstTableId",
+        "Type": "System.Collections.Generic.List\u00601[[System.Int32, System.Private.CoreLib, Version=6.0.0.0, Culture=neutral, PublicKeyToken=7cec85d7bea7798e]]",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "PoolComVnWebAPI.Controllers.TableController",
+    "Method": "DeleteTable",
+    "RelativePath": "api/Table/Delete/{id}",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "id",
+        "Type": "System.Int32",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "PoolComVnWebAPI.Controllers.TableController",
+    "Method": "GetAllTablesForClub",
+    "RelativePath": "api/Table/GetAllTablesForClub",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "PoolComVnWebAPI.Controllers.TableController",
+    "Method": "GetAllTablesForTournament",
+    "RelativePath": "api/Table/GetAllTablesForTournament",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "PoolComVnWebAPI.Controllers.TableController",
+    "Method": "GetTableNotInSchedule",
+    "RelativePath": "api/Table/GetTableNotInSchedule",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "clubId",
+        "Type": "System.Int32",
+        "IsRequired": false
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "PoolComVnWebAPI.Controllers.TableController",
+    "Method": "GetTableNotInUse",
+    "RelativePath": "api/Table/GetTableNotInUse",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "clubId",
+        "Type": "System.Int32",
+        "IsRequired": false
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "PoolComVnWebAPI.Controllers.TableController",
+    "Method": "GetTablesByClubId",
+    "RelativePath": "api/Table/GetTablesByClubId/{clubId}",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "clubId",
+        "Type": "System.Int32",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "PoolComVnWebAPI.Controllers.TableController",
+    "Method": "IsTagNameExists",
+    "RelativePath": "api/Table/IsTagNameExists/{clubId}/{tagName}",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "clubId",
+        "Type": "System.Int32",
+        "IsRequired": true
+      },
+      {
+        "Name": "tagName",
+        "Type": "System.String",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "PoolComVnWebAPI.Controllers.TableController",
+    "Method": "UpdateTable",
+    "RelativePath": "api/Table/Update/{id}",
+    "HttpMethod": "POST",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "updatedTableDTO",
+        "Type": "PoolComVnWebAPI.DTO.TableDTO",
+        "IsRequired": true
+      },
+      {
+        "Name": "id",
+        "Type": "",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "PoolComVnWebAPI.Controllers.TableController",
+    "Method": "UpdateTableToTournament",
+    "RelativePath": "api/Table/UpdateTableToTournament",
+    "HttpMethod": "POST",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "tableDtos",
+        "Type": "System.Collections.Generic.List\u00601[[PoolComVnWebAPI.DTO.TableDTO, PoolComVnWebAPI, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "PoolComVnWebAPI.Controllers.TournamentController",
+    "Method": "FilterTournaments",
+    "RelativePath": "api/Tournament/FilterTournaments",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "gameTypeName",
+        "Type": "System.String",
+        "IsRequired": false
+      },
+      {
+        "Name": "startDate",
+        "Type": "System.Nullable\u00601[[System.DateTime, System.Private.CoreLib, Version=6.0.0.0, Culture=neutral, PublicKeyToken=7cec85d7bea7798e]]",
+        "IsRequired": false
+      },
+      {
+        "Name": "endDate",
+        "Type": "System.Nullable\u00601[[System.DateTime, System.Private.CoreLib, Version=6.0.0.0, Culture=neutral, PublicKeyToken=7cec85d7bea7798e]]",
+        "IsRequired": false
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "PoolComVnWebAPI.Controllers.TournamentController",
+    "Method": "GetAllTour",
+    "RelativePath": "api/Tournament/GetAllTour",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "PoolComVnWebAPI.Controllers.TournamentController",
+    "Method": "Index",
+    "RelativePath": "api/Tournament/GetAllTournament",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "PoolComVnWebAPI.Controllers.TournamentController",
+    "Method": "GetCreatingTour",
+    "RelativePath": "api/Tournament/GetCreatingTour",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "PoolComVnWebAPI.Controllers.TournamentController",
+    "Method": "GetFlyer",
+    "RelativePath": "api/Tournament/GetFlyer",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "tourId",
+        "Type": "System.Int32",
+        "IsRequired": false
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "PoolComVnWebAPI.Controllers.TournamentController",
+    "Method": "GetTourDetailForMananger",
+    "RelativePath": "api/Tournament/GetTourDetailForManager",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "tourId",
+        "Type": "System.Int32",
+        "IsRequired": false
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "PoolComVnWebAPI.Controllers.TournamentController",
+    "Method": "GetTourInfo",
+    "RelativePath": "api/Tournament/GetTourInfo",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "tourId",
+        "Type": "System.Int32",
+        "IsRequired": false
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "PoolComVnWebAPI.Controllers.TournamentController",
+    "Method": "GetTourKnockoutNumber",
+    "RelativePath": "api/Tournament/GetTourKnockoutNumber",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "tourId",
+        "Type": "System.Int32",
+        "IsRequired": false
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "PoolComVnWebAPI.Controllers.TournamentController",
+    "Method": "GetTourMaxNumberOfPlayer",
+    "RelativePath": "api/Tournament/GetTourMaxNumberOfPlayer",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "tourId",
+        "Type": "System.Int32",
+        "IsRequired": false
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "PoolComVnWebAPI.Controllers.TournamentController",
+    "Method": "GetTournament",
+    "RelativePath": "api/Tournament/GetTournament",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "tourId",
+        "Type": "System.Int32",
+        "IsRequired": false
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "PoolComVnWebAPI.Controllers.TournamentController",
+    "Method": "GetTournamentForStOne",
+    "RelativePath": "api/Tournament/GetTournamentForStOne",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "tourId",
+        "Type": "System.Int32",
+        "IsRequired": false
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "PoolComVnWebAPI.Controllers.TournamentController",
+    "Method": "GetTournamentsByClubId",
+    "RelativePath": "api/Tournament/GetTournamentsByClubId",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "clubId",
+        "Type": "System.Int32",
+        "IsRequired": false
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "PoolComVnWebAPI.Controllers.TournamentController",
+    "Method": "GetTourStatus",
+    "RelativePath": "api/Tournament/GetTourStatus",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "tourId",
+        "Type": "System.Int32",
+        "IsRequired": false
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "PoolComVnWebAPI.Controllers.TournamentController",
+    "Method": "SearchTournament",
+    "RelativePath": "api/Tournament/SearchTournament",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "searchQuery",
+        "Type": "System.String",
+        "IsRequired": false
+      }
+    ],
+    "ReturnTypes": [
+      {
+        "Type": "System.Collections.Generic.IEnumerable\u00601[[PoolComVnWebAPI.DTO.TournamentOutputDTO, PoolComVnWebAPI, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
+        "MediaTypes": [
+          "text/plain",
+          "application/json",
+          "text/json"
+        ],
+        "StatusCode": 200
+      }
+    ]
+  },
+  {
+    "ContainingType": "PoolComVnWebAPI.Controllers.TournamentController",
+    "Method": "UpdateTourStatus",
+    "RelativePath": "api/Tournament/UpdateTourStatus",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "tourId",
+        "Type": "System.Int32",
+        "IsRequired": false
+      },
+      {
+        "Name": "status",
+        "Type": "System.Int32",
+        "IsRequired": false
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "PoolComVnWebAPI.Controllers.UserController",
+    "Method": "ChangeUserStatus",
+    "RelativePath": "api/User/ChangeUserStatus/{id}",
+    "HttpMethod": "POST",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "id",
+        "Type": "System.Int32",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "PoolComVnWebAPI.Controllers.UserController",
+    "Method": "GetAllUsers",
+    "RelativePath": "api/User/GetAllUser",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [],
+    "ReturnTypes": [
+      {
+        "Type": "System.Collections.Generic.IEnumerable\u00601[[PoolComVnWebAPI.DTO.UserDTO, PoolComVnWebAPI, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
+        "MediaTypes": [
+          "text/plain",
+          "application/json",
+          "text/json"
+        ],
+        "StatusCode": 200
+      }
+    ]
+  },
+  {
+    "ContainingType": "PoolComVnWebAPI.Controllers.UserController",
+    "Method": "GetLoseMatchNumber",
+    "RelativePath": "api/User/GetLoseMatchNumber/{userId}",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "userId",
+        "Type": "System.Int32",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "PoolComVnWebAPI.Controllers.UserController",
+    "Method": "GetTopForPlayer",
+    "RelativePath": "api/User/GetTopForPlayer/{userId}",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "userId",
+        "Type": "System.Int32",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "PoolComVnWebAPI.Controllers.UserController",
+    "Method": "GetTourJoinedForUser",
+    "RelativePath": "api/User/GetTourJoinedForUser",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "userId",
+        "Type": "System.Int32",
+        "IsRequired": false
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "PoolComVnWebAPI.Controllers.UserController",
+    "Method": "GetUserById",
+    "RelativePath": "api/User/GetUserById",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "userId",
+        "Type": "System.Int32",
+        "IsRequired": false
+      }
+    ],
+    "ReturnTypes": [
+      {
+        "Type": "System.Collections.Generic.IEnumerable\u00601[[PoolComVnWebAPI.DTO.UserDTO, PoolComVnWebAPI, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
+        "MediaTypes": [
+          "text/plain",
+          "application/json",
+          "text/json"
+        ],
+        "StatusCode": 200
+      }
+    ]
+  },
+  {
+    "ContainingType": "PoolComVnWebAPI.Controllers.UserController",
+    "Method": "GetUserlist",
+    "RelativePath": "api/User/GetUserlist",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "PoolComVnWebAPI.Controllers.UserController",
+    "Method": "GetWinMatchNumber",
+    "RelativePath": "api/User/GetWinMatchNumber/{userId}",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "userId",
+        "Type": "System.Int32",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "PoolComVnWebAPI.Controllers.UserController",
+    "Method": "UpdateUser",
+    "RelativePath": "api/User/UpdateUser",
+    "HttpMethod": "POST",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "userDTO",
+        "Type": "PoolComVnWebAPI.DTO.UserDTO",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  }
+]

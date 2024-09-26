@@ -1,0 +1,220 @@
+﻿@{
+    Layout = "~/Views/Shared/_ClubLayout.cshtml";
+}
+@inject Microsoft.AspNetCore.Http.IHttpContextAccessor HttpContextAccessor
+@{
+    string email = HttpContextAccessor.HttpContext.Request.Cookies["Email"];
+}
+@using System.Linq
+<div class="dashboard-container">
+    <div class="tournament mt-0">
+        <div class="normal-body">
+            <div class="d-flex justify-content-between mt-4 row">
+                <div class="tour-circle d-flex justify-content-lg-start justify-content-end
+                pt-lg-0 pt-3 align-items-center col-lg-6 col-12 order-2 order-lg-1">
+                    <div class="schedule-circle"></div>
+                    <span>Lên lịch</span>
+                    <div class="start-circle"></div>
+                    <span>Đang chơi</span>
+                    <div class="finish-circle"></div>
+                    <span>Kết thúc</span>
+                </div>
+                <div class="d-flex justify-content-end col-lg-6 col-12 order-1 order-lg-2">
+                    <div class="tour-search d-flex justify-content-end align-items-center">
+                        <i class="search-btn fa-solid fa-magnifying-glass"></i>
+                        <input class="search-input px-2" type="text" placeholder="Trận đấu,..." />
+                    </div>
+
+                    <div class="tour-filter d-flex align-items-center">
+                        <div class="filter-btn">
+                            <span>Bộ lọc</span>
+                            <i class="fa-solid fa-filter px-2"></i>
+                        </div>
+                        <form class="filter-body d-none">
+                            <div class="">
+                                <div class="start-date d-flex align-items-center">
+                                    <div class="d-flex justify-content-center col-4">
+                                        <span>Ngày bắt đầu</span>
+                                    </div>
+                                    <div class="d-flex justify-content-center col-4">
+                                        <input type="date" />
+                                    </div>
+                                </div>
+                                <div class="end-date pt-3 d-flex align-items-center">
+                                    <div class="d-flex justify-content-center col-4">
+                                        <span>Ngày kết thúc</span>
+                                    </div>
+                                    <div class="d-flex justify-content-center col-4">
+                                        <input type="date" />
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="pt-5 row">
+                                <div class="d-flex justify-content-center col-6">
+                                    <input type="button" class="reset-btn" value="Đặt lại" />
+                                </div>
+                                <div class="d-flex justify-content-center col-6">
+                                    <input type="submit" class="submit-btn" value="Tìm kiếm" />
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    @if (ViewBag.SoloMatches == null)
+    {
+        <div>
+            Câu lạc bộ chưa có trận đấu nào.
+        </div>
+    }
+    else
+    {
+        foreach (var match in ViewBag.SoloMatches)
+        {
+            var currentTime = DateTime.Now;
+            var statusClass = "status-schedule";
+            if (match.StartTime > currentTime)
+            {
+                statusClass = "status-schedule";
+            }
+            else if (match.EndTime != null)
+            {
+                statusClass = "status-finished";
+            }
+            else
+            {
+                statusClass = "status-playing";
+            }
+            <div id="schedule-item-@match.SoloMatchId" class="schedule-item row mt-5">
+                <div class="item-box">
+                    <div class="item-status @statusClass"></div>
+                    <div class="col-12">
+                        <div class="d-flex justify-content-center">
+                            <div class="item-date">@match.StartTime.ToString("HH:mm") - @match.StartTime.ToString("dd/MM/yyyy")</div>
+                        </div>
+                        <div class="d-flex justify-content-center pt-3">
+                            <span class="item-name">@match.player1 vs. @match.player2</span>
+                        </div>
+                        <div class="d-flex justify-content-center">
+                            <span class="item-address">@match.Description</span>
+                        </div>
+                        <div class="item-down d-flex justify-content-center pt-2">
+                            <i class="fa-solid fa-chevron-down" onclick="buttonDownClick(@match.SoloMatchId)"></i>
+                        </div>
+                        <div class="item-more d-none">
+                            <div class="d-flex justify-content-center align-items-center">
+                                <a asp-action="ClubSoloMatchDetail" asp-controller="Club" asp-route-id="@match.SoloMatchId" class="btn-join">
+                                    <span>Chi tiết</span>
+                                    <i class="fa-solid fa-caret-right"></i>
+                                </a>
+                            </div>
+                            <div class="d-flex justify-content-center">
+                                <img src="@match.Flyer" class="item-more-image" />
+                            </div>
+                            <div class="item-down d-flex justify-content-center pt-2">
+                                <i class="fa-solid fa-chevron-up" onclick="buttonUpClick(@match.SoloMatchId)"></i>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="game-type">@match.GameTypeName</div>
+                </div>
+            </div>
+        }
+    }
+   
+    @if (ViewBag.AccountEmail == email)
+    {
+        <div class="creat-tour d-flex justify-content-center align-items-center">
+            <div class="create-title">Tạo trận đấu</div>
+        <a asp-action="CreateSoloMatch" asp-controller="Club" asp-route-clubid="@ViewBag.Club.ClubId" class="create-tour-btn d-flex justify-content-center align-items-center">
+            <i class="fa-solid fa-plus fa-beat"></i>
+        </a>
+    </div>
+    }
+</div>
+
+<script>
+    const backBtn = document.querySelector('.back-btn');
+    if (backBtn !== null) {
+        backBtn.addEventListener('click', () => {
+            window.location.href = '/home/index';
+        });
+    }
+
+    //tour-filter button
+    const filterBtn = document.querySelector('.filter-btn');
+    const filterBody = document.querySelector('.filter-body');
+    filterBtn.addEventListener('click', () => {
+        if (filterBody.classList.contains('d-none')) {
+            filterBody.classList.remove('d-none');
+            filterBody.classList.add('d-block');
+        } else {
+            filterBody.classList.add('d-none');
+            filterBody.classList.remove('d-block');
+        }
+    })
+
+    const filterForm = document.querySelector('.filter-body');
+    const resetBtn = document.querySelector('.reset-btn');
+    resetBtn.addEventListener('click', () => {
+        filterForm.reset();
+        tourCity.classList.add('d-none');
+    })
+
+    //Handle hidden-btn
+    const hiddenBtns = document.querySelectorAll('.hidden-btn');
+    hiddenBtns.forEach(hiddenBtn => {
+        hiddenBtn.addEventListener('click', (e) => {
+            e.stopPropagation();
+            if (hiddenBtn.querySelector('i').classList.contains('fa-eye-slash')) {
+                hiddenBtn.innerHTML = '<i class="fa-solid fa-eye"></i>';
+                var parent = hiddenBtn.parentNode;
+                var itemBox = parent.querySelector('.item-box');
+                itemBox.classList.add('hidden');
+            } else {
+                hiddenBtn.innerHTML = '<i class="fa-solid fa-eye-slash"></i>';
+                var parent = hiddenBtn.parentNode;
+                var itemBox = parent.querySelector('.item-box');
+                itemBox.classList.remove('hidden');
+            }
+        })
+    })
+
+    //Handel active nav
+    const clubNavBtn = document.querySelector('.club-solo');
+    clubNavBtn.classList.add('active');
+
+    //Handle click more btn
+    function buttonDownClick(id) {
+        const btnDown = document.querySelector(`#schedule-item-${id} .item-down`);
+        const itemMore = document.querySelector(`#schedule-item-${id} .item-more`);
+
+        const item = document.querySelector(`#schedule-item-${id}`);
+        const itemImage = item.querySelector('.item-more-image');
+
+        btnDown.classList.add('d-none');
+        itemMore.classList.remove('d-none');
+        var widthImg = itemImage.offsetWidth;
+        var height = itemImage.offsetHeight;
+        item.style.height = 240 + height + "px";
+        item.style.background = "linear-gradient(rgba(255, 255, 255, 0.888), rgba(255, 255, 255, 0.888))";
+        console.log(itemImage.offsetHeight)
+    }
+
+    function buttonUpClick(id) {
+        const btnDown = document.querySelector(`#schedule-item-${id} .item-down`);
+        const itemMore = document.querySelector(`#schedule-item-${id} .item-more`);
+
+        const item = document.querySelector(`#schedule-item-${id}`);
+        item.style.background = "linear-gradient(rgba(255, 255, 255, 0.888) 80%, rgba(0, 0, 0, 0.222))";
+
+        item.style.height = "150px";
+        setTimeout(() => {
+            btnDown.classList.remove('d-none');
+            itemMore.classList.add('d-none');
+        }, 200)
+    }
+</script>

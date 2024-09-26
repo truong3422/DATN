@@ -1,0 +1,72 @@
+﻿@using PoolComVnWebClient.DTO
+@{
+    ViewData["Title"] = "Home Page";
+}
+@model PaginatedList<NewsDTO>
+@if (ViewBag.LatestNews != null && ViewBag.LatestNews.Status == true)
+{
+    var latestNews = ViewBag.LatestNews;
+    <div class="row mx-0">
+        <div class="col-md-12 px-0">
+            <a href="@Url.Action("NewsDetail", "Home", new { id = latestNews.NewsId })">
+                <div class="news-header" style="background-image: url('@latestNews.Flyer');">
+                    <div class="news-description">
+                        @latestNews.Title
+                    </div>
+                </div>
+            </a>
+        </div>
+    </div>
+}
+
+<div class="container">
+    <div class="row news-items">
+        <div class="latest-new">TIN MỚI</div>
+        @foreach (var news in Model.Items)
+        {
+            if (news.Status != false)
+            {
+                <div class="col-md-6 col-lg-4 d-flex justify-content-center">
+                    <a href="@Url.Action("NewsDetail", "Home", new { id = news.NewsId })" class="news-item">
+                        <div class="news-date">@news.CreatedDate.ToString("dd/MM/yyyy")</div>
+                        <div class="news-image">
+                            <div class="img" style="background-image: url(@news.Flyer);"></div>
+                        </div>
+                        <div class="news-title">@news.Title</div>
+                    </a>
+                </div>
+            }
+        }
+    </div>
+    <div class="pagination d-flex justify-content-center align-items-center m-0">
+        <div class="pagination-content d-flex justify-content-center align-items-center m-0">
+            <div class="pagination-btn-big" onclick="prevPage()">Trước</div>
+            @foreach (var pageNum in Enumerable.Range(1, Model.TotalPages))
+            {
+                <div class="pagination-btn @(pageNum == Model.PageIndex ? "active" : "")" onclick="goToPage(@pageNum)">@pageNum</div>
+            }
+            <div class="pagination-btn-big" onclick="nextPage()">Sau</div>
+        </div>
+    </div>
+</div>
+
+<script>
+    function prevPage() {
+        var currentPage = @Model.PageIndex;
+        if (currentPage > 1) {
+            goToPage(currentPage - 1);
+        }
+    }
+
+    function nextPage() {
+        var currentPage = @Model.PageIndex;
+        var totalPages = @Model.TotalPages;
+        if (currentPage < totalPages) {
+            goToPage(currentPage + 1);
+        }
+    }
+
+    function goToPage(pageNum) {
+        window.location.href = "@Url.Action("Index", "Home")?page=" + pageNum;
+    }
+</script>

@@ -1,0 +1,225 @@
+﻿@{
+    Layout = "~/Views/Shared/_BackBtnLayout.cshtml";
+}
+
+<div class="container-full">
+    <div class="random-round">
+        <div class="">
+            <div class="players-header">
+                Tùy chỉnh
+            </div>
+            <div class="user-custom">
+                <div class="match-row">
+                    <div class="match-line d-flex justify-content-center pt-3">
+                        <div class="match-title"></div>
+                        <div class="player-title">
+                            Người chơi 1
+                        </div>
+                        <div class="player-title">
+                            Người chơi 2
+                        </div>
+                    </div>
+                    <div class="match-line d-flex justify-content-center pt-3">
+                        <div class="match-title"></div>
+                        <div class="player-title">
+                            Người chơi 1
+                        </div>
+                        <div class="player-title">
+                            Người chơi 2
+                        </div>
+                    </div>
+                </div>
+                <div class="match-row">
+                    <div class="match-line d-flex justify-content-center">
+                        <div class="match-title">
+                            Trận 1
+                        </div>
+                        <div class="first-player player-box">
+                            <img src="/Images/VietNamFlag.png" alt="">
+                            <span>Vũ Hoài Nam</span>
+                        </div>
+                        <div class="second-player player-box">
+                            <img src="/Images/VietNamFlag.png" alt="">
+                            <span>Vũ Hoài Nam</span>
+                        </div>
+                    </div>
+                    <div class="match-line d-flex justify-content-center">
+                        <div class="match-title">
+                            Trận 2
+                        </div>
+                        <div class="first-player player-box">
+                            <img src="/Images/VietNamFlag.png" alt="">
+                            <span>Vũ Hoài Nam</span>
+                        </div>
+                        <div class="second-player player-box">
+                            <img src="/Images/VietNamFlag.png" alt="">
+                            <span>Vũ Hoài Nam</span>
+                        </div>
+                    </div>
+                </div>
+                <div class="match-row">
+                    <div class="match-line d-flex justify-content-center">
+                        <div class="match-title">
+                            Trận 3
+                        </div>
+                        <div class="first-player player-box">
+                            <img src="/Images/VietNamFlag.png" alt="">
+                            <span>Vũ Hoài Nam</span>
+                            <!-- <div class="search-box">
+                                <input type="text">
+                                <div class="player-name">
+                                    <img src="/Images/VietNamFlag.png" alt="">
+                                    <span>Vũ Hoài Nam</span>
+                                </div>
+                                <div>
+                                    <img src="/Images/VietNamFlag.png" alt="">
+                                    <span>Vũ Hoài Nam</span>
+                                </div>
+                            </div> -->
+                        </div>
+                        <div class="second-player player-box">
+                            <img src="/Images/VietNamFlag.png" alt="">
+                            <span>Vũ Hoài Nam</span>
+                        </div>
+                    </div>
+                    <div class="match-line d-flex justify-content-center">
+                        <div class="match-title">
+                            Trận 4
+                        </div>
+                        <div class="first-player player-box">
+                            <img src="/Images/VietNamFlag.png" alt="">
+                            <span>Vũ Hoài Nam</span>
+                        </div>
+                        <div class="second-player player-box">
+                            <img src="/Images/VietNamFlag.png" alt="">
+                            <span>Vũ Hoài Nam</span>
+                        </div>
+                    </div>
+                </div>
+                <div class="match-row">
+                    <div class="match-line d-flex justify-content-center">
+                        <div class="match-title">
+                            Trận 5
+                        </div>
+                        <div class="first-player player-box">
+                            <img src="/Images/VietNamFlag.png" alt="">
+                            <span>Vũ Hoài Nam</span>
+                        </div>
+                        <div class="second-player player-box">
+                            <img src="/Images/VietNamFlag.png" alt="">
+                            <span>Vũ Hoài Nam</span>
+                        </div>
+                    </div>
+                    <div class="match-line d-flex justify-content-center">
+                        <div class="match-title">
+                            Trận 6
+                        </div>
+                        <div class="first-player player-box">
+                            <img src="/Images/VietNamFlag.png" alt="">
+                            <span>Vũ Hoài Nam</span>
+                        </div>
+                        <div class="second-player player-box">
+                            <img src="/Images/VietNamFlag.png" alt="">
+                            <span>Vũ Hoài Nam</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="players-note save save-btn">
+                <i class="fa-solid fa-floppy-disk px-2"></i>
+                <span style="font-size: 20px;">Lưu và xem sơ đồ đấu</span>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+    const backBtn = document.querySelector('.back-btn');
+    if (backBtn !== null) {
+        backBtn.addEventListener('click', () => {
+            window.location.href = document.referrer;
+        });
+    }
+
+    // Handle search box
+    const playerList = document.querySelectorAll('.player-box');
+
+    var isSearchBoxOn = false;
+    playerList.forEach(player => {
+        player.addEventListener('click', () => {
+            if (player.querySelector('.search-box') === null) {
+                removeSearchBox();
+                player.appendChild(createSearchBox());
+            } else {
+                removeSearchBox();
+            }
+        })
+    });
+
+    function createSearchBox() {
+        var searchBox = document.createElement('div');
+        searchBox.classList.add('search-box');
+
+        // Tạo các phần tử và thêm vào searchBox
+        var input = document.createElement('input');
+        input.setAttribute('type', 'text');
+        input.addEventListener('click', handleInput);
+        searchBox.appendChild(input);
+
+        for (var i = 0; i < 3; i++) {
+            var playerContainer = document.createElement('div');
+            playerContainer.classList.add('player-name');
+
+            var flagImage = document.createElement('img');
+            flagImage.setAttribute('src', '/Images/VietNamFlag.png');
+            flagImage.setAttribute('alt', '');
+            playerContainer.appendChild(flagImage);
+
+            var span = document.createElement('span');
+            span.textContent = 'Vũ Hoài Nam';
+            playerContainer.appendChild(span);
+
+            searchBox.appendChild(playerContainer);
+            searchBox.addEventListener('click', (e) => {
+                e.stopPropagation();
+                removeSearchBox();
+            })
+        }
+
+        return searchBox;
+    }
+
+    //Handle input
+    function handleInput(e) {
+        e.stopPropagation();
+    }
+
+    function removeSearchBox() {
+        const searchBox = document.querySelector('.search-box');
+        if (searchBox !== null) {
+            searchBox.remove();
+        }
+    }
+
+    //Handle back btn
+    const backBtn = document.querySelector('.back-btn');
+    const confirmPopup = document.querySelector('.confirm-popup');
+    const exitBtn = document.querySelector('.exit-btn');
+    const saveRandomBtn = document.querySelector('.save-random');
+
+    if (backBtn !== null) {
+        backBtn.addEventListener('click', showPopUpConfirm);
+    }
+    function showPopUpConfirm() {
+        confirmPopup.classList.remove('d-none');
+    }
+
+    exitBtn.addEventListener('click', () => {
+        window.location.href = 'stepFiveArrange.html';
+    });
+
+    saveRandomBtn.addEventListener('click', () => {
+        confirmPopup.classList.add('d-none');
+    });
+</script>

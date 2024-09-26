@@ -1,0 +1,426 @@
+{
+  "Version": 1,
+  "WorkspaceRootPath": "E:\\DATN\\PoolComVnWebApplication\\",
+  "Documents": [
+    {
+      "AbsoluteMoniker": "D:0:0:{0D5C5C51-B339-497F-845F-9BBC0F05C9C7}|PoolComVnWebAPI\\PoolComVnWebAPI.csproj|e:\\datn\\poolcomvnwebapplication\\poolcomvnwebapi\\controllers\\tablecontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{0D5C5C51-B339-497F-845F-9BBC0F05C9C7}|PoolComVnWebAPI\\PoolComVnWebAPI.csproj|solutionrelative:poolcomvnwebapi\\controllers\\tablecontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{033D2ABA-238F-4779-9D5A-F920B6DE2E45}|PoolComVnWebClient\\PoolComVnWebClient.csproj|e:\\datn\\poolcomvnwebapplication\\poolcomvnwebclient\\controllers\\createtournamentcontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{033D2ABA-238F-4779-9D5A-F920B6DE2E45}|PoolComVnWebClient\\PoolComVnWebClient.csproj|solutionrelative:poolcomvnwebclient\\controllers\\createtournamentcontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{033D2ABA-238F-4779-9D5A-F920B6DE2E45}|PoolComVnWebClient\\PoolComVnWebClient.csproj|e:\\datn\\poolcomvnwebapplication\\poolcomvnwebclient\\controllers\\tournamentcontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{033D2ABA-238F-4779-9D5A-F920B6DE2E45}|PoolComVnWebClient\\PoolComVnWebClient.csproj|solutionrelative:poolcomvnwebclient\\controllers\\tournamentcontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{033D2ABA-238F-4779-9D5A-F920B6DE2E45}|PoolComVnWebClient\\PoolComVnWebClient.csproj|e:\\datn\\poolcomvnwebapplication\\poolcomvnwebclient\\views\\shared\\_createtournamentlayout.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}",
+      "RelativeMoniker": "D:0:0:{033D2ABA-238F-4779-9D5A-F920B6DE2E45}|PoolComVnWebClient\\PoolComVnWebClient.csproj|solutionrelative:poolcomvnwebclient\\views\\shared\\_createtournamentlayout.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{033D2ABA-238F-4779-9D5A-F920B6DE2E45}|PoolComVnWebClient\\PoolComVnWebClient.csproj|e:\\datn\\poolcomvnwebapplication\\poolcomvnwebclient\\views\\authentication\\login.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}",
+      "RelativeMoniker": "D:0:0:{033D2ABA-238F-4779-9D5A-F920B6DE2E45}|PoolComVnWebClient\\PoolComVnWebClient.csproj|solutionrelative:poolcomvnwebclient\\views\\authentication\\login.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{0D5C5C51-B339-497F-845F-9BBC0F05C9C7}|PoolComVnWebAPI\\PoolComVnWebAPI.csproj|e:\\datn\\poolcomvnwebapplication\\poolcomvnwebapi\\controllers\\solomatchcontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{0D5C5C51-B339-497F-845F-9BBC0F05C9C7}|PoolComVnWebAPI\\PoolComVnWebAPI.csproj|solutionrelative:poolcomvnwebapi\\controllers\\solomatchcontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{0D5C5C51-B339-497F-845F-9BBC0F05C9C7}|PoolComVnWebAPI\\PoolComVnWebAPI.csproj|e:\\datn\\poolcomvnwebapplication\\poolcomvnwebapi\\controllers\\createtournamentcontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{0D5C5C51-B339-497F-845F-9BBC0F05C9C7}|PoolComVnWebAPI\\PoolComVnWebAPI.csproj|solutionrelative:poolcomvnwebapi\\controllers\\createtournamentcontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{0D5C5C51-B339-497F-845F-9BBC0F05C9C7}|PoolComVnWebAPI\\PoolComVnWebAPI.csproj|e:\\datn\\poolcomvnwebapplication\\poolcomvnwebapi\\controllers\\matchoftourcontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{0D5C5C51-B339-497F-845F-9BBC0F05C9C7}|PoolComVnWebAPI\\PoolComVnWebAPI.csproj|solutionrelative:poolcomvnwebapi\\controllers\\matchoftourcontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{0D5C5C51-B339-497F-845F-9BBC0F05C9C7}|PoolComVnWebAPI\\PoolComVnWebAPI.csproj|e:\\datn\\poolcomvnwebapplication\\poolcomvnwebapi\\controllers\\newscontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{0D5C5C51-B339-497F-845F-9BBC0F05C9C7}|PoolComVnWebAPI\\PoolComVnWebAPI.csproj|solutionrelative:poolcomvnwebapi\\controllers\\newscontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{033D2ABA-238F-4779-9D5A-F920B6DE2E45}|PoolComVnWebClient\\PoolComVnWebClient.csproj|e:\\datn\\poolcomvnwebapplication\\poolcomvnwebclient\\controllers\\authenticationcontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{033D2ABA-238F-4779-9D5A-F920B6DE2E45}|PoolComVnWebClient\\PoolComVnWebClient.csproj|solutionrelative:poolcomvnwebclient\\controllers\\authenticationcontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{033D2ABA-238F-4779-9D5A-F920B6DE2E45}|PoolComVnWebClient\\PoolComVnWebClient.csproj|e:\\datn\\poolcomvnwebapplication\\poolcomvnwebclient\\controllers\\clubcontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{033D2ABA-238F-4779-9D5A-F920B6DE2E45}|PoolComVnWebClient\\PoolComVnWebClient.csproj|solutionrelative:poolcomvnwebclient\\controllers\\clubcontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{033D2ABA-238F-4779-9D5A-F920B6DE2E45}|PoolComVnWebClient\\PoolComVnWebClient.csproj|e:\\datn\\poolcomvnwebapplication\\poolcomvnwebclient\\controllers\\homecontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{033D2ABA-238F-4779-9D5A-F920B6DE2E45}|PoolComVnWebClient\\PoolComVnWebClient.csproj|solutionrelative:poolcomvnwebclient\\controllers\\homecontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{54D79E55-6743-4A0C-B55E-435F0B0590F3}|DataAccess\\DataAccess.csproj|e:\\datn\\poolcomvnwebapplication\\dataaccess\\constant.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{54D79E55-6743-4A0C-B55E-435F0B0590F3}|DataAccess\\DataAccess.csproj|solutionrelative:dataaccess\\constant.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{54D79E55-6743-4A0C-B55E-435F0B0590F3}|DataAccess\\DataAccess.csproj|e:\\datn\\poolcomvnwebapplication\\dataaccess\\playerdao.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{54D79E55-6743-4A0C-B55E-435F0B0590F3}|DataAccess\\DataAccess.csproj|solutionrelative:dataaccess\\playerdao.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{54D79E55-6743-4A0C-B55E-435F0B0590F3}|DataAccess\\DataAccess.csproj|e:\\datn\\poolcomvnwebapplication\\dataaccess\\clubdao.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{54D79E55-6743-4A0C-B55E-435F0B0590F3}|DataAccess\\DataAccess.csproj|solutionrelative:dataaccess\\clubdao.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{0D5C5C51-B339-497F-845F-9BBC0F05C9C7}|PoolComVnWebAPI\\PoolComVnWebAPI.csproj|e:\\datn\\poolcomvnwebapplication\\poolcomvnwebapi\\dto\\userincludstatisticdto.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{0D5C5C51-B339-497F-845F-9BBC0F05C9C7}|PoolComVnWebAPI\\PoolComVnWebAPI.csproj|solutionrelative:poolcomvnwebapi\\dto\\userincludstatisticdto.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{033D2ABA-238F-4779-9D5A-F920B6DE2E45}|PoolComVnWebClient\\PoolComVnWebClient.csproj|e:\\datn\\poolcomvnwebapplication\\poolcomvnwebclient\\views\\shared\\_layout.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}",
+      "RelativeMoniker": "D:0:0:{033D2ABA-238F-4779-9D5A-F920B6DE2E45}|PoolComVnWebClient\\PoolComVnWebClient.csproj|solutionrelative:poolcomvnwebclient\\views\\shared\\_layout.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{033D2ABA-238F-4779-9D5A-F920B6DE2E45}|PoolComVnWebClient\\PoolComVnWebClient.csproj|e:\\datn\\poolcomvnwebapplication\\poolcomvnwebclient\\common\\firebaseapi.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{033D2ABA-238F-4779-9D5A-F920B6DE2E45}|PoolComVnWebClient\\PoolComVnWebClient.csproj|solutionrelative:poolcomvnwebclient\\common\\firebaseapi.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{033D2ABA-238F-4779-9D5A-F920B6DE2E45}|PoolComVnWebClient\\PoolComVnWebClient.csproj|e:\\datn\\poolcomvnwebapplication\\poolcomvnwebclient\\views\\authentication\\verifyregister.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}",
+      "RelativeMoniker": "D:0:0:{033D2ABA-238F-4779-9D5A-F920B6DE2E45}|PoolComVnWebClient\\PoolComVnWebClient.csproj|solutionrelative:poolcomvnwebclient\\views\\authentication\\verifyregister.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{033D2ABA-238F-4779-9D5A-F920B6DE2E45}|PoolComVnWebClient\\PoolComVnWebClient.csproj|e:\\datn\\poolcomvnwebapplication\\poolcomvnwebclient\\appsettings.json||{90A6B3A7-C1A3-4009-A288-E2FF89E96FA0}",
+      "RelativeMoniker": "D:0:0:{033D2ABA-238F-4779-9D5A-F920B6DE2E45}|PoolComVnWebClient\\PoolComVnWebClient.csproj|solutionrelative:poolcomvnwebclient\\appsettings.json||{90A6B3A7-C1A3-4009-A288-E2FF89E96FA0}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{0D5C5C51-B339-497F-845F-9BBC0F05C9C7}|PoolComVnWebAPI\\PoolComVnWebAPI.csproj|e:\\datn\\poolcomvnwebapplication\\poolcomvnwebapi\\appsettings.json||{90A6B3A7-C1A3-4009-A288-E2FF89E96FA0}",
+      "RelativeMoniker": "D:0:0:{0D5C5C51-B339-497F-845F-9BBC0F05C9C7}|PoolComVnWebAPI\\PoolComVnWebAPI.csproj|solutionrelative:poolcomvnwebapi\\appsettings.json||{90A6B3A7-C1A3-4009-A288-E2FF89E96FA0}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{1B4342E7-CA83-4465-BA4B-A6F55E6A4576}|BusinessObject\\BusinessObject.csproj|e:\\datn\\poolcomvnwebapplication\\businessobject\\appsettings.json||{90A6B3A7-C1A3-4009-A288-E2FF89E96FA0}",
+      "RelativeMoniker": "D:0:0:{1B4342E7-CA83-4465-BA4B-A6F55E6A4576}|BusinessObject\\BusinessObject.csproj|solutionrelative:businessobject\\appsettings.json||{90A6B3A7-C1A3-4009-A288-E2FF89E96FA0}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{033D2ABA-238F-4779-9D5A-F920B6DE2E45}|PoolComVnWebClient\\PoolComVnWebClient.csproj|e:\\datn\\poolcomvnwebapplication\\poolcomvnwebclient\\views\\home\\index.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}",
+      "RelativeMoniker": "D:0:0:{033D2ABA-238F-4779-9D5A-F920B6DE2E45}|PoolComVnWebClient\\PoolComVnWebClient.csproj|solutionrelative:poolcomvnwebclient\\views\\home\\index.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{0D5C5C51-B339-497F-845F-9BBC0F05C9C7}|PoolComVnWebAPI\\PoolComVnWebAPI.csproj|e:\\datn\\poolcomvnwebapplication\\poolcomvnwebapi\\controllers\\authenticationcontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{0D5C5C51-B339-497F-845F-9BBC0F05C9C7}|PoolComVnWebAPI\\PoolComVnWebAPI.csproj|solutionrelative:poolcomvnwebapi\\controllers\\authenticationcontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{033D2ABA-238F-4779-9D5A-F920B6DE2E45}|PoolComVnWebClient\\PoolComVnWebClient.csproj|e:\\datn\\poolcomvnwebapplication\\poolcomvnwebclient\\dto\\logindto.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{033D2ABA-238F-4779-9D5A-F920B6DE2E45}|PoolComVnWebClient\\PoolComVnWebClient.csproj|solutionrelative:poolcomvnwebclient\\dto\\logindto.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    }
+  ],
+  "DocumentGroupContainers": [
+    {
+      "Orientation": 0,
+      "VerticalTabListWidth": 256,
+      "DocumentGroups": [
+        {
+          "DockedWidth": 200,
+          "SelectedChildIndex": 0,
+          "Children": [
+            {
+              "$type": "Document",
+              "DocumentIndex": 0,
+              "Title": "TableController.cs",
+              "DocumentMoniker": "E:\\DATN\\PoolComVnWebApplication\\PoolComVnWebAPI\\Controllers\\TableController.cs",
+              "RelativeDocumentMoniker": "PoolComVnWebAPI\\Controllers\\TableController.cs",
+              "ToolTip": "E:\\DATN\\PoolComVnWebApplication\\PoolComVnWebAPI\\Controllers\\TableController.cs*",
+              "RelativeToolTip": "PoolComVnWebAPI\\Controllers\\TableController.cs*",
+              "ViewState": "AgIAAIAAAAAAAAAAAAAiwIwAAAAMAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2024-09-26T16:34:57.444Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 2,
+              "Title": "TournamentController.cs",
+              "DocumentMoniker": "E:\\DATN\\PoolComVnWebApplication\\PoolComVnWebClient\\Controllers\\TournamentController.cs",
+              "RelativeDocumentMoniker": "PoolComVnWebClient\\Controllers\\TournamentController.cs",
+              "ToolTip": "E:\\DATN\\PoolComVnWebApplication\\PoolComVnWebClient\\Controllers\\TournamentController.cs",
+              "RelativeToolTip": "PoolComVnWebClient\\Controllers\\TournamentController.cs",
+              "ViewState": "AgIAACcBAAAAAAAAAADwvwAAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2024-09-26T16:34:12.743Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 3,
+              "Title": "_CreateTournamentLayout.cshtml",
+              "DocumentMoniker": "E:\\DATN\\PoolComVnWebApplication\\PoolComVnWebClient\\Views\\Shared\\_CreateTournamentLayout.cshtml",
+              "RelativeDocumentMoniker": "PoolComVnWebClient\\Views\\Shared\\_CreateTournamentLayout.cshtml",
+              "ToolTip": "E:\\DATN\\PoolComVnWebApplication\\PoolComVnWebClient\\Views\\Shared\\_CreateTournamentLayout.cshtml",
+              "RelativeToolTip": "PoolComVnWebClient\\Views\\Shared\\_CreateTournamentLayout.cshtml",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAwAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000759|",
+              "WhenOpened": "2024-09-26T15:47:51.808Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 5,
+              "Title": "SoloMatchController.cs",
+              "DocumentMoniker": "E:\\DATN\\PoolComVnWebApplication\\PoolComVnWebAPI\\Controllers\\SoloMatchController.cs",
+              "RelativeDocumentMoniker": "PoolComVnWebAPI\\Controllers\\SoloMatchController.cs",
+              "ToolTip": "E:\\DATN\\PoolComVnWebApplication\\PoolComVnWebAPI\\Controllers\\SoloMatchController.cs",
+              "RelativeToolTip": "PoolComVnWebAPI\\Controllers\\SoloMatchController.cs",
+              "ViewState": "AgIAAB8AAAAAAAAAAAAQwAAAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2024-09-26T07:42:37.822Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 7,
+              "Title": "MatchOfTourController.cs",
+              "DocumentMoniker": "E:\\DATN\\PoolComVnWebApplication\\PoolComVnWebAPI\\Controllers\\MatchOfTourController.cs",
+              "RelativeDocumentMoniker": "PoolComVnWebAPI\\Controllers\\MatchOfTourController.cs",
+              "ToolTip": "E:\\DATN\\PoolComVnWebApplication\\PoolComVnWebAPI\\Controllers\\MatchOfTourController.cs",
+              "RelativeToolTip": "PoolComVnWebAPI\\Controllers\\MatchOfTourController.cs",
+              "ViewState": "AgIAAHoAAAAAAAAAAAAgwIgAAABOAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2024-09-25T04:15:20.793Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 1,
+              "Title": "CreateTournamentController.cs",
+              "DocumentMoniker": "E:\\DATN\\PoolComVnWebApplication\\PoolComVnWebClient\\Controllers\\CreateTournamentController.cs",
+              "RelativeDocumentMoniker": "PoolComVnWebClient\\Controllers\\CreateTournamentController.cs",
+              "ToolTip": "E:\\DATN\\PoolComVnWebApplication\\PoolComVnWebClient\\Controllers\\CreateTournamentController.cs",
+              "RelativeToolTip": "PoolComVnWebClient\\Controllers\\CreateTournamentController.cs",
+              "ViewState": "AgIAAB4AAAAAAAAAAAAYwCkAAABfAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2024-09-23T14:48:03.2Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 10,
+              "Title": "ClubController.cs",
+              "DocumentMoniker": "E:\\DATN\\PoolComVnWebApplication\\PoolComVnWebClient\\Controllers\\ClubController.cs",
+              "RelativeDocumentMoniker": "PoolComVnWebClient\\Controllers\\ClubController.cs",
+              "ToolTip": "E:\\DATN\\PoolComVnWebApplication\\PoolComVnWebClient\\Controllers\\ClubController.cs",
+              "RelativeToolTip": "PoolComVnWebClient\\Controllers\\ClubController.cs",
+              "ViewState": "AgIAAMkCAAAAAAAAAAAgwNYCAABiAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2024-09-20T16:50:35.678Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 16,
+              "Title": "_Layout.cshtml",
+              "DocumentMoniker": "E:\\DATN\\PoolComVnWebApplication\\PoolComVnWebClient\\Views\\Shared\\_Layout.cshtml",
+              "RelativeDocumentMoniker": "PoolComVnWebClient\\Views\\Shared\\_Layout.cshtml",
+              "ToolTip": "E:\\DATN\\PoolComVnWebApplication\\PoolComVnWebClient\\Views\\Shared\\_Layout.cshtml",
+              "RelativeToolTip": "PoolComVnWebClient\\Views\\Shared\\_Layout.cshtml",
+              "ViewState": "AgIAAEMAAAAAAAAAAAAgwEwAAAA8AAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000759|",
+              "WhenOpened": "2024-09-18T16:52:05.629Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 4,
+              "Title": "Login.cshtml",
+              "DocumentMoniker": "E:\\DATN\\PoolComVnWebApplication\\PoolComVnWebClient\\Views\\Authentication\\Login.cshtml",
+              "RelativeDocumentMoniker": "PoolComVnWebClient\\Views\\Authentication\\Login.cshtml",
+              "ToolTip": "E:\\DATN\\PoolComVnWebApplication\\PoolComVnWebClient\\Views\\Authentication\\Login.cshtml",
+              "RelativeToolTip": "PoolComVnWebClient\\Views\\Authentication\\Login.cshtml",
+              "ViewState": "AgIAADYAAAAAAAAAAAAAAEEAAAA6AAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000759|",
+              "WhenOpened": "2024-09-02T16:51:19.708Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 6,
+              "Title": "CreateTournamentController.cs",
+              "DocumentMoniker": "E:\\DATN\\PoolComVnWebApplication\\PoolComVnWebAPI\\Controllers\\CreateTournamentController.cs",
+              "RelativeDocumentMoniker": "PoolComVnWebAPI\\Controllers\\CreateTournamentController.cs",
+              "ToolTip": "E:\\DATN\\PoolComVnWebApplication\\PoolComVnWebAPI\\Controllers\\CreateTournamentController.cs",
+              "RelativeToolTip": "PoolComVnWebAPI\\Controllers\\CreateTournamentController.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAkAAAAfAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2024-09-25T15:59:51.026Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 11,
+              "Title": "HomeController.cs",
+              "DocumentMoniker": "E:\\DATN\\PoolComVnWebApplication\\PoolComVnWebClient\\Controllers\\HomeController.cs",
+              "RelativeDocumentMoniker": "PoolComVnWebClient\\Controllers\\HomeController.cs",
+              "ToolTip": "E:\\DATN\\PoolComVnWebApplication\\PoolComVnWebClient\\Controllers\\HomeController.cs",
+              "RelativeToolTip": "PoolComVnWebClient\\Controllers\\HomeController.cs",
+              "ViewState": "AgIAAEUAAAAAAAAAAAAewFAAAABEAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2024-09-02T15:44:10.694Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 9,
+              "Title": "AuthenticationController.cs",
+              "DocumentMoniker": "E:\\DATN\\PoolComVnWebApplication\\PoolComVnWebClient\\Controllers\\AuthenticationController.cs",
+              "RelativeDocumentMoniker": "PoolComVnWebClient\\Controllers\\AuthenticationController.cs",
+              "ToolTip": "E:\\DATN\\PoolComVnWebApplication\\PoolComVnWebClient\\Controllers\\AuthenticationController.cs",
+              "RelativeToolTip": "PoolComVnWebClient\\Controllers\\AuthenticationController.cs",
+              "ViewState": "AgIAAHYAAAAAAAAAAADwv50AAABLAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2024-09-02T16:11:37.033Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 8,
+              "Title": "NewsController.cs",
+              "DocumentMoniker": "E:\\DATN\\PoolComVnWebApplication\\PoolComVnWebAPI\\Controllers\\NewsController.cs",
+              "RelativeDocumentMoniker": "PoolComVnWebAPI\\Controllers\\NewsController.cs",
+              "ToolTip": "E:\\DATN\\PoolComVnWebApplication\\PoolComVnWebAPI\\Controllers\\NewsController.cs",
+              "RelativeToolTip": "PoolComVnWebAPI\\Controllers\\NewsController.cs",
+              "ViewState": "AgIAAFQAAAAAAAAAAAAuwEMAAABCAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2024-09-02T15:54:35.03Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 15,
+              "Title": "UserIncludStatisticDTO.cs",
+              "DocumentMoniker": "E:\\DATN\\PoolComVnWebApplication\\PoolComVnWebAPI\\DTO\\UserIncludStatisticDTO.cs",
+              "RelativeDocumentMoniker": "PoolComVnWebAPI\\DTO\\UserIncludStatisticDTO.cs",
+              "ToolTip": "E:\\DATN\\PoolComVnWebApplication\\PoolComVnWebAPI\\DTO\\UserIncludStatisticDTO.cs",
+              "RelativeToolTip": "PoolComVnWebAPI\\DTO\\UserIncludStatisticDTO.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAuwAIAAAARAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2024-09-20T16:20:04.246Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 13,
+              "Title": "PlayerDAO.cs",
+              "DocumentMoniker": "E:\\DATN\\PoolComVnWebApplication\\DataAccess\\PlayerDAO.cs",
+              "RelativeDocumentMoniker": "DataAccess\\PlayerDAO.cs",
+              "ToolTip": "E:\\DATN\\PoolComVnWebApplication\\DataAccess\\PlayerDAO.cs",
+              "RelativeToolTip": "DataAccess\\PlayerDAO.cs",
+              "ViewState": "AgIAANoAAAAAAAAAAAAWwOMAAAAMAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2024-09-20T16:20:55.874Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 14,
+              "Title": "ClubDAO.cs",
+              "DocumentMoniker": "E:\\DATN\\PoolComVnWebApplication\\DataAccess\\ClubDAO.cs",
+              "RelativeDocumentMoniker": "DataAccess\\ClubDAO.cs",
+              "ToolTip": "E:\\DATN\\PoolComVnWebApplication\\DataAccess\\ClubDAO.cs",
+              "RelativeToolTip": "DataAccess\\ClubDAO.cs",
+              "ViewState": "AgIAAIQAAAAAAAAAAAAQwJIAAAAYAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2024-09-20T16:59:25.106Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 12,
+              "Title": "Constant.cs",
+              "DocumentMoniker": "E:\\DATN\\PoolComVnWebApplication\\DataAccess\\Constant.cs",
+              "RelativeDocumentMoniker": "DataAccess\\Constant.cs",
+              "ToolTip": "E:\\DATN\\PoolComVnWebApplication\\DataAccess\\Constant.cs",
+              "RelativeToolTip": "DataAccess\\Constant.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAABsAAAAwAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2024-09-21T17:36:33.014Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 17,
+              "Title": "FirebaseAPI.cs",
+              "DocumentMoniker": "E:\\DATN\\PoolComVnWebApplication\\PoolComVnWebClient\\Common\\FirebaseAPI.cs",
+              "RelativeDocumentMoniker": "PoolComVnWebClient\\Common\\FirebaseAPI.cs",
+              "ToolTip": "E:\\DATN\\PoolComVnWebApplication\\PoolComVnWebClient\\Common\\FirebaseAPI.cs",
+              "RelativeToolTip": "PoolComVnWebClient\\Common\\FirebaseAPI.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAIAAAAcAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2024-09-18T16:51:45.364Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 21,
+              "Title": "appsettings.json",
+              "DocumentMoniker": "E:\\DATN\\PoolComVnWebApplication\\BusinessObject\\appsettings.json",
+              "RelativeDocumentMoniker": "BusinessObject\\appsettings.json",
+              "ToolTip": "E:\\DATN\\PoolComVnWebApplication\\BusinessObject\\appsettings.json",
+              "RelativeToolTip": "BusinessObject\\appsettings.json",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAQAAAABAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.001642|",
+              "WhenOpened": "2024-09-02T17:50:23.712Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 19,
+              "Title": "appsettings.json",
+              "DocumentMoniker": "E:\\DATN\\PoolComVnWebApplication\\PoolComVnWebClient\\appsettings.json",
+              "RelativeDocumentMoniker": "PoolComVnWebClient\\appsettings.json",
+              "ToolTip": "E:\\DATN\\PoolComVnWebApplication\\PoolComVnWebClient\\appsettings.json",
+              "RelativeToolTip": "PoolComVnWebClient\\appsettings.json",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.001642|",
+              "WhenOpened": "2024-09-02T17:50:07.672Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 18,
+              "Title": "VerifyRegister.cshtml",
+              "DocumentMoniker": "E:\\DATN\\PoolComVnWebApplication\\PoolComVnWebClient\\Views\\Authentication\\VerifyRegister.cshtml",
+              "RelativeDocumentMoniker": "PoolComVnWebClient\\Views\\Authentication\\VerifyRegister.cshtml",
+              "ToolTip": "E:\\DATN\\PoolComVnWebApplication\\PoolComVnWebClient\\Views\\Authentication\\VerifyRegister.cshtml",
+              "RelativeToolTip": "PoolComVnWebClient\\Views\\Authentication\\VerifyRegister.cshtml",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAIAAAAlAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000759|",
+              "WhenOpened": "2024-09-02T16:10:27.821Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 24,
+              "Title": "LoginDTO.cs",
+              "DocumentMoniker": "E:\\DATN\\PoolComVnWebApplication\\PoolComVnWebClient\\DTO\\LoginDTO.cs",
+              "RelativeDocumentMoniker": "PoolComVnWebClient\\DTO\\LoginDTO.cs",
+              "ToolTip": "E:\\DATN\\PoolComVnWebApplication\\PoolComVnWebClient\\DTO\\LoginDTO.cs",
+              "RelativeToolTip": "PoolComVnWebClient\\DTO\\LoginDTO.cs",
+              "ViewState": "AQIAAAAAAAAAAAAAAAAAAAgAAAApAAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2024-09-02T16:03:17.009Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 20,
+              "Title": "appsettings.json",
+              "DocumentMoniker": "E:\\DATN\\PoolComVnWebApplication\\PoolComVnWebAPI\\appsettings.json",
+              "RelativeDocumentMoniker": "PoolComVnWebAPI\\appsettings.json",
+              "ToolTip": "E:\\DATN\\PoolComVnWebApplication\\PoolComVnWebAPI\\appsettings.json",
+              "RelativeToolTip": "PoolComVnWebAPI\\appsettings.json",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAA0AAAAYAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.001642|",
+              "WhenOpened": "2024-09-02T15:32:32.172Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 23,
+              "Title": "AuthenticationController.cs",
+              "DocumentMoniker": "E:\\DATN\\PoolComVnWebApplication\\PoolComVnWebAPI\\Controllers\\AuthenticationController.cs",
+              "RelativeDocumentMoniker": "PoolComVnWebAPI\\Controllers\\AuthenticationController.cs",
+              "ToolTip": "E:\\DATN\\PoolComVnWebApplication\\PoolComVnWebAPI\\Controllers\\AuthenticationController.cs",
+              "RelativeToolTip": "PoolComVnWebAPI\\Controllers\\AuthenticationController.cs",
+              "ViewState": "AQIAAEcAAAAAAAAAAAAgwFMAAAAAAAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2024-09-02T16:51:54.998Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 22,
+              "Title": "Index.cshtml",
+              "DocumentMoniker": "E:\\DATN\\PoolComVnWebApplication\\PoolComVnWebClient\\Views\\Home\\Index.cshtml",
+              "RelativeDocumentMoniker": "PoolComVnWebClient\\Views\\Home\\Index.cshtml",
+              "ToolTip": "E:\\DATN\\PoolComVnWebApplication\\PoolComVnWebClient\\Views\\Home\\Index.cshtml",
+              "RelativeToolTip": "PoolComVnWebClient\\Views\\Home\\Index.cshtml",
+              "ViewState": "AQIAAAkAAAAAAAAAAAAAABAAAAAQAAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000759|",
+              "WhenOpened": "2024-09-02T15:43:19.89Z"
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}

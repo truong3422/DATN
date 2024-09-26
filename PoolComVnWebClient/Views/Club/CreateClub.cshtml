@@ -1,0 +1,188 @@
+﻿@{
+    Layout = "~/Views/Shared/_BackBtnLayout.cshtml";
+}
+@using PoolComVnWebClient.DTO;
+@model ClubDTO;
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+<div class="container-full">
+    <div class="create-tour d-flex justify-content-center">
+        <form asp-action="CreateClub" asp-controller="Club" method="post" class="create-tour-display col-lg-10" enctype="multipart/form-data">
+            <div class="create-step-one">
+                <div class="display-title">Tạo câu lạc bộ</div>
+                <div class="display-content">
+                    <div class="tour-input">
+                        <div class="input-title">
+                            <b>Hoàn thành các thông tin sau để bắt đầu giải đấu của bạn.</b>
+                        </div>
+                    </div>
+                    <div class="tour-input">
+                        <div class="input-title">
+                            <span class="input-requir">*</span>
+                            <span>Tên câu lạc bộ</span>
+                        </div>
+                        <input class="input-content" type="text" asp-for="ClubName" id="">
+                    </div>
+                    <div class="tour-input">
+                        <div class="input-title">
+                            <span class="input-requir">*</span>
+                            <span>Ảnh đại diện</span>
+                        </div>
+                        <div class="input-img">
+                            <div class="display-content">
+                                <div class="upload-img avt">
+                                    <div class="upload-title d-flex align-items-center justify-content-center">
+                                        <div>
+                                            <i class="fa-regular fa-image"></i>
+                                            <p>Bấm vào đây để tải ảnh.</p>
+                                        </div>
+                                    </div>
+                                    <div class="m-0 preview-image"></div>
+                                    <input type="file" class="imageInput mt-1" name="BannerFile" accept="image/*" />
+                                    <!-- lấy tên ảnh -->
+                                    <input id="file-name" class="d-none" />
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="tour-input">
+                        <div class="input-title">
+                            <span class="input-requir">*</span>
+                            <span>Địa chỉ</span>
+                        </div>
+                        <div>
+                            <select class="select-address" id="provinceSelect">
+                                <option value="0" selected hidden>Tỉnh</option>
+                            </select>
+                            <select class="select-address" id="districtSelect" disabled>
+                                <option value="0" selected hidden>Quận/Huyện</option>
+                            </select>
+                            <select class="select-address" id="wardSelect" disabled>
+                                <option value="0" selected hidden>Phường/Xã</option>
+                            </select>
+                        </div>
+                        <input type="hidden" id="wardInput" name="ward" />
+                    </div>
+                    <div class="tour-input">
+                        <div class="input-title">
+                            <span class="input-requir">*</span>
+                            <span>Địa chỉ cụ thể</span>
+                        </div>
+                        <input class="input-content" type="text" asp-for="Address" id="" placeholder="Số nhà, tên đường, tên ngõ...">
+                    </div>
+                    <div class="tour-input">
+                        <div class="input-title">
+                            <span class="input-requir">*</span>
+                            <span>Số điện thoại</span>
+                        </div>
+                        <input class="input-content" type="text" asp-for="Phone" id="">
+                    </div>
+                    <div class="tour-input">
+                        <div class="input-title">
+                            <span class="input-requir">*</span>
+                            <span>Liên kết facebook</span>
+                        </div>
+                        <input class="input-content" type="text" asp-for="Facebook" id="">
+                    </div>
+                    <div class="tour-input">
+                        <button class="submit-btn" type="submit">Tạo và đi đến câu lạc bộ</button>
+                    </div>
+                </div>
+            </div>
+        </form>
+    </div>
+</div>
+
+<script>
+    const backBtn = document.querySelector('.back-btn');
+    if (backBtn !== null) {
+        backBtn.addEventListener('click', () => {
+            window.location.href = '/home/index';
+        });
+    }
+
+    const imgInput = document.querySelector('#file-name');
+
+    document.querySelector('.imageInput').addEventListener('change', function (event) {
+        const imageInput = event.target;
+        const previewImage = document.querySelector('.preview-image');
+        const selectedFileName = document.querySelector('#file-name');
+        const uploadTile = document.querySelector('.upload-title');
+
+        if (imageInput.files && imageInput.files[0]) {
+            const reader = new FileReader();
+
+            reader.onload = function (e) {
+                previewImage.style.backgroundImage = 'url(' + e.target.result + ')';
+                previewImage.style.display = 'block';
+                uploadTile.classList.add('d-none');
+            };
+
+            reader.readAsDataURL(imageInput.files[0]);
+            selectedFileName.value = imageInput.files[0].name;
+        }
+    });
+    $(document).ready(function () {
+        function loadProvinces() {
+            $.ajax({
+                url: 'https://localhost:5000/api/Address/provinces',
+                type: 'GET',
+                success: function (data) {
+                    var provinceSelect = $('#provinceSelect');
+                    provinceSelect.empty().append('<option value="0" selected hidden>Tỉnh</option>');
+                    $.each(data, function (index, province) {
+                        provinceSelect.append('<option value="' + province.code + '">' + province.name + '</option>');
+                    });
+                },
+                error: function () {
+                    alert('Đã xảy ra lỗi khi gọi API.');
+                }
+            });
+        }
+        loadProvinces();
+        $('#provinceSelect').change(function () {
+            var provinceCode = $(this).val();
+            if (provinceCode !== "0") {
+                $.ajax({
+                    url: 'https://localhost:5000/api/Address/districts/' + provinceCode,
+                    type: 'GET',
+                    success: function (data) {
+                        var districtSelect = $('#districtSelect');
+                        districtSelect.empty().append('<option value="0" selected hidden>Quận/Huyện</option>');
+                        $.each(data, function (index, district) {
+                            districtSelect.append('<option value="' + district.code + '">' + district.name + '</option>');
+                        });
+                        districtSelect.prop('disabled', false); 
+                    },
+                    error: function () {
+                        alert('Đã xảy ra lỗi khi gọi API.');
+                    }
+                });
+            }
+        });
+
+        $('#districtSelect').change(function () {
+            var districtCode = $(this).val();
+            if (districtCode !== "0") {
+                $.ajax({
+                    url: 'https://localhost:5000/api/Address/wards/' + districtCode,
+                    type: 'GET',
+                    success: function (data) {
+                        var wardSelect = $('#wardSelect');
+                        wardSelect.empty().append('<option value="0" selected hidden>Phường/Xã</option>');
+                        $.each(data, function (index, ward) {
+                            wardSelect.append('<option value="' + ward.code + '">' + ward.name + '</option>');
+                        });
+                        wardSelect.prop('disabled', false); 
+                    },
+                    error: function () {
+                        alert('Đã xảy ra lỗi khi gọi API.');
+                    }
+                });
+            }
+        });
+    });
+    $('#wardSelect').change(function () {
+        var selectedWard = $(this).val();
+        $('#wardInput').val(selectedWard);
+    });
+</script>

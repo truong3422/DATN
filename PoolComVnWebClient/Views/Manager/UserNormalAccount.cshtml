@@ -1,0 +1,260 @@
+﻿@{
+    Layout = "~/Views/Shared/_BackBtnLayout.cshtml";
+}
+@inject Microsoft.AspNetCore.Http.IHttpContextAccessor HttpContextAccessor
+@using PoolComVnWebClient.DTO;
+@model ManagerDTO;
+@{
+    string email = HttpContextAccessor.HttpContext.Request.Cookies["Email"];
+}
+<div class="container-full">
+    <div class="news-manage">
+        <div class="manage-account d-flex">
+            <a asp-controller="Manager" asp-action="Index" class="manager-account account">Quản lí</a>
+            <a asp-controller="Manager" asp-action="ClubAccount" class="club-account account mx-2">Tài khoản Câu lạc bộ</a>
+            <a asp-controller="Manager" asp-action="UserNormalAccount" class="user-account account mx-2 active">Tài khoản thường</a>
+        </div>
+        <!-- User account Start-->
+        <div class="user-content">
+            <div class="mt-5 d-flex justify-content-end">
+                <form method="get" action="@Url.Action("UserNormalAccount", "Manager")">
+                    <div class="manageSearch d-flex">
+                        <input class="news-input" name="searchQuery" placeholder="Tên, email, địa chỉ..." value="@ViewBag.SearchQuery" />
+                        <button type="submit" class="searchBtn px-3 align-items-center">
+                            <i class="fa-solid fa-magnifying-glass"></i>
+                        </button>
+                    </div>
+                </form>
+            </div>
+            <div class="manage-body mt-3">
+                @if (!string.IsNullOrEmpty(TempData["ErrorMessage"] as string))
+                {
+                    <div class="alert alert-danger" role="alert" style="border-radius:0;">
+                        @TempData["ErrorMessage"]
+                    </div>
+                }
+                <table>
+                    <tr>
+                        <th class="news-id">#</th>
+                        <th class="text-center">Ảnh</th>
+                        <th class="w150">Tên</th>
+                        <th class="w150">Email đăng kí</th>
+                        <th class="text-center w150">Số điện thoại</th>
+                        <th class="text-center w150">Địa chỉ</th>
+                        <th class="text-center account-status w150">
+                            Trạng thái
+                            <i class="fa-solid fa-caret-down fa-flip"></i>
+                            <ul class="type-list w150">
+                                <li>Hoạt động</li>
+                                <li>Khóa</li>
+                            </ul>
+                        </th>
+                        <th class="text-center w100">Hành động</th>
+                    </tr>
+                    @foreach (var user in Model.PaginatedUserAccounts.Items)
+                    {
+                        <tr>
+                            <td>@user.UserId</td>
+                            <td>
+                                <div class="img-frame-account" style="background-image:url('@user.Avatar')"></div>
+                            </td>
+                            <td>@user.FullName</td>
+                            <td>@user.AccountEmail</td>
+                            <td class="text-center">@user.PhoneNumber</td>
+                            <td class="text-center">@user.Address</td>
+                            <td class="status">
+                                @if (user.Status)
+                                {
+                                    <div class="user-status isActive">Hoạt động</div>
+                                }
+                                else
+                                {
+                                    <div class="user-status isUnActive">Khóa</div>
+                                }
+                            </td>
+                            <td class="text-center">
+                                @if (user.Status)
+                                {
+                                    <a href="#"><i class="ban-btn fa-solid fa-lock-open p-2" data-user-id="@user.UserId"></i></a>
+                                }
+                                else
+                                {
+                                    <a href="#"><i class="ban-btn fa-solid fa-lock p-2" data-user-id="@user.UserId"></i></a>
+                                }
+                            </td>
+                        </tr>
+                    }
+                </table>
+            </div>
+            <!-- Pagination -->
+            @{
+                int thresholdUser = 1;
+
+                List<int> displayedPagesUser = new List<int>();
+                bool showLeadingDotsUser = false;
+                bool showTrailingDotsUser = false;
+
+                for (int pageNum = 1; pageNum <= Model.PaginatedUserAccounts.TotalPages; pageNum++)
+                {
+                    if (pageNum == 1 || pageNum == Model.PaginatedUserAccounts.TotalPages || Math.Abs(pageNum - Model.PaginatedUserAccounts.PageIndex) <= thresholdUser)
+                    {
+                        displayedPagesUser.Add(pageNum);
+                    }
+                    else if (pageNum < Model.PaginatedUserAccounts.PageIndex - thresholdUser && !showLeadingDotsUser)
+                    {
+                        displayedPagesUser.Add(-1);
+                        showLeadingDotsUser = true;
+                    }
+                    else if (pageNum > Model.PaginatedUserAccounts.PageIndex + thresholdUser && !showTrailingDotsUser)
+                    {
+                        displayedPagesUser.Add(-1);
+                        showTrailingDotsUser = true;
+                    }
+                }
+
+                string goToPageFunctionUser = "goToUserPage";
+                <div class="pagination d-flex justify-content-center align-items-center m-0 mt-4">
+                    <div class="pagination-content d-flex justify-content-center align-items-center m-0">
+                        <div class="pagination-btn-big" onclick="prevUserPage()">Trước</div>
+                        @foreach (int pageNum in displayedPagesUser)
+                        {
+                            if (pageNum == -1)
+                            {
+                                <div class="pagination-more">...</div>
+                            }
+                            else
+                            {
+                                <div class="pagination-btn @(pageNum == Model.PaginatedUserAccounts.PageIndex ? "active" : "")" onclick="@($"{goToPageFunctionUser}({pageNum}, '{@ViewBag.SearchQuery}')")">@pageNum</div>
+                            }
+                        }
+                        <div class="pagination-btn-big" onclick="nextUserPage()">Sau</div>
+                    </div>
+                </div>
+            }
+        </div>
+        <!-- User account End -->
+    </div>
+
+</div>
+
+<script>
+    const backBtn = document.querySelector('.back-btn');
+    if (backBtn !== null) {
+        backBtn.addEventListener('click', () => {
+            window.location.href = '/home/index';
+        });
+    }
+
+    //Handle ban btn
+    const banBtnList = document.querySelectorAll('.ban-btn');
+    banBtnList.forEach(btn => {
+        btn.addEventListener('click', async (e) => {
+            e.preventDefault();
+            const userId = btn.dataset.userId;
+            try {
+                const response = await fetch(`https://localhost:5000/api/User/ChangeUserStatus/${userId}`, {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    }
+                });
+                if (response.ok) {
+                    const trParent = btn.closest('tr');
+                    const clubStatus = trParent.querySelector('.user-status');
+                    if (btn.classList.contains('fa-lock-open')) {
+                        btn.classList.remove('fa-lock-open');
+                        btn.classList.add('fa-lock');
+                        clubStatus.classList.remove('isActive');
+                        clubStatus.classList.add('isUnActive');
+                        clubStatus.textContent = 'Khóa';
+                    } else {
+                        btn.classList.add('fa-lock-open');
+                        btn.classList.remove('fa-lock');
+                        clubStatus.classList.add('isActive');
+                        clubStatus.classList.remove('isUnActive');
+                        clubStatus.textContent = 'Hoạt động';
+                    }
+                } else {
+                    console.error('Lỗi khi gọi API:', response.statusText);
+                }
+            } catch (error) {
+                console.error('Lỗi:', error);
+            }
+        })
+    })
+
+
+    //Handle click nav
+    const accountTypeBtnList = document.querySelectorAll('.account');
+    accountTypeBtnList.forEach(accountTypeBtn => {
+        accountTypeBtn.addEventListener('click', () => {
+            accountTypeBtnList.forEach(btn => {
+                btn.classList.remove('active');
+            })
+            accountTypeBtn.classList.add('active');
+        })
+    })
+
+    //Handle each btn on nav
+    const managerAcc = document.querySelector('.manager-account');
+    const clubAcc = document.querySelector('.club-account');
+    const userAcc = document.querySelector('.user-account');
+
+    const managerContent = document.querySelector('.manager-content');
+    const clubContent = document.querySelector('.club-content');
+    const userContent = document.querySelector('.user-content');
+
+    managerAcc.addEventListener('click', () => {
+        offActiveBtn();
+        managerContent.classList.remove('d-none');
+    });
+
+    clubAcc.addEventListener('click', () => {
+        offActiveBtn();
+        clubContent.classList.remove('d-none');
+    });
+
+    userAcc.addEventListener('click', () => {
+        offActiveBtn();
+        userContent.classList.remove('d-none');
+    });
+
+
+    function offActiveBtn() {
+        if (!managerContent.classList.contains('d-none')) {
+            managerContent.classList.add('d-none');
+        }
+        if (!clubContent.classList.contains('d-none')) {
+            clubContent.classList.add('d-none');
+        }
+        if (!userContent.classList.contains('d-none')) {
+            userContent.classList.add('d-none');
+        }
+    }
+
+    var currentPageUser = @Model.PaginatedUserAccounts.PageIndex;
+    function prevUserPage() {
+        var searchQuery = '@ViewBag.SearchQuery';
+        if (currentPageUser > 1) {
+            goToUserPage(currentPageUser - 1, searchQuery);
+        }
+    }
+
+    function nextUserPage() {
+        var totalPages = @Model.PaginatedUserAccounts.TotalPages;
+        var searchQuery = '@ViewBag.SearchQuery';
+        if (currentPageUser < totalPages) {
+            goToUserPage(currentPageUser + 1, searchQuery);
+        }
+    }
+
+    function goToUserPage(pageNum, searchQuery) {
+        var url = '@Url.Action("UserNormalAccount", "Manager")';
+        url += '?page=' + pageNum;
+        if (searchQuery) {
+            url += '&searchQuery=' + searchQuery;
+        }
+        window.location.href = url;
+    }
+
+</script>

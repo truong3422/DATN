@@ -1,0 +1,181 @@
+﻿@{
+    Layout = "~/Views/Shared/_ClubLayout.cshtml";
+}
+@model PoolComVnWebClient.DTO.ClubDTO;
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+<div class="dashboard-container">
+    <div class="change-info row mt-3">
+        <div class="col-12 col-lg-10 d-block p-0">
+            <div class="containUser pt-5 px-5">
+                <div class="title">
+                    Thay đổi thông tin
+                </div>
+            </div>
+
+            <div class="menu-info">
+                <form method="post" asp-action="ClubDetails" asp-controller="Club" enctype="multipart/form-data">
+                    <div class="contentBody">
+                        <div class="py-2">
+                            <p class="fw-bold">Ảnh đại diện</p>
+                            <div class="display-content">
+                                <div class="upload-img">
+                                    <div class="m-0 preview-image" style="background-image: url(@Model.Avatar);"></div>
+                                    <input type="file" class="imageInput mt-1" name="BannerFile" accept="image/*" />
+                                    <input id="file-name" name="BannerFile" class="d-none" />
+                                </div>
+                            </div>
+                        </div>
+                        <input type="hidden" asp-for="ClubId" value="@Model.ClubId" />
+                        <input type="hidden" asp-for="Avatar" value="@Model.Avatar" />
+                        <input type="hidden" asp-for="AccountId" value="@Model.AccountId" />
+                        <input type="hidden" asp-for="Status" value="@Model.Status" />
+                        <input type="hidden" asp-for="WardCode" value="@Model.WardCode" />
+                        <div class="py-2">
+                            <p class="fw-bold">Tên câu lạc bộ</p>
+                            <input type="text" class="firstName" asp-for="ClubName" required minlength="3" maxlength="30">
+                        </div>
+
+                        <div class="py-2">
+                            <p class="fw-bold">Liên hệ</p>
+                            <input type="text" asp-for="Phone" required minlength="9" maxlength="13">
+                        </div>
+
+                        <div class="py-2">
+                            <p class="fw-bold">Email</p>
+                            <div>@ViewBag.AccountEmail</div>
+                        </div>
+                     
+                        <div class="py-2">
+                            <p class="fw-bold">Địa chỉ</p>
+                           <select class="select-address" id="provinceSelect">
+                                <option value="@ViewBag.Province.Code" selected>@ViewBag.Province.Name</option>
+                            </select>
+                            <select class="select-address" id="districtSelect" disabled>
+                                <option value="0" selected hidden>Quận/Huyện</option>
+                                <option value="@ViewBag.District.Code" selected>@ViewBag.District.Name</option>
+                            </select>
+                            <select class="select-address" id="wardSelect" disabled>
+                                <option value="0" selected hidden>Phường/Xã</option>
+                                <option value="@ViewBag.Ward.Code" selected>@ViewBag.Ward.Name</option>
+                            </select>
+                            <input type="hidden" id="wardInput" name="ward" />
+                        </div>
+                        <div class="py-2">
+                            <p class="fw-bold">Địa chỉ cụ thể</p>
+                            <input type="text" asp-for="Address">
+                        </div>
+
+                        <div class="py-2">
+                            <p class="fw-bold">Facebook</p>
+                            <input type="text" asp-for="Facebook" required minlength="9" maxlength="13">
+                        </div>
+
+                        <div class="d-flex">
+                            <button type="submit" class="mt-4">Lưu thay đổi</button>
+                            <a asp-action="Index" asp-controller="Club" class="cancle-btn mx-lg-3 mt-4">Quay trở lại</a>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+    const backBtn = document.querySelector('.back-btn'); 
+    if (backBtn !== null) {
+        backBtn.addEventListener('click', () => {
+            window.location.href = '/home/index';
+        });
+    }
+
+    //Image validation
+    const imgInput = document.querySelector('#file-name');
+    document.querySelector('.imageInput').addEventListener('change', function (event) {
+        const imageInput = event.target;
+        const previewImage = document.querySelector('.preview-image');
+        const selectedFileName = document.querySelector('#file-name');
+        const uploadTile = document.querySelector('.upload-title');
+
+        if (imageInput.files && imageInput.files[0]) {
+            const reader = new FileReader();
+
+            reader.onload = function (e) {
+                previewImage.style.backgroundImage = 'url(' + e.target.result + ')';
+                previewImage.style.display = 'block';
+                uploadTile.classList.add('d-none');
+            };
+
+            reader.readAsDataURL(imageInput.files[0]);
+            selectedFileName.value = imageInput.files[0].name;
+        }
+    });
+
+    //Handel active nav
+    const clubNavBtn = document.querySelector('.club-change-info');
+    clubNavBtn.classList.add('active');
+    $(document).ready(function () {
+        function loadProvinces() {
+            $.ajax({
+                url: 'https://localhost:5000/api/Address/provinces',
+                type: 'GET',
+                success: function (data) {
+                    var provinceSelect = $('#provinceSelect');
+                    provinceSelect.empty().append('<option value="@ViewBag.Province.Code" selected>@ViewBag.Province.Name</option>');
+                    $.each(data, function (index, province) {
+                        provinceSelect.append('<option value="' + province.code + '">' + province.name + '</option>');
+                    });
+                },
+                error: function () {
+                    alert('Đã xảy ra lỗi khi gọi API.');
+                }
+            });
+        }
+        loadProvinces();
+        $('#provinceSelect').change(function () {
+            var provinceCode = $(this).val();
+            if (provinceCode !== "0") {
+                $.ajax({
+                    url: 'https://localhost:5000/api/Address/districts/' + provinceCode,
+                    type: 'GET',
+                    success: function (data) {
+                        var districtSelect = $('#districtSelect');
+                        districtSelect.empty().append('<option value="0" selected hidden>Quận/Huyện</option>');
+                        $.each(data, function (index, district) {
+                            districtSelect.append('<option value="' + district.code + '">' + district.name + '</option>');
+                        });
+                        districtSelect.prop('disabled', false);
+                    },
+                    error: function () {
+                        alert('Đã xảy ra lỗi khi gọi API.');
+                    }
+                });
+            }
+        });
+
+        $('#districtSelect').change(function () {
+            var districtCode = $(this).val();
+            if (districtCode !== "0") {
+                $.ajax({
+                    url: 'https://localhost:5000/api/Address/wards/' + districtCode,
+                    type: 'GET',
+                    success: function (data) {
+                        var wardSelect = $('#wardSelect');
+                        wardSelect.empty().append('<option value="0" selected hidden>Phường/Xã</option>');
+                        $.each(data, function (index, ward) {
+                            wardSelect.append('<option value="' + ward.code + '">' + ward.name + '</option>');
+                        });
+                        wardSelect.prop('disabled', false);
+                    },
+                    error: function () {
+                        alert('Đã xảy ra lỗi khi gọi API.');
+                    }
+                });
+            }
+        });
+    });
+    $('#wardSelect').change(function () {
+        var selectedWard = $(this).val();
+        $('#wardInput').val(selectedWard);
+    });
+</script>

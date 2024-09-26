@@ -1,0 +1,74 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet"
+          crossorigin="anonymous">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.3.0/css/all.min.css">
+    <link rel="stylesheet" href="~/css/style.css" asp-append-version="true" />
+    <title>Home</title>
+</head>
+
+<body>
+    <div class="main-background"></div>
+    <header>
+        <nav class="manage-nav">
+            <div class="nav-menu d-flex align-items-center">
+                <i class="fa-solid fa-bars nav-icon"></i>
+            </div>
+            <div class="logo-image d-flex justify-content-center align-items-center">
+                <a href="/home/index">
+                    <img src="~/images/logo.png" alt="PoolCom">
+                    <span class="">PoolCom</span>
+                </a>
+            </div>
+            <div class="menu-body ">
+                <a id="leaveTourBtn" class="exchange-nav d-flex justify-content-center align-items-center">
+                    <i class="fa-solid fa-circle-arrow-left fa-shake"></i>
+                </a>
+                <div class="tour-manage-nav d-flex justify-content-lg-start
+                    justify-content-start row mx-0">
+                    <a href="@Url.Action("TournamentDetail", "Tournament", new {tourId = ViewBag.TourId})" class="tour-nav-btn">Tổng quan</a>
+                    <a href="@Url.Action("TournamentBracket", "Tournament", new {tourId = ViewBag.TourId})" class="tour-nav-btn tour-bracket">Sơ đồ</a>
+                    <a href="@Url.Action("TournamentMatchList", "Tournament", new {tourId = ViewBag.TourId})" class="tour-nav-btn">Trận đấu</a>
+                    <a href="@Url.Action("TournamentPlayers", "Tournament", new {tourId = ViewBag.TourId})" class="tour-nav-btn">Người chơi</a>
+                </div>
+            </div>
+        </nav>
+    </header>
+
+    @RenderBody()
+
+</body>
+<script src="~/lib/jquery/dist/jquery.min.js"></script>
+<script>
+    document.getElementById('leaveTourBtn').addEventListener('click', () => {
+        window.location.href = '/tournament/TournamentList';
+    })
+
+    var tourId = $(".tour-id").text().trim();
+    //Handle option menu
+    const navMenuBtn = document.querySelector('.nav-menu');
+    const menuBody = document.querySelector('.menu-body');
+    const tourManageNav = document.querySelector('.tour-manage-nav');
+    const exchangNavBtn = document.querySelector('.exchange-nav');
+    const generalNav = document.querySelector('.general-nav');
+
+    let menuVisible = true;
+    // gọi ajax ở chỗ này
+    navMenuBtn.addEventListener('click', () => {
+        if (menuVisible) {
+            menuBody.classList.remove('d-none');
+            menuBody.classList.add('d-flex');
+        } else {
+            menuBody.classList.add('d-none');
+            menuBody.classList.remove('d-flex');
+        }
+        menuVisible = !menuVisible;
+    });
+
+</script>
+
+</html>

@@ -1,0 +1,187 @@
+﻿@using PoolComVnWebClient.Common
+
+@{
+    Layout = "~/Views/Shared/_BackBtnLayout.cshtml";
+}
+
+<div class="container-full">
+    <div class="user-profile">
+        <div class="profile">
+            <div class="profile-content d-flex row mx-0">
+                <div class="profile-image col-6" style="background-image: url('@ViewBag.User.Avatar');"></div>
+                <div class="profile-info col-5 d-flex align-items-start">
+                    <div>
+                        <div class="info-line">
+                            <div class="title">Tên</div>
+                            <div class="content">@ViewBag.User.FullName</div>
+                        </div>
+                        <div class="info-line">
+                            <div class="title">Ngày sinh</div>
+                            <div class="content">@ViewBag.User.Dob.ToString("dd/MM/yyyy")</div>
+                        </div>
+                        <div class="info-line">
+                            <div class="title">Số điện thoại</div>
+                            <div class="content">@ViewBag.Account.PhoneNumber</div>
+                        </div>
+                    </div>
+                </div>
+                @if (ViewBag.IsOnEditBtn != null && ViewBag.IsOnEditBtn == true)
+                {
+                    <a asp-action="EditUserProfile" asp-controller="User" class="edit-btn text-center col-6">
+                        Sửa thông tin
+                    </a>
+                }
+            </div>
+            <div class="profile-content d-flex row mx-0 mt-3">
+                <div class="profile-statistic row mx-0 mt-3 col-12">
+                    <div class="info-line col-6">
+                        <div class="title text-center">Trận thắng</div>
+                        <div class="content text-center">
+                            <span id="game-win">@ViewBag.WinMatchNum</span>
+                            <span id="win-percent"></span>
+                        </div>
+                    </div>
+                    <div class="info-line col-6">
+                        <div class="title text-center">Trận thua</div>
+                        <div class="content text-center">
+                            <span id="game-lose">@ViewBag.LoseMatchNum</span>
+                            <span id="lose-percent"></span>
+                        </div>
+                    </div>
+                    <div class="info-line">
+                        <div class="chart-container">
+                            <div class="chart"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="user-history">
+            <div class="history-content">
+                <div class="awards">
+                    <div class="awards-title">
+                        Danh hiệu
+                    </div>
+                    <div class="awards-content d-flex">
+                        @if (ViewBag.Awards == null)
+                        {
+                            <div class="awards-box">
+                                <div class="no-awards">Chưa có danh hiệu</div>
+                            </div>
+                        }
+                        else
+                        {
+                            foreach (var award in ViewBag.Awards)
+                            {
+                                <a href="/Tournament/TournamentDetail?tourId=@award.TourId" class="awards-box">
+                                    <div class="awards-img-bg">
+                                        @if (award.TourTop == 1)
+                                        {
+                                            <div class="awards-img" style="background-image: url('/images/gold_medal.png');"></div>
+                                        }
+                                        else if (award.TourTop == 2)
+                                        {
+                                            <div class="awards-img" style="background-image: url(/images/silver_medal.png);"></div>
+                                        }
+                                        else
+                                        {
+                                            <div class="awards-img" style="background-image: url(/images/bronze_medal.png);"></div>
+                                        }
+                                    </div>
+                                    <div class="awards-name">@award.TourName</div>
+                                </a>
+                            }
+                        }
+                    </div>
+                </div>
+            </div>
+            <div class="history-content mt-3" style="min-height:361px;">
+                <div class="tour-history">
+                    <div class="history-title">
+                        Giải đấu đã tham gia
+                    </div>
+                    @if (ViewBag.Tournaments == null)
+                    {
+                        <div class="awards-box" style="width:auto;">
+                            <div class="no-awards text-start">Chưa tham gia giải đấu</div>
+                        </div>
+                    }
+                    else
+                    {
+                        <div>
+                            <div class="mt-5 d-flex row">
+                                @foreach (var tour in ViewBag.Tournaments)
+                                {
+                                    if (tour.Status == 2)
+                                    {
+                                        <div class="tour-item">
+                                            <a href="/Tournament/TournamentDetail?tourId=@tour.TournamentId" class="item-body">
+                                                <div class="tour-image" style="background-image: url(@tour.Flyer);"></div>
+                                                <div>
+                                                    <div class="tour-type d-flex justify-content-center align-items-center">
+                                                        @tour.GameType
+                                                    </div>
+                                                </div>
+                                                <div class="tour-title">
+                                                    @tour.TournamentName
+                                                </div>
+                                                <div class="tour-club d-flex align-items-center">
+                                                    <img class="tour-club-image" src="@tour.ClubAvatar" alt="">
+                                                    <span class="px-2">@tour.ClubName</span>
+                                                </div>
+                                                <div class="tour-description">
+                                                    @tour.Description
+                                                </div>
+                                                <div class="tour-time">
+                                                    <i class="fa-solid fa-calendar-days"></i>
+                                                    <span>@tour.StartTime.ToString("dd/MM/yyyy")</span>
+                                                    -
+                                                    <span>@tour.EndTime.ToString("dd/MM/yyyy")</span>
+                                                </div>
+
+                                                <div class="tour-position">
+                                                    <i class="fa-solid fa-location-dot"></i>
+                                                    <span>@tour.Address</span>
+                                                </div>
+                                            </a>
+                                        </div>
+                                    }
+                                }
+                            </div>
+                        </div>
+                    }
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+
+    //Handle back btn
+    const backBtn = document.querySelector('.back-btn');
+    if (backBtn !== null) {
+        backBtn.addEventListener('click', () => {
+            window.location.href = '/home/index';
+        });
+    }
+
+    const gameWin = document.getElementById('game-win');
+    const gameLose = document.getElementById('game-lose');
+    const chart = document.querySelector('.chart');
+
+    var gameWinNumber = parseInt(gameWin.textContent);
+    var gameLoseNumber = parseInt(gameLose.textContent);
+    var gameTotal = gameLoseNumber + gameWinNumber;
+    if (gameTotal ==0){
+        chart.style.background = 'conic-gradient(#ffffff79 0%,#fff 100%)';
+        document.getElementById('win-percent').textContent = '(0%)'
+        document.getElementById('lose-percent').textContent = '(0%)'
+    }else{
+        var gameLosePercent = gameLoseNumber * 100 / gameTotal;
+        chart.style.background = 'conic-gradient(#f64b6f 0%,#ffe4ea '
+            + gameLosePercent + '%,#75fefe ' + gameLosePercent + '%,#259f9f 100%)';
+        document.getElementById('win-percent').textContent = '(' + (100 - gameLosePercent).toFixed(2) + '%)'
+        document.getElementById('lose-percent').textContent = '(' + gameLosePercent.toFixed(2) + '%)'
+    }
+</script>

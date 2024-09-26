@@ -1,0 +1,219 @@
+﻿@using PoolComVnWebClient.DTO
+@model PaginatedList<ClubDTO>
+
+<div class="container">
+    <div class="tournament">
+        <div class="normal-body">
+            <div class="d-flex justify-content-end mt-4 row">
+                <div class="d-flex justify-content-end col-lg-6 col-12 order-1 order-lg-2">
+                    <div method="get" action="/Home/Club" class="tour-search d-flex justify-content-end align-items-center">
+                        <i class="search-btn fa-solid fa-magnifying-glass" onclick="search()"></i>
+                        <form method="get" action="/Home/Club">
+                            <input id="searchInput" class="search-input px-2" type="text" name="searchQuery" placeholder="Câu lạc bộ, địa chỉ,..." value="@ViewBag.SearchQuery" />
+                            <button type="submit"></button>
+                        </form>
+                    </div>
+
+                    <div class="tour-filter d-flex align-items-center">
+                        <div class="filter-btn">
+                            <span>Bộ lọc</span>
+                            <i class="fa-solid fa-filter px-2"></i>
+                        </div>
+                        <form method="get" action="/Home/Club" class="filter-body d-none" onsubmit="submitFilter(event)">
+                            <div class="row d-flex justify-content-center">
+                                <div class="d-flex justify-content-center col-4">
+                                    <input type="hidden" id="provinceCode" name="provinceCode" value="0" />       
+                                    <select id="provinceSelect" class="tour-province col-4" name="provinceName">
+                                        <option selected hidden value="0">Tỉnh</option>
+                                    </select>
+                                </div>
+                                <div class="d-flex justify-content-center col-4">
+                                    <input type="hidden" id="districtCode" name="districtCode" value="0" />
+                                    <select id="districtSelect" class="tour-province tour-district col-4" name="districtName" disabled>
+                                        <option selected hidden value="0">Quận/Huyện</option>
+                                    </select>
+                                </div>
+                                <div class="d-flex justify-content-center col-4">
+                                    <input type="hidden" id="wardCode" name="wardCode" value="0" />
+                                    <select id="wardSelect" class="tour-province tour-ward col-4" name="wardName" disabled>
+                                        <option selected hidden value="0">Phường/Xã</option>
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="pt-5 d-flex justify-content-center">
+                                <div class="d-flex justify-content-center col-6">
+                                    <input type="submit" class="submit-btn" value="Tìm kiếm" />
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+            <div class="mt-5 d-flex row">
+                <div class="club-list d-flex row justify-content-around">
+                    @foreach (var club in Model.Items)
+                    {
+                        if (club.Status != 0)
+                        {
+                            <a asp-controller="Club" asp-action="Index" asp-route-id="@club.ClubId" class="club-box">
+                                <div class="club-box-border">
+                                    <div class="club-box-bg" style="background-image: url('@club.Avatar');"></div>
+                                    <div class="club-image" style="background-image: url('@club.Avatar');"></div>
+                                    <div class="club-info">
+                                        <div class="club-name">@club.ClubName</div>
+                                        <div class="club-address">
+                                            <i class="fa-solid fa-location-dot"></i>
+                                            <span>@club.Address</span>
+                                        </div>
+                                    </div>
+                                </div>
+                            </a>
+                        }
+                       
+                    }
+                    @if (Model.Items.Count == 0)
+                    {
+                        <div class="alert alert-danger" role="alert">
+                            Không tìm thấy kết quả phù hợp.
+                        </div>
+                    }
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="pagination d-flex justify-content-center align-items-center m-0">
+        <div class="pagination-content d-flex justify-content-center align-items-center m-0">
+            <div class="pagination-btn-big" onclick="prevPage()">Trước</div>
+            @if (Model.PageIndex > 3)
+            {
+                <div class="pagination-btn" onclick="goToPage(1, '@ViewBag.SearchQuery', '@ViewBag.GameType', '@ViewBag.StartDate', '@ViewBag.EndDate')">1</div>
+                <div class="pagination-btn">...</div>
+            }
+            @for (int pageNum = Model.PageIndex - 2; pageNum <= Model.PageIndex + 2 && pageNum <= Model.TotalPages; pageNum++)
+            {
+                if (pageNum > 0)
+                {
+                    <div class="pagination-btn @(pageNum == Model.PageIndex ? "active" : "")" onclick="goToPage(@pageNum, '@ViewBag.SearchQuery', '@ViewBag.GameType', '@ViewBag.StartDate', '@ViewBag.EndDate')">@pageNum</div>
+                }
+            }
+            @if (Model.PageIndex < Model.TotalPages - 2)
+            {
+                <div class="pagination-btn">...</div>
+                <div class="pagination-btn" onclick="goToPage(@Model.TotalPages, '@ViewBag.SearchQuery', '@ViewBag.GameType', '@ViewBag.StartDate', '@ViewBag.EndDate')">@Model.TotalPages</div>
+            }
+            <div class="pagination-btn-big" onclick="nextPage()">Sau</div>
+        </div>
+    </div>
+
+
+</div>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+
+<script>
+    //tour-filter button
+    const filterBtn = document.querySelector('.filter-btn');
+    const filterBody = document.querySelector('.filter-body');
+    filterBtn.addEventListener('click', () => {
+        if (filterBody.classList.contains('d-none')) {
+            filterBody.classList.remove('d-none');
+            filterBody.classList.add('d-block');
+        } else {
+            filterBody.classList.add('d-none');
+            filterBody.classList.remove('d-block');
+        }
+    })
+
+    $(document).ready(function () {
+        function loadProvinces() {
+            $.ajax({
+                url: 'https://localhost:5000/api/Address/provinces',
+                type: 'GET',
+                success: function (data) {
+                    var provinceSelect = $('#provinceSelect');
+                    provinceSelect.empty().append('<option value="0" selected hidden>Tỉnh</option>');
+                    $.each(data, function (index, province) {
+                        provinceSelect.append('<option value="' + province.code + '">' + province.name + '</option>');
+                    });
+                },
+                error: function () {
+                    alert('Đã xảy ra lỗi khi gọi API.');
+                }
+            });
+        }
+        loadProvinces();
+        $('#provinceSelect').change(function () {
+            var provinceCode = $(this).val();
+            $('#provinceCode').val(provinceCode);
+            if (provinceCode !== "0") {
+                $.ajax({
+                    url: 'https://localhost:5000/api/Address/districts/' + provinceCode,
+                    type: 'GET',
+                    success: function (data) {
+                        var districtSelect = $('#districtSelect');
+                        districtSelect.empty().append('<option value="0" selected hidden>Quận/Huyện</option>');
+                        $.each(data, function (index, district) {
+                            districtSelect.append('<option value="' + district.code + '">' + district.name + '</option>');
+                        });
+                        districtSelect.prop('disabled', false);
+                    },
+                    error: function () {
+                        alert('Đã xảy ra lỗi khi gọi API.');
+                    }
+                });
+            }
+        });
+
+        $('#districtSelect').change(function () {
+            var districtCode = $(this).val();
+            $('#districtCode').val(districtCode);
+            if (districtCode !== "0") {
+                $.ajax({
+                    url: 'https://localhost:5000/api/Address/wards/' + districtCode,
+                    type: 'GET',
+                    success: function (data) {
+                        var wardSelect = $('#wardSelect');
+                        wardSelect.empty().append('<option value="0" selected hidden>Phường/Xã</option>');
+                        $.each(data, function (index, ward) {
+                            wardSelect.append('<option value="' + ward.code + '">' + ward.name + '</option>');
+                        });
+                        wardSelect.prop('disabled', false);
+                    },
+                    error: function () {
+                        alert('Đã xảy ra lỗi khi gọi API.');
+                    }
+                });
+            }
+        });
+    });
+    $('#wardSelect').change(function () {
+        var wardCode = $(this).val();
+        $('#wardCode').val(wardCode);
+    });
+
+    function prevPage() {
+        const currentPage = @Model.PageIndex;
+        if (currentPage > 1) {
+            goToPage(currentPage - 1, '@ViewBag.SearchQuery', '@ViewBag.ProvinceCode', '@ViewBag.DistrictCode', '@ViewBag.WardCode');
+        }
+    }
+
+    function nextPage() {
+        const currentPage = @Model.PageIndex;
+        const totalPages = @Model.TotalPages;
+        if (currentPage < totalPages) {
+            goToPage(currentPage + 1, '@ViewBag.SearchQuery', '@ViewBag.ProvinceCode', '@ViewBag.DistrictCode', '@ViewBag.WardCode');
+        }
+    }
+
+    function goToPage(pageNum, searchQuery, provinceCode, districtCode, wardCode) {
+        // Chuyển đến trang mới với các tham số tìm kiếm
+        window.location.href = "@Url.Action("Club", "Home")" +
+            "?page=" + pageNum +
+            "&searchQuery=" + searchQuery +
+            "&provinceCode=" + provinceCode +
+            "&districtCode=" + districtCode +
+            "&wardCode=" + wardCode;
+    }
+
+
+</script>

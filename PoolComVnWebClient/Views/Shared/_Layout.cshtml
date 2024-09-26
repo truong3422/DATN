@@ -1,0 +1,170 @@
+﻿@inject Microsoft.AspNetCore.Http.IHttpContextAccessor HttpContextAccessor
+@using PoolComVnWebClient.Common;
+@{
+    string email = HttpContextAccessor.HttpContext.Request.Cookies["Email"];
+   
+}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>@ViewData["Title"] - PoolComVnWebClient</title>
+    <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
+    <link rel="stylesheet" href="~/css/style.css" asp-append-version="true" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.3.0/css/all.min.css" asp-append-version="true">
+</head>
+<body>
+    <div class="main-background"></div>
+    <header>
+        <nav class="main-nav d-flex row">
+            <div class="logo-image col-2 px-0">
+                <a asp-controller="home" asp-action="Index" class="d-flex align-items-center">
+                    <img src="~/images/logo.png" alt="PoolCom" />
+                    <span class="">PoolCom</span>
+                </a>
+            </div>
+            <div class="large-user col-xl-10 px-0 mx-0 d-none d-xl-flex row">
+                <ul class="nav-menu col-10 px-0">
+                    <li><a asp-controller="tournament" asp-action="TournamentList">Giải đấu</a></li>
+                    <li><a asp-controller="home" asp-action="Club">Câu lạc bộ</a></li>
+                    <li><a asp-controller="user" asp-action="UserList">Người chơi</a></li>
+                    <li><a asp-controller="home" asp-action="GameRules">Luật chơi</a></li>
+                    <li><a asp-controller="home" asp-action="Manage">Mở rộng</a></li>
+                </ul>
+
+                @*<div class="login col-2 text-center d-none">
+                <a asp-controller="Authentication" asp-action="Login">Đăng nhập</a>
+                </div>*@
+
+                @if (email != null)
+                {
+                    <div class="user col-2 d-flex justify-content-end">
+                        <div class="user-name text-center">
+                            <span>@email.Split("@")[0]</span>
+                            <i class="fa-solid fa-caret-left"></i>
+                        </div>
+                        <ul class="user-menu text-center">
+                            @if (ViewBag.Account.RoleID == Constant.UserRole)
+                            {
+                                <li><a asp-action="Index" asp-controller="User">Hồ Sơ</a></li>
+                            }
+                            @if (ViewBag.Account.RoleID == Constant.BusinessRole)
+                            {
+                                <li><a asp-action="Index" asp-controller="Club">Câu lạc bộ của tôi</a></li>
+                            }
+                            <li><a asp-action="ChangePassword" asp-controller="Authentication">Đổi mật khẩu</a></li>
+                            <li><a asp-controller="Authentication" asp-action="Logout">Đăng xuất</a></li>
+                        </ul>
+                    </div>
+                }
+                else
+                {
+                    <div class="login col-2 text-center ">
+                        <a asp-controller="Authentication" asp-action="Login">Đăng nhập</a>
+                    </div>
+                }
+
+            </div>
+            <div class="option-btn col-10 d-flex d-xl-none justify-content-end">
+                <i class="fa-solid fa-bars"></i>
+            </div>
+        </nav>
+        <div class="small-user d-xl-none justify-content-end">
+            <div class="option-menu">
+                <div class="row">
+                    <div class="col-lg-3"></div>
+                    <ul class="option-items col-lg-3 col-6">
+                        
+                        <li><a href="">Giải đấu</a></li>
+                        <li><a href="">Giao lưu</a></li>
+                        <li><a href="">Câu lạc bộ</a></li>
+                    </ul>
+                    <ul class="option-items col-lg-3 col-6">
+                        <li><a href="#">Xếp hạng</a></li>
+                        <li><a href="#">Dịch vụ</a></li>
+                        <li><a href="#">Luật chơi</a></li>
+                    </ul>
+                    <div class="col-lg-3"></div>
+                </div>
+                <div class="small-user-menu row">
+                    <div class="col-lg-3"></div>
+                    <a class="col-lg-3 col-6" href="">Hồ sơ</a>
+                    <a class="col-lg-3 col-6" href="">
+                        <i class="fa-solid fa-right-from-bracket"></i>
+                        Đăng xuất
+                    </a>
+                    <div class="col-lg-3"></div>
+                </div>
+            </div>
+        </div>
+    </header>
+    @RenderBody()
+
+    <footer>
+        <div class="d-flex mt-3">
+            <div class="col-6 footer-logo">
+                PoolCom.
+                <ul class="footer-contact">
+                    <li>
+                        T: +84 09 2345 9456<br />
+                        E: poolcomvn@gmail.com
+                    </li>
+                </ul>
+            </div>
+            <div class="col-3 footer-content">
+                <ul class="footer-menu">
+                    <li><a href="#">Giải đấu</a></li>
+                    <li><a href="#">Câu lạc bộ</a></li>
+                </ul>
+            </div>
+            <div class="col-3 footer-content">
+                <ul class="footer-menu">
+                    <li><a href="#">Xếp hạng</a></li>
+                    <li><a href="#">Luật chơi</a></li>
+                </ul>
+            </div>
+        </div>
+    </footer>
+    <script src="~/lib/jquery/dist/jquery.min.js"></script>
+    <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="~/js/site.js" asp-append-version="true"></script>
+    @await RenderSectionAsync("Scripts", required: false)
+</body>
+<script type="text/javascript">
+
+    //Handle option menu
+    const optionBtn = document.querySelector('.option-btn');
+    const smallUser = document.querySelector('.small-user');
+
+    let isMenuVisible = false;
+
+    optionBtn.addEventListener('click', () => {
+        if (isMenuVisible) {
+            smallUser.style.display = 'none';
+        } else {
+            smallUser.style.display = 'flex';
+        }
+
+        isMenuVisible = !isMenuVisible;
+    });
+
+    //Handle Scroll
+    var prevScrollpos = window.pageYOffset;
+
+    window.onscroll = function () {
+        var currentScrollPos = window.pageYOffset;
+        const mainNav = document.querySelector('.main-nav');
+
+        if (prevScrollpos > currentScrollPos) {
+            mainNav.style.top = "0";
+        } else {
+            mainNav.style.top = "-100px";
+        }
+
+        prevScrollpos = currentScrollPos;
+    }
+
+
+</script>
+</html>

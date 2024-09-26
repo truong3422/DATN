@@ -1,0 +1,148 @@
+﻿@using PoolComVnWebClient.DTO;
+@{
+    Layout = "~/Views/Shared/_TournamentLayout.cshtml";
+}
+@model List<IGrouping<string, MatchOfTournamentOutputDTO>>
+<div class="container-full">
+
+
+    @foreach (var group in Model)
+    {
+        <div class="match-list">
+            <div class="round-name">Vòng @group.Key</div>
+            <div class="table-overflow">
+                <table class="round-table">
+                    <tr>
+                        <th class="text-center">#</th>
+                        <th>Bàn</th>
+                        <th class="text-center">Trận</th>
+                        <th colspan="7" class="text-center">Kết quả</th>
+                        <th class="text-center">Chạm</th>
+                        <th class="text-center">Mã trận</th>
+                        <th class="text-center">Thắng</th>
+                        <th class="text-center">Thua</th>
+                        <th class="text-center">Thời gian</th>
+                        <th class="text-center">Trạng thái</th>
+                    </tr>
+
+                    @foreach (var match in group)
+                    {
+                        <tr class="@(match.MatchStatus == 1 ? "isPlaying" : match.MatchStatus == 2 ? "isFinish" : "")">
+                            <td class="match-number">@match.MatchNumber</td>
+                            <td class="match-table">@((match.TableName != null) ? match.TableName : "Chưa có")</td>
+                            <td class="match-race">@match.RaceToNumber</td>
+                            <td class="match-player justify-content-end">
+                                @if (!string.IsNullOrEmpty(match.P1Name))
+                                {
+                                    <span class="m-0">@match.P1Name</span>
+                                }
+                                else
+                                {
+                                    <span class="m-0">Chưa có</span>
+                                }
+                            </td>
+                            <td class="match-img">
+                                @if (!string.IsNullOrEmpty(match.P1Country))
+                                {
+                                    <img src="@match.P1Country" alt="@match.P1Name">
+                                }
+                                else
+                                {
+                                    <img src="https://flagsapi.com/VN/shiny/64.png" alt="">
+                                }
+                            </td>
+                            
+                                @if (!string.IsNullOrEmpty(match.P1Score))
+                                {
+                                <td class="match-score text-center">
+                                    @match.P1Score
+                                </td>
+                                }
+                                else
+                                {
+                                <td class="match-score text-center">0
+                                    </td>
+                                }
+                           
+                            <td class="match-vs text-center">vs.</td>
+                            @if (!string.IsNullOrEmpty(match.P2Score))
+                            {
+                                <td class="match-score text-center">
+                                    @match.P2Score
+                                </td>
+                            }
+                            else
+                            {
+                                <td class="match-score text-center">
+                                    0
+                                </td>
+                            }
+                            <td class="match-img">
+                                @if (!string.IsNullOrEmpty(match.P2Country))
+                                {
+                                    <img src="@match.P2Country" alt="@match.P2Name">
+                                }
+                                else
+                                {
+
+                                    <img src="https://flagsapi.com/VN/shiny/64.png" alt="">
+                                }
+                            </td>
+                            <td class="match-player">
+                                @if (!string.IsNullOrEmpty(match.P2Name))
+                                {
+                                    <span class="m-0">@match.P2Name</span>
+                                }
+                                else
+                                {
+                                    <span class="m-0">Chưa có</span>
+                                }
+                            </td>
+                            <td class="match-race">@match.RaceToNumber</td>
+                            <td class="match-race">@match.MatchCode</td>
+                            <td class="match-race">@match.WinNextMatch</td>
+                            @if(match.LoseNextMatch != null)
+                            {
+                                <td class="match-race">@match.LoseNextMatch</td>
+                            }else{
+                                <td class="match-race">-</td>
+                            }
+                            <td class="match-time">
+                                <div>
+                                    @if (match.StartDate != null && match.EndDate != null)
+                                    {
+                                        <div>@match.StartDate.Value.ToString("dd/MM/yyyy HH:mm") - @match.EndDate.Value.ToString("dd/MM/yyyy HH:mm")</div>
+                                    }
+                                    else if (match.StartDate != null)
+                                    {
+                                        <div>Bắt đầu lúc: @match.StartDate.Value.ToString("dd/MM/yyyy HH:mm")</div>
+                                    }
+                                    else
+                                    {
+                                        <div>Không biết</div>
+                                    }
+                                </div>
+                            </td>
+                            <td class="match-status">
+                                @if (match.MatchStatus == 1)
+                                {
+                                    <text>Đang chơi</text>
+                                }
+                                else if (match.MatchStatus == 2)
+                                {
+                                    <text>Kết thúc</text>
+                                }
+                                else
+                                {
+                                    <text>Chưa mở</text>
+                                }
+                            </td>
+                        </tr>
+                    }
+                </table>
+            </div>
+        </div>
+    }
+
+
+</div>
